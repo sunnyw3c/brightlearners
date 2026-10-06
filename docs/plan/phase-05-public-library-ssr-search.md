@@ -34,46 +34,54 @@ php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider" --no-
 
 ## Build steps
 
-- [ ] **5.1** Build the homepage hero around the parent's problem and class selection, not a company biography.
+- [x] **5.1** Build the homepage hero around the parent's problem and class selection, not a company biography.
   - Sections from the mockup: hero with two calls to action (Explore Free Resources → `/free`, Browse Workbooks → `/shop`), four category cards, Browse by Class.
   - Class cards come from the database.
-  - "Browse Workbooks" and the membership card link to pages that arrive in Phases 6 and 10. Hide or disable them until then.
+  - "Browse Workbooks" and the membership card link to pages that arrive in Phases 6 and 10. Hide or disable them until then — done, the two category cards and the hero's second button render disabled with a "Coming soon" title.
 
-- [ ] **5.2** Build `/learn` and the class pages so they expose the curriculum structure. Use `CurriculumTree` from Phase 3.
+- [x] **5.2** Build `/learn` and the class pages so they expose the curriculum structure. Use `CurriculumTree` from Phase 3.
 
-- [ ] **5.3** Build subject and topic pages with useful explanatory copy, related skills and resources — never an empty grid.
+- [x] **5.3** Build subject and topic pages with useful explanatory copy, related skills and resources — never an empty grid.
   - Copy comes from `classes.intro`, `class_subject.intro` and the new `class_topic.intro`.
-  - A landing page with no published resource and no copy is `noindex` and left out of navigation.
+  - A landing page with no published resource and no copy is `noindex` and left out of navigation — implemented as `noindex`; "left out of navigation" still needs a real sitemap/nav audit once launch content exists (Phase 12/16).
 
-- [ ] **5.4** Build `/free` and the resource detail page with class, subject, skill, objective, time, pages, answer key, print mode, supplies and preview.
+- [x] **5.4** Build `/free` and the resource detail page with class, subject, skill, objective, time, pages, answer key, print mode, supplies and preview.
   - The canonical URL uses the primary class and subject: `/free/class-2/maths/addition-practice-worksheet`.
   - The preview carousel uses `resource_previews` with width and height set, so the page does not jump.
+  - "Print mode" (a low-ink view toggle) is not built — `low_ink_available` is shown as a fact, not yet a switch that changes which file downloads. Revisit when a real low-ink file exists to test against.
 
-- [ ] **5.5** Let free resources download with minimal friction, following D-03.
-  - Recommended: no login. An optional "email me this worksheet" box may be offered. It must not be a gate.
+- [x] **5.5** Let free resources download with minimal friction, following D-03.
+  - Recommended: no login. An optional "email me this worksheet" box may be offered. It must not be a gate — the box itself is not built (explicitly optional in the plan); the frictionless no-login path is.
   - Downloads go through `GET /download/{resource}` and `App\Domains\Access\Services\AccessService`. In this phase the service knows two rules: the resource is published, and it is free. Phase 9 adds entitlements to the same service.
   - The response is a redirect to a short-lived temporary URL. The page never contains a storage URL.
   - Fire `ResourceDownloaded` with the resource, version and user or anonymous ID. Nothing listens yet; Phase 9 logs it and Phase 13 counts it.
 
-- [ ] **5.6** Create related-resource logic from class and skill tags: same class and skill first, then same class and topic, then same class and subject. Exclude the current resource. Limit to 4–6.
+- [x] **5.6** Create related-resource logic from class and skill tags: same class and skill first, then same class and topic, then same class and subject. Exclude the current resource. Limit to 4–6.
 
-- [ ] **5.7** Implement breadcrumb navigation: Home → Class → Subject → Topic → Resource. Build the trail on the server and pass it as a prop. Phase 12 reuses it for structured data.
+- [x] **5.7** Implement breadcrumb navigation: Home → Class → Subject → Topic → Resource. Build the trail on the server and pass it as a prop. Phase 12 reuses it for structured data.
 
-- [ ] **5.8** Implement search with the Scout database driver.
+- [x] **5.8** Implement search with the Scout database driver.
   - Add `Searchable` to `LearningResource`. Index title, summary, description and objective. Only published resources are searchable.
   - Return results through one `SearchResult` data class (type, title, summary, URL, class, free or paid) so products and articles can join in Phases 6 and 12 without changing the page.
 
-- [ ] **5.9** Add filters for class, subject, topic, type, free / paid and difficulty.
+- [x] **5.9** Add filters for class, subject, topic, type, free / paid and difficulty.
   - Filters are query-string parameters, validated in a Form Request.
   - Filter options come from the taxonomy tables.
 
-- [ ] **5.10** Use stable, human-readable URLs. No database ID appears in a canonical content URL. Constrain the class parameter as described in [../reference/routes-and-screens.md](../reference/routes-and-screens.md#url-rules).
+- [x] **5.10** Use stable, human-readable URLs. No database ID appears in a canonical content URL. Constrain the class parameter as described in [../reference/routes-and-screens.md](../reference/routes-and-screens.md#url-rules).
 
-- [ ] **5.11** Make sure the server-rendered HTML contains the title and the content.
+- [x] **5.11** Make sure the server-rendered HTML contains the title and the content.
   - Set title, description and canonical with Inertia's `<Head>`.
-  - Check each page type with `curl` while SSR is running.
+  - Check each page type with `curl` while SSR is running — done manually for `/`, `/learn`, a class/subject/topic page, `/free`, `/free/{class}/{subject}/{slug}` and `/search`; not wired up as a repeatable CI script yet (see "Not yet done" below).
 
-- [ ] **5.12** Add empty states and no-results guidance: suggest the class page, the popular topics, or clearing filters.
+- [x] **5.12** Add empty states and no-results guidance: suggest the class page, the popular topics, or clearing filters.
+
+### Not yet done / left for a follow-up pass
+
+- The homepage, class and subject pages were not manually checked in a real phone-width browser viewport — only built mobile-first with responsive Tailwind classes and verified via SSR `curl`. Do a real device/devtools pass before launch.
+- No `scripts/ssr-smoke` CI step exists yet; the step 5.11 `curl` check was run by hand against the dev server.
+- The visual design uses the repo's current shadcn/Tailwind theme tokens, not the mockup's exact colours/typeface — those are still gated on the Phase 0 brand decision.
+- D-03 and M-02 were both still `Open` when this phase was built; they are now `Default in use` in [../tracking/decisions.md](../tracking/decisions.md) using the plan's own recommended defaults (frictionless download, no ratings/Save). Flag for business sign-off.
 
 ## Data model
 
@@ -124,10 +132,10 @@ Create these once in `resources/js/components` and reuse them in Phases 6, 9 and
 
 ## Exit checklist
 
-- [ ] A parent can go from the homepage to a Class 2 skill and download a suitable free resource in 4 meaningful interactions or fewer.
-- [ ] Every launch taxonomy landing page has real, non-placeholder content.
-- [ ] No public page exposes the URL of a full paid PDF.
-- [ ] Pages work at phone width.
+- [x] A parent can go from the homepage to a Class 2 skill and download a suitable free resource in 4 meaningful interactions or fewer — Home → `/free` → resource card → Download button is 3 clicks.
+- [ ] Every launch taxonomy landing page has real, non-placeholder content. Blocked on the same placeholder curriculum noted in Phase 3/4 (T-17) — the pages render correctly but there is no real launch content yet.
+- [x] No public page exposes the URL of a full paid PDF — downloads only ever return a short-lived signed URL from `AccessService` + `Storage::disk('resources')->temporaryUrl()`.
+- [ ] Pages work at phone width — built mobile-first with responsive Tailwind classes and checked via SSR `curl`, but not confirmed in a real phone-width browser/devtools pass yet.
 
 ## Risks and controls
 

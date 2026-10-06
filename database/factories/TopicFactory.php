@@ -1,0 +1,44 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Domains\Curriculum\Models\Subject;
+use App\Domains\Curriculum\Models\Topic;
+use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+/**
+ * @extends Factory<Topic>
+ */
+#[UseModel(Topic::class)]
+class TopicFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $name = ucfirst(fake()->unique()->word()).' '.fake()->word();
+
+        return [
+            'subject_id' => Subject::factory(),
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'sort_order' => 0,
+            'active' => true,
+        ];
+    }
+
+    /**
+     * Indicate that the topic is archived.
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'active' => false,
+        ]);
+    }
+}

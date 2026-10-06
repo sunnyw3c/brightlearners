@@ -9,7 +9,7 @@ Create the educational-content system before the store.
 | Depends on | Phase 3 taxonomy stable enough for tagging. A storage strategy has been chosen. |
 | Exit gate | A reviewed resource can move from draft to a published version, with previews and audit history |
 | Backlog | P4-01, P4-02, P4-03, P4-04, P4-05 |
-| Decide first | D-02 object storage provider, bucket and CDN. T-05 PDF preview tooling. |
+| Decide first | D-02 object storage provider, bucket and CDN (still open — only blocks the staging/production bucket; local disks are configured now). T-05 PDF preview tooling (decided, default in use). |
 
 ## Objective
 
@@ -49,25 +49,25 @@ Create with `php artisan make:enum App/Domains/Content/Enums/<Name> --string --n
 
 ## Build steps
 
-- [ ] **4.1** Create the resource types: worksheet, activity, game, reading, parent guide, starter check, and `other` for approved types added later. An answer key is a file attached to a version, not a resource of its own.
+- [x] **4.1** Create the resource types: worksheet, activity, game, reading, parent guide, starter check, and `other` for approved types added later. An answer key is a file attached to a version, not a resource of its own.
 
-- [ ] **4.2** Create the resource metadata: title, slug, description, learning objective, class and skill mapping, difficulty, estimated time, supplies, page count, language, answer-key flag, low-ink flag, licence type.
+- [x] **4.2** Create the resource metadata: title, slug, description, learning objective, class and skill mapping, difficulty, estimated time, supplies, page count, language, answer-key flag, low-ink flag, licence type.
   - Class and skill come from `resource_skill`, validated with the `SkillBelongsToClass` rule from Phase 3. One mapping is marked primary; it decides the canonical URL.
   - Page count is read from the PDF with `pdfinfo` and can be corrected by hand.
 
-- [ ] **4.3** Implement `resource_versions`. A published PDF is never overwritten.
+- [x] **4.3** Implement `resource_versions`. A published PDF is never overwritten.
   - The first version is `1.0`. A correction is `1.1`. A rewrite is `2.0`.
-  - Files are stored under a random name: `resources/{resource_id}/v{version}/{uuid}.pdf`.
+  - Files are stored under a random name inside the `resources` disk: `{resource_id}/v{version}/{uuid}.pdf`.
   - Once `published_at` is set, the row and its files cannot change. The model refuses updates to the file columns, and no action ever deletes a published file.
 
-- [ ] **4.4** Store source and print files on the private `resources` disk. Public previews go on the `previews` disk.
+- [x] **4.4** Store source and print files on the private `resources` disk. Public previews go on the `previews` disk.
 
-- [ ] **4.5** Generate preview images on the queue after upload.
+- [x] **4.5** Generate preview images on the queue after upload.
   - `App\Domains\Content\Services\PdfPreviewGenerator` runs `pdftoppm` through Laravel's `Process` facade, converts each page to WebP and records width and height.
   - Preview only the first pages (config `content.preview_pages`, suggested 3). A paid resource is never previewed in full.
   - The job is `GenerateResourcePreviews` on the `media` queue. It sets `preview_status` to `ready` or `failed`.
 
-- [ ] **4.6** Implement the workflow: Draft → Educational Review → Answer Verification → Design / Print Review → Approved → Scheduled → Published → Archived.
+- [x] **4.6** Implement the workflow: Draft → Educational Review → Answer Verification → Design / Print Review → Approved → Scheduled → Published → Archived.
 
   | From | To | Condition |
   |---|---|---|
@@ -88,23 +88,24 @@ Create with `php artisan make:enum App/Domains/Content/Enums/<Name> --string --n
 
   It then sets `published_at`, moves `is_current` to this version inside one transaction, and fires `ResourcePublished`.
 
-- [ ] **4.7** Record the reviewer, review date, notes and correction reason on every review and every correction.
+- [x] **4.7** Record the reviewer, review date, notes and correction reason on every review and every correction.
 
-- [ ] **4.8** Add the internal `ai_assisted` flag. It is visible to staff only. Content with the flag follows exactly the same review gates; nothing unreviewed is ever exposed.
+- [x] **4.8** Add the internal `ai_assisted` flag. It is visible to staff only. Content with the flag follows exactly the same review gates; nothing unreviewed is ever exposed.
 
-- [ ] **4.9** Create the correction workflow.
+- [x] **4.9** Create the correction workflow.
   - "Create correction" on a published resource: upload the new file, write the change notes, choose the severity, tick whether customers must be told.
   - This creates a new unpublished version. The live version stays live until the new one passes the same reviews and is published.
   - On publish, write a `resource_corrections` row. If the correction is material and a notice is required, fire `MaterialCorrectionPublished`.
   - Add `App\Domains\Content\Queries\AffectedCustomers`, which returns who received the old version. It returns nobody until Phase 9 adds `downloads` and `entitlements`.
 
 - [ ] **4.10** Add version metadata to downloads where practical: the delivered filename includes the version (`addition-practice-v1.1.pdf`) and the library shows the version and review date. Stamping the version inside the PDF needs a PDF library and is not part of the MVP.
+  - Deferred: there is no `downloads` table or library screen until Phase 9. Revisit there.
 
-- [ ] **4.11** Create the staff preview screen and the public preview payload.
+- [x] **4.11** Create the staff preview screen and the public preview payload.
   - Staff: a Filament view page showing metadata, every preview, the review trail and links that open the private files through temporary URLs.
-  - Public: one data class that exposes preview image URLs and metadata. It never exposes a file path.
+  - Public: one data class (`App\Domains\Content\Data\ResourcePreviewPayload`) that exposes preview image URLs and metadata. It never exposes a file path. Phase 5 wires it into a route.
 
-- [ ] **4.12** Handle low-ink and colour variants without duplicating the resource. The low-ink file is `low_ink_path` on the same version row.
+- [x] **4.12** Handle low-ink and colour variants without duplicating the resource. The low-ink file is `low_ink_path` on the same version row.
 
 ## Data model
 
@@ -160,10 +161,10 @@ Use `Storage::fake()` for both disks and `Process::fake()` for `pdftoppm`.
 
 ## Exit checklist
 
-- [ ] At least 3 representative resources complete the full workflow in staging.
-- [ ] A reviewer can verify an answer key independently.
-- [ ] Preview pages render on mobile and desktop.
-- [ ] The version 1.0 → 1.1 correction path is demonstrated.
+- [ ] At least 3 representative resources complete the full workflow in staging. Blocked on D-01/D-02 (no staging environment yet); the workflow is proven in the automated test suite (`tests/Feature/Content`) against local disks.
+- [x] A reviewer can verify an answer key independently — enforced in `RecordResourceReview` and re-checked in `PublishResourceVersion`; covered by tests.
+- [ ] Preview pages render on mobile and desktop. Needs poppler installed locally (`scoop install poppler`) and a manual look; the generation and failure paths are covered by tests with `Process::fake()`.
+- [x] The version 1.0 → 1.1 correction path is demonstrated — `tests/Feature/Content/CorrectionWorkflowTest.php` and `VersioningTest.php`.
 
 ## Risks and controls
 

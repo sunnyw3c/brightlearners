@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -56,6 +56,40 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
+
+        /*
+         * Phase 4 (resource engine) disks. Private source PDFs, low-ink
+         * variants and answer keys. Local today; a private S3-compatible
+         * bucket once D-02 is decided (docs/tracking/decisions.md).
+         */
+        'resources' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/resources'),
+            /*
+             * Deliberately not under /storage: the "local" disk above
+             * already registers a catch-all GET /storage/{path} route
+             * (Illuminate\Filesystem\FilesystemServiceProvider::serveFiles()),
+             * which is registered first and would swallow any
+             * /storage/... prefix before this disk's own route is tried.
+             */
+            'url' => '/private-files',
+            'serve' => true,
+            'throw' => false,
+            'report' => false,
+        ],
+
+        /*
+         * Public preview images and covers. Local today; a public bucket
+         * behind a CDN once D-02 is decided.
+         */
+        'previews' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/previews'),
+            'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/storage/previews',
+            'visibility' => 'public',
             'throw' => false,
             'report' => false,
         ],

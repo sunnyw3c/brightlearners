@@ -30,12 +30,12 @@ Update the Status column as phases move: `Not started` · `In progress` · `Done
 | # | Phase | Duration | Status |
 |---|---|---|---|
 | 0 | [Business scope freeze & pilot readiness](plan/phase-00-scope-freeze.md) | 1–2 w | Not started |
-| 1 | [Engineering foundation & environments](plan/phase-01-engineering-foundation.md) | 1 w | Not started |
-| 2 | [Identity, security & roles](plan/phase-02-identity-security-roles.md) | 1 w | Not started |
-| 3 | [Curriculum taxonomy & core domain model](plan/phase-03-curriculum-taxonomy.md) | 1–2 w | Not started |
-| 4 | [Resource engine, versioning & review workflow](plan/phase-04-resource-engine.md) | 2 w | Not started |
-| 5 | [Public learning library, SSR & search](plan/phase-05-public-library-ssr-search.md) | 2 w | Not started |
-| 6 | [Product catalogue & merchandising](plan/phase-06-product-catalogue.md) | 1–2 w | Not started |
+| 1 | [Engineering foundation & environments](plan/phase-01-engineering-foundation.md) | 1 w | In progress — blocked only on D-01 (staging) |
+| 2 | [Identity, security & roles](plan/phase-02-identity-security-roles.md) | 1 w | Done (business sign-off on the role matrix still pending) |
+| 3 | [Curriculum taxonomy & core domain model](plan/phase-03-curriculum-taxonomy.md) | 1–2 w | Done (seeded taxonomy is a placeholder pending teacher-lead approval) |
+| 4 | [Resource engine, versioning & review workflow](plan/phase-04-resource-engine.md) | 2 w | Done (staging demonstration and a manual preview-rendering check still pending D-01/D-02 and local poppler) |
+| 5 | [Public learning library, SSR & search](plan/phase-05-public-library-ssr-search.md) | 2 w | Done (placeholder curriculum content; a real phone-width device pass and D-03/M-02 business sign-off still pending) |
+| 6 | [Product catalogue & merchandising](plan/phase-06-product-catalogue.md) | 1–2 w | Done (schema, pricing, admin and storefront built; staging demo and the real launch SKU list still pending D-01/D-04 and Phase 16 content) |
 | 7 | [Cart, pricing, coupons & order state machine](plan/phase-07-cart-pricing-orders.md) | 1–2 w | Not started |
 | 8 | [Razorpay payments, webhooks & refunds](plan/phase-08-razorpay-payments.md) | 1–2 w | Not started |
 | 9 | [Entitlements, private downloads & My Library](plan/phase-09-entitlements-downloads-library.md) | 1–2 w | Not started |

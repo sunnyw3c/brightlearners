@@ -39,41 +39,47 @@ php artisan make:policy App/Domains/Catalog/Policies/ProductPolicy --no-interact
 
 ## Build steps
 
-- [ ] **6.1** Create the product types: `topic_pack`, `workbook`, `activity_ebook`, `holiday_pack`, `revision_pack`, `bundle`, plus any approved launch type. Phase 10 adds `membership`.
+- [x] **6.1** Create the product types: `topic_pack`, `workbook`, `activity_ebook`, `holiday_pack`, `revision_pack`, `bundle`, plus any approved launch type. Phase 10 adds `membership`. — `App\Domains\Catalog\Enums\ProductType`.
 
-- [ ] **6.2** Map one or more resources to a product with a sort order (`product_resources`).
+- [x] **6.2** Map one or more resources to a product with a sort order (`product_resources`). — `Product::resources()`, `App\Domains\Catalog\Models\ProductResource`.
 
-- [ ] **6.3** Create bundle composition without copying files. A bundle is a product of type `bundle` whose `bundle_products` rows point at other products.
+- [x] **6.3** Create bundle composition without copying files. A bundle is a product of type `bundle` whose `bundle_products` rows point at other products.
   - Add `Product::deliverableResources()`: for a normal product it returns its resources; for a bundle it returns the resources of every child product, without duplicates. Phase 9 uses this to grant access.
-  - A bundle cannot contain another bundle.
+  - A bundle cannot contain another bundle. — enforced in `BundleProduct::booted()`; covered by `tests/Feature/Catalog/BundleCompositionTest.php`.
 
-- [ ] **6.4** Create `regular_price` and an optional `sale_price` with start and end dates. All money is integer paise.
+- [x] **6.4** Create `regular_price` and an optional `sale_price` with start and end dates. All money is integer paise.
   - Add `App\Domains\Catalog\Services\ProductPrice::for($product, $at)`: the sale price when the sale window is open, otherwise the regular price. Phase 7's pricing service builds on it.
-  - A sale price must be lower than the regular price.
+  - A sale price must be lower than the regular price — enforced in `Product::booted()`; covered by `tests/Feature/Catalog/ProductPriceTest.php`.
 
-- [ ] **6.5** Add product status `draft` / `active` / `archived` and a publish schedule (`publish_at`, command `products:publish-scheduled`).
+- [x] **6.5** Add product status `draft` / `active` / `archived` and a publish schedule (`publish_at`, command `products:publish-scheduled`).
 
   A product can become `active` only when:
   - a normal product has at least one resource with a published current version;
   - a bundle has at least two active child products;
-  - a membership product (Phase 10) has a plan — its deliverable is not a file.
+  - a membership product (Phase 10) has a plan — its deliverable is not a file. (Phase 10 extends `Product::meetsActivationRequirements()` when it adds the `membership` type.)
 
-- [ ] **6.6** Create the cover image and real preview pages from the included resources. Reuse `resource_previews`; do not upload separate sample images. A product with only a cover and no real sample page cannot be published.
+  — `App\Domains\Catalog\Actions\ActivateProduct`, `App\Console\Commands\PublishScheduledProducts`; covered by `tests/Feature/Catalog/ProductPublishTest.php`.
 
-- [ ] **6.7** Show on the product page: inclusions, class, subject, skills, total pages, answer-key information, language, print format, licence and delivery method. Total pages is the sum of the included resources' page counts.
+- [x] **6.6** Create the cover image and real preview pages from the included resources. Reuse `resource_previews`; do not upload separate sample images. A product with only a cover and no real sample page cannot be published. — `cover_path` on the `previews` disk; `ActivateProduct` refuses a product whose resource has no ready preview.
 
-- [ ] **6.8** Create related-product logic by class, subject and next-step skill:
+- [x] **6.7** Show on the product page: inclusions, class, subject, skills, total pages, answer-key information, language, print format, licence and delivery method. Total pages is the sum of the included resources' page counts. — `ShopController::show()`, `shop/show` page, `Product::totalPages()`.
+
+- [x] **6.8** Create related-product logic by class, subject and next-step skill:
   1. bundles that contain this product (the upsell);
   2. other active products for the same class and subject;
   3. products for the next skill in the topic's order.
 
-- [ ] **6.9** Implement the `member_discount_eligible` flag separately from the public price. It is read only by pricing. It never gives access to anything.
+  — `App\Domains\Catalog\Queries\RelatedProductsQuery`.
+
+- [x] **6.9** Implement the `member_discount_eligible` flag separately from the public price. It is read only by pricing. It never gives access to anything. — plain boolean column, gated behind `products.edit-price` in the admin form; covered by `tests/Feature/Catalog/ProductMemberDiscountFlagTest.php`.
 
 - [ ] **6.10** Handle the flagship ebooks.
   - *Maths Through Games* is listed only after its content and answers pass QA (Phase 4 workflow).
   - *1000 Essential English Words* stays in a separate English-learning collection unless it is adapted. It has no primary class, so its URL uses `all-classes` in the class segment.
 
-- [ ] **6.11** Build the shop browse filters: class, subject, type and price band. Reuse the filter components and the `noindex` rule from Phase 5. Add `Searchable` to `Product` so products appear in `/search`.
+  The mechanism is built — `Product::classSlug()` falls back to `all-classes`, and nothing bypasses the Phase 4 review/publish gate before a resource can be attached to a sellable product. Neither flagship ebook is actually listed yet: both are real content/QA work for Phase 16, not an engineering gap.
+
+- [x] **6.11** Build the shop browse filters: class, subject, type and price band. Reuse the filter components and the `noindex` rule from Phase 5. Add `Searchable` to `Product` so products appear in `/search`. — `App\Domains\Catalog\Queries\ShopIndexQuery`, `App\Domains\Catalog\Queries\ProductSearchQuery`.
 
 ## Data model
 
@@ -121,9 +127,9 @@ Navigation group: Commerce. In the mockup this is the "Workbooks" menu item.
 
 ## Exit checklist
 
-- [ ] Every planned launch product exists in staging with a representative preview and full metadata.
-- [ ] A parent can tell exactly what is included before checkout.
-- [ ] Prices can be changed in admin without a deployment.
+- [ ] Every planned launch product exists in staging with a representative preview and full metadata. Blocked on D-01 (no staging), D-04 (no decided launch SKU list) and the real content Phase 16 loads. The schema, admin and storefront are ready to receive it.
+- [x] A parent can tell exactly what is included before checkout — `shop/show` lists inclusions, total pages, answer-key, language and licence before any "Add to Cart"; covered by `ArchivedProductTest` and the `shop.show` route.
+- [x] Prices can be changed in admin without a deployment — `regular_price`/`sale_price` are plain columns edited through the Filament form, gated by `products.edit-price`; covered by `tests/Feature/Catalog/ProductPricePermissionTest.php`.
 
 ## Risks and controls
 

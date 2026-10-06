@@ -1,0 +1,110 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: brightlearners_testing
+          MYSQL_ROOT_PASSWORD: ci-mysql-password-not-for-production
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      APP_ENV: testing
+      APP_KEY: base64:Q0ktb25seS1ub3QtYS1wcm9kdWN0aW9uLXNlY3JldC0xMjM0NQ==
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: brightlearners_testing
+      DB_USERNAME: root
+      DB_PASSWORD: ci-mysql-password-not-for-production
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: phpredis
+      AWS_SECRET_ACCESS_KEY: ci-aws-secret-not-for-production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.5'
+          extensions: intl, mbstring, pdo_mysql, redis
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+          cache: npm
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Prepare application
+        run: php artisan migrate --force
+
+      - name: Check PHP formatting
+        run: composer lint:check
+
+      - name: Run PHP static analysis
+        run: composer types:check
+
+      - name: Check frontend formatting and lint
+        run: npm run check
+
+      - name: Check frontend types
+        run: npm run types:check
+
+      - name: Run PHP tests
+        run: php artisan test --compact
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Ensure server secrets are absent from frontend assets
+        shell: bash
+        run: |
+          if grep -R -F -e "$APP_KEY" -e "$DB_PASSWORD" -e "$AWS_SECRET_ACCESS_KEY" public/build; then
+            echo "A server secret was found in the frontend build."
+            exit 1
+          fi
+
+      - name: Build Inertia SSR bundle
+        run: npm run build:ssr

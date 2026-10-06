@@ -9,30 +9,30 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P0-01 | [0 Scope freeze](../plan/phase-00-scope-freeze.md) | Approve MVP / out-of-scope | 0.1–0.5 | Not started |
 | P0-02 | [0 Scope freeze](../plan/phase-00-scope-freeze.md) | Approve pilot offer / metrics | 0.2, 0.6, 0.8 | Not started |
 | P0-03 | [0 Scope freeze](../plan/phase-00-scope-freeze.md) | Inventory launch content | 0.7, 0.9, 0.10 | Not started |
-| P1-01 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Create Laravel repo | 1.1, 1.2, 1.7, 1.8 | Not started |
-| P1-02 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Configure SSR | 1.5 | Not started |
-| P1-03 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Configure MySQL / Redis / queues | 1.3, 1.4 | Not started |
-| P1-04 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Create staging / CI | 1.6, 1.9–1.12 | Not started |
-| P2-01 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Parent auth | 2.1, 2.7, 2.9 | Not started |
-| P2-02 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Learning profiles | 2.5, 2.6 | Not started |
-| P2-03 | [2 Identity](../plan/phase-02-identity-security-roles.md) | RBAC / policies | 2.2, 2.3, 2.4 | Not started |
-| P2-04 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Admin 2FA / rate limits | 2.8, 2.10 | Not started |
-| P3-01 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Curriculum tables | 3.1, 3.2, 3.6–3.8 | Not started |
-| P3-02 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Seed Class 1–3 | 3.3, 3.4, 3.5 | Not started |
-| P3-03 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Admin taxonomy governance | 3.9, 3.10 | Not started |
-| P4-01 | [4 Resources](../plan/phase-04-resource-engine.md) | Resource CRUD | 4.1, 4.2, 4.8, 4.11 | Not started |
-| P4-02 | [4 Resources](../plan/phase-04-resource-engine.md) | Versioning / files | 4.3, 4.4, 4.10, 4.12 | Not started |
-| P4-03 | [4 Resources](../plan/phase-04-resource-engine.md) | Review workflow | 4.6, 4.7 | Not started |
-| P4-04 | [4 Resources](../plan/phase-04-resource-engine.md) | Preview generation | 4.5 | Not started |
-| P4-05 | [4 Resources](../plan/phase-04-resource-engine.md) | Correction log | 4.9 | Not started |
-| P5-01 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Homepage / class / topic pages | 5.1, 5.2, 5.3, 5.7 | Not started |
-| P5-02 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Free resource pages | 5.4, 5.5, 5.6 | Not started |
-| P5-03 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Search / filters | 5.8, 5.9, 5.12 | Not started |
-| P5-04 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | SSR verification | 5.10, 5.11 | Not started |
-| P6-01 | [6 Products](../plan/phase-06-product-catalogue.md) | Product / bundle schema | 6.1–6.5 | Not started |
-| P6-02 | [6 Products](../plan/phase-06-product-catalogue.md) | Product pages | 6.6, 6.7, 6.8, 6.10 | Not started |
-| P6-03 | [6 Products](../plan/phase-06-product-catalogue.md) | Shop filters | 6.11 | Not started |
-| P6-04 | [6 Products](../plan/phase-06-product-catalogue.md) | Member-discount flag | 6.9 | Not started |
+| P1-01 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Create Laravel repo | 1.1, 1.2, 1.7, 1.8 | Done |
+| P1-02 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Configure SSR | 1.5 | Done |
+| P1-03 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Configure MySQL / Redis / queues | 1.3, 1.4 | Done |
+| P1-04 | [1 Foundation](../plan/phase-01-engineering-foundation.md) | Create staging / CI | 1.6, 1.9–1.12 | Blocked (D-01 for staging deploy; CI, Filament and health checks done) |
+| P2-01 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Parent auth | 2.1, 2.7, 2.9 | Done |
+| P2-02 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Learning profiles | 2.5, 2.6 | Done |
+| P2-03 | [2 Identity](../plan/phase-02-identity-security-roles.md) | RBAC / policies | 2.2, 2.3, 2.4 | Done (business sign-off on the matrix still pending) |
+| P2-04 | [2 Identity](../plan/phase-02-identity-security-roles.md) | Admin 2FA / rate limits | 2.8, 2.10 | Done |
+| P3-01 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Curriculum tables | 3.1, 3.2, 3.6–3.8 | Done |
+| P3-02 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Seed Class 1–3 | 3.3, 3.4, 3.5 | Done (placeholder data, not the teacher-approved map) |
+| P3-03 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Admin taxonomy governance | 3.9, 3.10 | Done |
+| P4-01 | [4 Resources](../plan/phase-04-resource-engine.md) | Resource CRUD | 4.1, 4.2, 4.8, 4.11 | Done |
+| P4-02 | [4 Resources](../plan/phase-04-resource-engine.md) | Versioning / files | 4.3, 4.4, 4.10, 4.12 | Done (4.10 deferred to Phase 9 — no `downloads` table yet) |
+| P4-03 | [4 Resources](../plan/phase-04-resource-engine.md) | Review workflow | 4.6, 4.7 | Done |
+| P4-04 | [4 Resources](../plan/phase-04-resource-engine.md) | Preview generation | 4.5 | Done |
+| P4-05 | [4 Resources](../plan/phase-04-resource-engine.md) | Correction log | 4.9 | Done |
+| P5-01 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Homepage / class / topic pages | 5.1, 5.2, 5.3, 5.7 | Done (placeholder curriculum content, not launch-ready copy) |
+| P5-02 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Free resource pages | 5.4, 5.5, 5.6 | Done (no "email me this worksheet" box — explicitly optional in the plan) |
+| P5-03 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | Search / filters | 5.8, 5.9, 5.12 | Done |
+| P5-04 | [5 Public library](../plan/phase-05-public-library-ssr-search.md) | SSR verification | 5.10, 5.11 | Done (manual `curl` check; no CI `scripts/ssr-smoke` step yet) |
+| P6-01 | [6 Products](../plan/phase-06-product-catalogue.md) | Product / bundle schema | 6.1–6.5 | Done |
+| P6-02 | [6 Products](../plan/phase-06-product-catalogue.md) | Product pages | 6.6, 6.7, 6.8, 6.10 | Done (6.10's mechanism is built; the two flagship ebooks themselves await Phase 16 content/QA) |
+| P6-03 | [6 Products](../plan/phase-06-product-catalogue.md) | Shop filters | 6.11 | Done |
+| P6-04 | [6 Products](../plan/phase-06-product-catalogue.md) | Member-discount flag | 6.9 | Done |
 | P7-01 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Cart | 7.1, 7.2 | Not started |
 | P7-02 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Pricing service | 7.3, 7.4 | Not started |
 | P7-03 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Coupons | 7.5 | Not started |

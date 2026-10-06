@@ -1,50 +1,77 @@
 <?php
 
+use App\Domains\Content\Models\LearningResource;
+use App\Domains\Content\Models\ResourcePreview;
+use App\Domains\Content\Models\ResourceSkill;
+use App\Domains\Content\Models\ResourceVersion;
+use App\Domains\Curriculum\Models\SchoolClass;
+use App\Domains\Curriculum\Models\Skill;
+use App\Domains\Curriculum\Models\Subject;
+use App\Domains\Curriculum\Models\Topic;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
-/*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "pest()" function to bind different classes or traits.
-|
-*/
-
 pest()->extend(TestCase::class)
- // ->use(RefreshDatabase::class)
+    ->use(RefreshDatabase::class)
+    ->beforeEach(function (): void {
+        // The cache store is Redis, which persists across tests (needed
+        // for the Foundation scheduler test). Without this, a role or
+        // permission created in one test can leave a stale cached ID that
+        // no longer exists after the next test's RefreshDatabase.
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+    })
     ->in('Feature');
 
-/*
-|--------------------------------------------------------------------------
-| Expectations
-|--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
-*/
-
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
-
-/*
-|--------------------------------------------------------------------------
-| Functions
-|--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
-*/
-
-function something()
+/**
+ * A free, published resource with the full taxonomy chain
+ * (class -> subject -> topic -> skill) and a current, published version
+ * with a ready preview — everything the Phase 5 public library tests need,
+ * so each test only has to override what it is checking.
+ *
+ * @param  array<string, mixed>  $resourceAttributes
+ * @return array{resource: LearningResource, class: SchoolClass, subject: Subject, topic: Topic, skill: Skill}
+ */
+function createPublishedFreeResource(array $resourceAttributes = []): array
 {
-    // ..
+    $uploader = User::factory()->create();
+
+    $subject = Subject::factory()->create();
+    $topic = Topic::factory()->create(['subject_id' => $subject->id]);
+    $skill = Skill::factory()->create(['topic_id' => $topic->id]);
+    $class = SchoolClass::factory()->create();
+
+    $class->subjects()->attach($subject->id, ['sort_order' => 0, 'active' => true]);
+    $class->skills()->attach($skill->id, ['sort_order' => 0, 'active' => true]);
+    $class->topics()->attach($topic->id, ['sort_order' => 0, 'active' => true]);
+
+    $resource = LearningResource::factory()->free()->published()->create(array_merge([
+        'created_by' => $uploader->id,
+    ], $resourceAttributes));
+
+    ResourceSkill::factory()->create([
+        'resource_id' => $resource->id,
+        'skill_id' => $skill->id,
+        'class_id' => $class->id,
+        'is_primary' => true,
+    ]);
+
+    $version = ResourceVersion::factory()->published()->create([
+        'resource_id' => $resource->id,
+        'created_by' => $uploader->id,
+    ]);
+
+    ResourcePreview::factory()->create([
+        'resource_version_id' => $version->id,
+        'sort_order' => 0,
+    ]);
+
+    return [
+        'resource' => $resource->refresh(),
+        'class' => $class,
+        'subject' => $subject,
+        'topic' => $topic,
+        'skill' => $skill,
+    ];
 }

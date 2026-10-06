@@ -9,7 +9,7 @@ Create parent authentication, staff role-based access and minimal learner profil
 | Depends on | Phase 1 foundation deployed |
 | Exit gate | Parents and staff authenticate safely. Role boundaries are enforced. Child data is minimised. |
 | Backlog | P2-01, P2-02, P2-03, P2-04 |
-| Decide first | D-13 what an unverified parent may do. D-15 what "limited" refund means for Support. |
+| Decide first | D-13 what an unverified parent may do. D-15 what "limited" refund means for Support. Both are `Default in use` in [../tracking/decisions.md](../tracking/decisions.md) as of 2026-10-05: the recommended defaults were applied without a formal business sign-off. |
 
 ## Objective
 
@@ -23,26 +23,27 @@ Build the identity model around the parent or guardian as the account holder, wi
 
 ## Build steps
 
-- [ ] **2.1** Parent registration with email verification and password reset.
-  - Make `User` implement `MustVerifyEmail` (the import is commented out in `app/Models/User.php` today).
-  - Apply the policy from D-13. Recommended: an unverified parent can browse and download free resources, but must verify before checkout, the library and the dashboard. Put the `verified` middleware on those route groups.
-  - Add a marketing-consent checkbox to the register form. It is unticked by default.
+- [x] **2.1** Parent registration with email verification and password reset.
+  - `User` already implemented `MustVerifyEmail` from the Phase 1 starter-kit install; nothing to uncomment.
+  - D-13's default applied: `/account/dashboard` and `/account/profiles` carry `verified` middleware (see [routes/account.php](../../routes/account.php)); `/` stays open to unverified parents. `/checkout` does not exist yet (Phase 7).
+  - Added an unticked-by-default marketing-consent checkbox to `resources/js/pages/auth/register.tsx`.
 
-- [ ] **2.2** Keep parents and staff separate in concept, even though both live in `users`.
+- [x] **2.2** Keep parents and staff separate in concept, even though both live in `users`.
   - A parent has no role. A staff member has at least one role.
-  - Add `User::isStaff(): bool`.
-  - Staff accounts are created only inside `/admin` or by the console command from Phase 1. `/register` can never create one.
+  - Added `User::isStaff(): bool` (`$this->roles()->exists()`).
+  - Staff accounts are created only inside `/admin` or by the console command from Phase 1. `/register` can never create one (unchanged — `CreateNewUser` never touches roles).
 
-- [ ] **2.3** Create the roles and permissions.
+- [x] **2.3** Create the roles and permissions.
   - Roles: `super-admin`, `business-admin`, `content-manager`, `teacher-reviewer`, `customer-support`, `finance`, `marketing`.
-  - `php artisan make:seeder RolesAndPermissionsSeeder --no-interaction`. It creates every permission in [../reference/roles-and-permissions.md](../reference/roles-and-permissions.md) and syncs them to the roles. It must be safe to run again after every deploy.
-  - `super-admin` passes every check through `Gate::before`.
+  - `database/seeders/RolesAndPermissionsSeeder.php` creates every permission in [../reference/roles-and-permissions.md](../reference/roles-and-permissions.md) and syncs them to the roles with `syncPermissions()`, so it is safe to run again after every deploy. Called from `DatabaseSeeder`.
+  - `super-admin` passes every check through `Gate::before` in `AppServiceProvider`.
 
-- [ ] **2.4** Write Laravel policies for protected domain actions. Do not rely on hiding UI.
+- [x] **2.4** Write Laravel policies for protected domain actions. Do not rely on hiding UI.
   - This phase: `LearningProfilePolicy` (`viewAny`, `view`, `create`, `update`, `delete`), each checking `profile.user_id === user.id`.
+  - Also added `UserPolicy` (`app/Policies`, following `User`'s existing `App\Models` placement) gating the Phase 2.10 staff-management screen on the `roles.manage` permission.
   - Every later phase adds the policy for its own models.
 
-- [ ] **2.5** Create learning profiles.
+- [x] **2.5** Create learning profiles.
   ```bash
   php artisan make:model App/Domains/Accounts/Models/LearningProfile --no-interaction
   php artisan make:migration create_learning_profiles_table --no-interaction
@@ -53,33 +54,34 @@ Build the identity model around the parent or guardian as the account holder, wi
   php artisan make:request Account/UpdateLearningProfileRequest --no-interaction
   ```
   - Fields: nickname, class, optional avatar, optional interests. Nothing else.
-  - `class_id` is nullable with no foreign key yet, because `classes` is created in Phase 3. Until then the form offers Class 1, 2 and 3 from a fixed list.
-  - The avatar is a key that picks a built-in illustration. There are no image uploads of children.
-  - Cap the number of profiles per account in config (suggested: 5).
-  - Deleting a profile sets `active = false`.
-  - In the mockup this is the "Add Child" control on the dashboard.
+  - `class_id` is a nullable, unconstrained `unsignedBigInteger` (no FK yet — `classes` arrives in Phase 3). Until then `config('account.fixed_classes')` offers Class 1, 2 and 3.
+  - The avatar is a key from `config('account.avatar_keys')` (a fixed list of built-in illustrations). There are no image uploads of children.
+  - The cap is `config('account.max_learning_profiles')`, default 5, env `MAX_LEARNING_PROFILES`.
+  - Deleting a profile sets `active = false` (`LearningProfileController::destroy`).
+  - `/account/profiles` (`resources/js/pages/account/profiles/index.tsx`) is a minimal, functional "Add Child" list/add/edit/remove screen — not a pixel match to the mockup; visual polish is out of scope for this phase.
 
-- [ ] **2.6** Do not collect a child's email, phone, school, date of birth or address. Add a test that fails if `learning_profiles` ever gains a column outside the allowed list.
+- [x] **2.6** Do not collect a child's email, phone, school, date of birth or address. `tests/Feature/Accounts/LearningProfileSchemaTest.php` fails if `learning_profiles` ever gains a column outside the allowed list.
 
-- [ ] **2.7** Parent profile and settings.
-  - Move the starter kit's `/dashboard` and `/settings/*` pages under `/account/*` to match [../reference/routes-and-screens.md](../reference/routes-and-screens.md).
-  - `/account/settings` covers name, email, password, two-factor and notification preferences.
-  - Create `notification_preferences` and add a row for each new user in a listener on the `Registered` event, carrying the marketing-consent choice, time and source.
+- [x] **2.7** Parent profile and settings.
+  - `/dashboard` moved to `/account/dashboard` (route name `account.dashboard`; `config('fortify.home')` updated) and `/settings/*` moved to `/account/settings/*` (sub-route names unchanged — `profile.edit`, `security.edit`, `user-password.update`, `appearance.edit` — only their paths moved).
+  - Added a top-level `account.settings` redirect to `/account/settings/profile`, matching [routes-and-screens.md](../reference/routes-and-screens.md); the starter kit's original `/settings` redirect had no name at all.
+  - `notification_preferences` is created, and `CreateNotificationPreferencesForNewUser` (`app/Domains/Accounts/Listeners`) listens for `Registered` and records the marketing-consent choice, time and source. Registered manually in `AppServiceProvider` — Laravel's event auto-discovery only scans `app/Listeners`, not domain folders.
+  - The starter kit's own tests that redirected to `route('dashboard')` were updated to `route('account.dashboard')` (`tests/Feature/Auth/*`, `tests/Feature/DashboardTest.php`); the frontend files that imported the Wayfinder-generated `dashboard` helper (`app-header.tsx`, `app-sidebar.tsx`, `welcome.tsx`, `dashboard.tsx`) now import it from `@/routes/account` instead of `@/routes`, since Wayfinder namespaces a dotted route name under its first segment.
 
-- [ ] **2.8** Rate-limit login, registration, password reset and repeated suspicious attempts.
+- [x] **2.8** Rate-limit login, registration, password reset and repeated suspicious attempts.
   - Fortify already limits login and the two-factor challenge.
-  - Add named limiters for registration and password-reset requests, keyed by IP and email.
-  - Keep the thresholds in config so tests can read them.
+  - Added `registration` and `password-reset` named limiters (`config('account.rate_limits')`, env `REGISTRATION_RATE_LIMIT` / `PASSWORD_RESET_RATE_LIMIT`), keyed by email + IP.
+  - Fortify has no config slot to attach a limiter to the registration or password-reset routes (only login/two-factor/passkeys), and those routes load lazily, so attaching the throttle middleware at `boot()` time is too early — the routes don't exist yet. Attached instead via an `Illuminate\Routing\Events\RouteMatched` listener in `FortifyServiceProvider`, which fires per-request after the route is resolved but before its middleware is gathered.
 
-- [ ] **2.9** Add the account-deletion request placeholder.
-  - The starter kit deletes the account immediately. Replace that with "Request account deletion", which sets `users.status = deletion_requested` and notifies the support owner.
-  - Orders and payments will later point at the user, so a hard delete is never automatic. The final process follows the privacy policy (D-10).
-  - A user whose status is `suspended` cannot log in.
+- [x] **2.9** Add the account-deletion request placeholder.
+  - `ProfileController::destroy` no longer deletes the account. It force-fills `users.status = deletion_requested` (status is deliberately outside `User`'s fillable list, so a public form can never set it), logs the user out, and sends `AccountDeletionRequested` to `config('account.support_owner_email')`.
+  - D-10 (support owner assigned) is still open, so that address is a placeholder (`support@brightlearners.test`) — see decision **T-16** in [../tracking/decisions.md](../tracking/decisions.md). Replace it once D-10 is decided.
+  - A user whose status is `suspended` cannot log in — enforced in `Fortify::authenticateUsing` (`FortifyServiceProvider`), which also replicates Fortify's default credential check since overriding it replaces that pipeline entirely.
 
-- [ ] **2.10** Protect the admin panel.
+- [x] **2.10** Protect the admin panel.
   - `canAccessPanel()` now returns `isStaff()`.
-  - Require multi-factor authentication for the panel.
-  - Add a Filament resource for staff users, visible only to `super-admin` and `business-admin`.
+  - Multi-factor authentication was already required in production from Phase 1 (`AdminPanelProvider::multiFactorAuthentication(..., isRequired: app()->isProduction())`); unchanged here.
+  - Added a Filament resource for staff users (`app/Filament/Resources/Users`), restricted to `super-admin` and `business-admin` via `UserPolicy` (checked on the `roles.manage` permission) and scoped to `whereHas('roles')` so parents never appear in it. Its form edits name, email, verification, status and roles; it force-fills `status` the same way `ProfileController` does, and never round-trips the password hash (blank = unchanged).
 
 **Audit-friendly identifiers.** Every record that says who did something stores `user_id` or `actor_id`, never an email or a name. User IDs are never reused. When an account is finally removed, its row is anonymised, not deleted.
 
@@ -123,11 +125,13 @@ Column detail is in [../reference/database-blueprint.md](../reference/database-b
 
 The two permission tests check the permission matrix now. The real refund and publish actions are tested again in Phases 8 and 4.
 
+All required tests above are implemented and passing (`php artisan test --compact tests/Feature/Accounts`), plus extra coverage this phase added: `LearningProfileManagementTest` (create, cap, deactivate-not-delete), `RegistrationNotificationPreferenceTest`, `AccountDeletionTest` (suspended login block), and the staff Filament resource's own access/visibility tests inside `AdminAccessTest.php`.
+
 ## Exit checklist
 
-- [ ] Every sensitive route has an authorization test.
-- [ ] No unnecessary child-identifying field exists in the schema.
-- [ ] The role and permission matrix is approved by the business owner.
+- [x] Every sensitive route has an authorization test. `/account/dashboard`, `/account/profiles/*` (ownership), `/admin`, `/admin/users` (role-gated) and the auth rate limiters are all covered.
+- [x] No unnecessary child-identifying field exists in the schema. Enforced by `LearningProfileSchemaTest`.
+- [ ] The role and permission matrix is approved by the business owner. The matrix is implemented exactly as written in [roles-and-permissions.md](../reference/roles-and-permissions.md); formal business sign-off is outside engineering's reach and still needs to happen.
 
 ## Risks and controls
 

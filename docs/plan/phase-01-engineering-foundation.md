@@ -19,22 +19,10 @@ Establish a production-shaped Laravel 13 modular monolith before feature work st
 
 The repo today is the plain Laravel skeleton. Fix these three things first.
 
-- [ ] **Make Composer and the CLI use the same PHP.** `php -v` reports 8.5.7, but `composer diagnose` reports PHP 8.3.31 from Herd. Composer resolves packages for the PHP it runs on, so they must match.
-  ```bash
-  php -v
-  composer diagnose      # look at "PHP version" and "PHP binary path"
-  ```
-  Set Herd's global PHP to 8.5 (Herd → PHP, or `herd use 8.5`) and check again. Then change `"php": "^8.3"` to `"php": "^8.5"` in `composer.json`, and run staging and production on the same version.
-- [ ] **Create the MySQL databases.** MySQL 8.0.39 is installed.
-  ```sql
-  CREATE DATABASE brightlearners CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-  CREATE DATABASE brightlearners_testing CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-  ```
-- [ ] **Start a local Redis.** PHP has the `redis` extension but no Redis server is installed. Docker is available:
-  ```bash
-  docker run -d --name brightlearners-redis -p 6379:6379 --restart unless-stopped redis:7-alpine
-  ```
-  If Redis is not available on a given day, the `database` cache and queue drivers still work locally. Staging and production must use Redis.
+- [x] **Make Composer and the CLI use the same PHP.** Herd's global PHP is set to 8.5, `composer.json` requires `"php": "^8.5"`, and a `config.platform.php` override keeps dependency resolution on 8.5.
+  Residual issue found 2026-10-05: on this machine, the Windows `PATH` lists `herd\bin\php83` *before* the generic `herd\bin` shim, so any subprocess that resolves `php` through the raw OS `PATH` instead of the shell's `php` alias (Composer's own script runner, `vendor/bin/phpstan`, and Node's `child_process` calls from `npm run build`) still launches PHP 8.3 and fails `vendor/composer/platform_check.php`. This is a machine-wide `PATH` ordering issue (confirmed present in both the User and Machine `PATH`, and shared by 60+ other local sites), not a repo setting, so it was not changed here. Workaround used for every command below: prefix with the 8.5 binary, e.g. `PATH="/c/Users/<user>/.config/herd/bin/php85:$PATH" npm run build`. Fixing it permanently needs the user (or an elevated session) to de-duplicate/reorder the `php83` entries in Windows' environment variables.
+- [x] **Create the MySQL databases.** Created `brightlearners` and `brightlearners_testing` (utf8mb4/utf8mb4_unicode_ci) on the local MySQL 8.0.39 instance.
+- [x] **Start a local Redis.** Running in Docker as `brightlearners-redis` on port 6379, verified with a cache round-trip via `php artisan tinker`.
 
 ## Packages and commands
 
@@ -48,7 +36,7 @@ Scout arrives in Phase 5. Meilisearch is deferred until search quality demands i
 
 ## Build steps
 
-- [ ] **1.1** Create the repository and the application from the official React / TypeScript starter kit.
+- [x] **1.1** Create the repository and the application from the official React / TypeScript starter kit.
 
   The current folder has no custom code, so re-base instead of retrofitting.
 
@@ -68,13 +56,13 @@ Scout arrives in Phase 5. Meilisearch is deferred until search quality demands i
 
   After the kit is in, read what it created (`routes/`, `resources/js/pages`, `app/Providers/FortifyServiceProvider.php`, `package.json` scripts) before changing anything.
 
-- [ ] **1.2** Separate the environments.
+- [x] **1.2** Separate the environments.
   - `.env.example` holds every key with safe, non-secret values. Real secrets exist only on the server.
   - Set `APP_NAME=BrightLearners`.
   - Three environments: `local`, `staging`, `production`.
   - A variable that starts with `VITE_` is compiled into the public JavaScript. Never give a secret that prefix.
 
-- [ ] **1.3** Configure MySQL, time zone and strictness.
+- [x] **1.3** Configure MySQL, time zone and strictness.
   - `.env`: `DB_CONNECTION=mysql`, `DB_DATABASE=brightlearners`, charset `utf8mb4`.
   - `phpunit.xml`: `DB_CONNECTION=mysql`, `DB_DATABASE=brightlearners_testing`. Turn on `RefreshDatabase` in `tests/Pest.php` (it is commented out today).
   - Time zone: store everything in UTC (`APP_TIMEZONE=UTC`). Display and accept times in `Asia/Kolkata`; add `display_timezone` to `config/app.php`.
@@ -82,19 +70,19 @@ Scout arrives in Phase 5. Meilisearch is deferred until search quality demands i
   - In `AppServiceProvider::boot()`: `Model::shouldBeStrict(! app()->isProduction());` to catch lazy loading and silently discarded attributes during development.
   - Every migration has a working `down()` where practical.
 
-- [ ] **1.4** Configure Redis for cache, queue and rate limiting.
+- [x] **1.4** Configure Redis for cache, queue and rate limiting.
   - `.env`: `REDIS_CLIENT=phpredis`, `CACHE_STORE=redis`, `QUEUE_CONNECTION=redis`.
   - Rate limiters use the cache store, so they move to Redis with it.
   - Check: `php artisan tinker --execute 'cache()->put("ping", 1, 10); dump(cache()->get("ping"));'`
 
-- [ ] **1.5** Enable Inertia SSR and run it as its own supervised process.
+- [x] **1.5** Enable Inertia SSR and run it as its own supervised process.
   - The starter kit ships the SSR entry file and a build script. Find the script name in `package.json`.
-  - Build, then start: `php artisan inertia:start-ssr`. On Windows, if that command has trouble, run `node bootstrap/ssr/ssr.js` directly.
-  - Check that the HTML is rendered on the server: `curl -s http://localhost:8000/ | grep -i "<h1"`.
+  - Build, then start: `php artisan inertia:start-ssr`. On Windows, if that command has trouble, run `node bootstrap/ssr/app.js` directly (the built entry file is `app.js`, not `ssr.js`).
+  - Check that the HTML is rendered on the server: `curl -s http://localhost:8000/ | grep -i "<h1"`. Verified 2026-10-05: the homepage response body contains a server-rendered `<h1>`.
   - On the server the SSR process is supervised separately from PHP-FPM (see [../reference/deployment-runbook.md](../reference/deployment-runbook.md)).
   - Use `search-docs` with package `inertiajs/inertia-laravel` for the current SSR options.
 
-- [ ] **1.6** Install Filament at `/admin` and keep the public out.
+- [x] **1.6** Install Filament at `/admin` and keep the public out.
   ```bash
   composer require filament/filament:"^5.9" spatie/laravel-permission:"^8.3"
   php artisan filament:install --panels --no-interaction
@@ -105,27 +93,28 @@ Scout arrives in Phase 5. Meilisearch is deferred until search quality demands i
   - Do not enable Filament's registration page. Public `/register` creates a parent with no role, so a new sign-up can never reach `/admin`.
   - Use `search-docs` (packages `filament/filament`, `spatie/laravel-permission`) for the current install and panel-access APIs.
 
-- [ ] **1.7** Add base packages only when justified. Spatie Permission is installed now because step 1.6 needs it. Scout waits for Phase 5. Meilisearch is not installed.
+- [x] **1.7** Add base packages only when justified. Spatie Permission is installed now because step 1.6 needs it. Scout waits for Phase 5. Meilisearch is not installed.
 
-- [ ] **1.8** Create the domain folders: `app/Domains/{Accounts,Curriculum,Content,Catalog,Commerce,Payments,Access,Membership,Learning,Growth,Analytics}` with a `.gitkeep` in each, plus `app/Support`. The rules for them are in [../reference/architecture.md](../reference/architecture.md).
+- [x] **1.8** Create the domain folders: `app/Domains/{Accounts,Curriculum,Content,Catalog,Commerce,Payments,Access,Membership,Learning,Growth,Analytics}` with a `.gitkeep` in each, plus `app/Support`. The rules for them are in [../reference/architecture.md](../reference/architecture.md).
 
-- [ ] **1.9** Configure the quality checks.
+- [x] **1.9** Configure the quality checks.
   - PHP: Pint is installed. Run `vendor/bin/pint --dirty --format agent` before every commit.
-  - Static analysis: Larastan is optional and is a new dev dependency, so add it only if you want it.
-  - Frontend: the starter kit ships ESLint, Prettier and a TypeScript check. Confirm the script names in `package.json`.
+  - Static analysis: Larastan is installed (`phpstan.neon`) and passes with 0 errors.
+  - Frontend: the starter kit ships ESLint, Prettier and a TypeScript check (`npm run check`, `npm run types:check`). Both pass.
 
-- [ ] **1.10** Create the CI pipeline in this order: install → lint and static checks → PHP tests → frontend build → SSR build.
+- [x] **1.10** Create the CI pipeline in this order: install → lint and static checks → PHP tests → frontend build → SSR build.
   - The starter kit ships GitHub Actions workflows. Extend them; do not write new ones from scratch.
   - Add a MySQL 8 service and a Redis service to the test job.
   - The job fails if any step fails.
 
 - [ ] **1.11** Prepare the staging deployment (needs D-01).
+  - Still blocked: D-01 (hosting / deployment target) is `Open` in [../tracking/decisions.md](../tracking/decisions.md). The `X-Robots-Tag: noindex` header for the `staging` environment is already implemented and tested (`AddStagingNoIndexHeader` middleware, `StagingNoIndexTest`), so only the scripted deploy itself remains once hosting is chosen.
   - One scripted deploy: migrate, clear and warm caches, restart queue workers, restart SSR.
   - Follow the sequence in [../reference/deployment-runbook.md](../reference/deployment-runbook.md).
   - Staging mirrors production: same PHP and Node versions, same storage pattern, same queue and SSR layout.
   - Staging is blocked from search engines from day one (header `X-Robots-Tag: noindex` and basic auth or IP allow-list).
 
-- [ ] **1.12** Create the health endpoint.
+- [x] **1.12** Create the health endpoint.
   - Laravel's `/up` already exists in `bootstrap/app.php`. Keep it as the liveness check.
   - Add `/health` for uptime monitors: it confirms the database and cache answer, and returns only `{"status":"ok"}` or a 503. No versions, paths or driver names.
 
@@ -149,8 +138,8 @@ Do not design the homepage now. See the build rule in [00-master-plan.md](00-mas
 
 ## Admin and operations
 
-- [ ] Create one super-admin through a console command, not a public form: `php artisan make:command CreateSuperAdmin` (signature `staff:create-super-admin`). It asks for name, email and password, creates the user, marks the email verified and assigns `super-admin`.
-- [ ] Turn on multi-factor authentication for the Filament panel before production. Check the current API with `search-docs`.
+- [x] Create one super-admin through a console command, not a public form: `php artisan make:command CreateSuperAdmin` (signature `staff:create-super-admin`). It asks for name, email and password, creates the user, marks the email verified and assigns `super-admin`. A local super-admin (`admin@brightlearners.test`) has been created for this environment.
+- [x] Turn on multi-factor authentication for the Filament panel before production. `AdminPanelProvider` already enables `AppAuthentication` and sets `isRequired: app()->isProduction()`, so it is optional locally and mandatory in production.
 
 ## Events, jobs and schedule
 
@@ -171,13 +160,15 @@ Horizon is the queue dashboard for staging and production. It needs `ext-pcntl` 
 | Admin requires authentication | `tests/Feature/Foundation/AdminAccessTest.php`: a guest is redirected to the admin login; a user without a role gets 403; a super-admin gets 200. |
 | Production secrets are not in the frontend build | After `npm run build`, search `public/build` for secret names and values. Add the search to CI. |
 
+Two bugs were found and fixed while verifying these tests on 2026-10-05: `CreateSuperAdmin` was mass-assigning `email_verified_at`, which `User`'s `#[Fillable]` attribute does not allow (fixed with `forceFill()->save()` after `create()`); and the scheduler test was failing because `schedule:run` executes `foundation:heartbeat` as a separate OS process, which never shared state with the in-memory `array` cache driver used in tests — `phpunit.xml` now sets `CACHE_STORE=redis` for tests so both processes hit the same cache.
+
 ## Exit checklist
 
-- [ ] A fresh staging deployment succeeds from the repository alone.
-- [ ] `php artisan migrate:fresh` and `php artisan migrate:rollback` both work.
-- [ ] The queue worker and the SSR process restart by themselves after a server reboot.
-- [ ] No feature depends on a local filesystem path.
-- [ ] `php artisan test --compact` passes on MySQL.
+- [ ] A fresh staging deployment succeeds from the repository alone. *Blocked by D-01 (hosting not chosen yet); everything else in this phase is ready for it.*
+- [x] `php artisan migrate:fresh` and `php artisan migrate:rollback` both work. Verified 2026-10-05 on the local `brightlearners` database.
+- [ ] The queue worker and the SSR process restart by themselves after a server reboot. *Needs a real staging/production server with Supervisor or systemd; not verifiable on this local Windows box. Revisit with D-01.*
+- [x] No feature depends on a local filesystem path. Only the default `local`/`public`/`s3` disks exist; nothing reads a raw path.
+- [x] `php artisan test --compact` passes on MySQL. 50 passed / 0 failed, run against `brightlearners_testing` with the local Redis container.
 
 ## Risks and controls
 

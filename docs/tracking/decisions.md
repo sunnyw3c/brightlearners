@@ -18,7 +18,7 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 |---|---|---|---|---|---|---|---|
 | D-01 | Phase 1 staging | Hosting / deployment target and domain names | Choose between a Linux server (as the source plan describes) and Laravel Cloud (the repo has its deploy skill). Local work is not blocked. | Open | | | |
 | D-02 | Phase 4 | Object storage provider, bucket and CDN strategy | An S3-compatible private bucket for files and a public bucket behind a CDN for previews | Open | | | |
-| D-03 | Phase 5 | Do free downloads need a login or email, or stay frictionless with optional sign-up? | Frictionless, with an optional email box | Open | | | |
+| D-03 | Phase 5 | Do free downloads need a login or email, or stay frictionless with optional sign-up? | Frictionless, with an optional email box | Default in use | | | |
 | D-04 | Phase 6 | Exact launch SKUs; which products are member-discount eligible; does the 15% member discount stay in the pilot? | Fill the table in [../reference/commercial-config.md](../reference/commercial-config.md) | Open | | | |
 | D-05 | Phase 7 | GST / tax / invoice treatment, from a qualified adviser | Tax fields reserved and set to zero until confirmed | Open | | | |
 | D-06 | Phase 8 | Razorpay account ownership, settlement details and refund permissions | — | Open | | | |
@@ -28,9 +28,9 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-10 | Phase 16 | Legal / privacy / policy review complete; support owner assigned | — | Open | | | |
 | D-11 | Phase 17 | Does pilot evidence support recurring billing and assessment investment? | Decide from the 90-day review | Open | | | |
 | D-12 | Phase 18 | Business case for teacher / school / app / AI expansion | One written case per item | Open | | | |
-| D-13 | Phase 2 | What may a parent do before verifying their email? | Browse and download free resources; verify before checkout, library and dashboard | Open | | | |
+| D-13 | Phase 2 | What may a parent do before verifying their email? | Browse and download free resources; verify before checkout, library and dashboard | Default in use | | | |
 | D-14 | Phase 8, 9 | Refund policy: are partial refunds supported, and what does a refund do to access? | Full refunds only during the pilot; a full refund revokes that order's access | Open | | | |
-| D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Open | | | |
+| D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Default in use | | | |
 | D-16 | Phase 7 | Does a coupon stack with the member discount? | Yes, in the order sale price → member discount → coupon; no coupon may bring the total to zero | Open | | | |
 | D-17 | Phase 10 | What happens when a current member tries to buy membership again? | Blocked while a membership is active | Open | | | |
 
@@ -40,12 +40,12 @@ The mockup and the source plan disagree on these points. Detail is in [../refere
 
 | ID | Needed before | Question | Recommended default | Status | Decision | Decided by | Date |
 |---|---|---|---|---|---|---|---|
-| M-01 | Phase 3 | Is Hindi a launch subject? The mockup shows it; the plan's scope is Maths, English, EVS / mixed. | Not at launch | Open | | | |
-| M-02 | Phase 5 | Show star ratings, review counts, a Reviews tab and Save / heart? The plan defers these to Phase 17. | Leave out. Never show invented ratings. | Open | | | |
+| M-01 | Phase 3 | Is Hindi a launch subject? The mockup shows it; the plan's scope is Maths, English, EVS / mixed. | Not at launch | Default in use | | | |
+| M-02 | Phase 5 | Show star ratings, review counts, a Reviews tab and Save / heart? The plan defers these to Phase 17. | Leave out. Never show invented ratings. | Default in use | | | |
 | M-03 | Phase 8 | Build our own payment-method picker? | No. One Pay button opens Razorpay Checkout. | Open | | | |
-| M-04 | Phase 6 | Show the "30-Day Support" badge? | Not until the support policy is approved | Open | | | |
-| M-05 | Phase 6, 7 | Quantity steppers on product and cart? | No. Quantity is always 1 for a digital household product. | Open | | | |
-| M-06 | Phase 6 | Use "Aligned to School Curriculum"? The plan rules out compliance claims. | Use wording the teacher reviewer approves | Open | | | |
+| M-04 | Phase 6 | Show the "30-Day Support" badge? | Not until the support policy is approved | Default in use | | | |
+| M-05 | Phase 6, 7 | Quantity steppers on product and cart? | No. Quantity is always 1 for a digital household product. | Default in use | | | |
+| M-06 | Phase 6 | Use "Aligned to School Curriculum"? The plan rules out compliance claims. | Use wording the teacher reviewer approves | Default in use | | | |
 | M-07 | Phase 14 | Custom dark admin as drawn? | A Filament theme with a dark sidebar | Open | | | |
 | M-08 | Phase 11 | How is the dashboard progress figure worded? | "Activities opened / completed", never a score | Open | | | |
 
@@ -70,6 +70,8 @@ These are choices made while fitting the source plan to this repo. They are in u
 | T-13 | `audit_logs` is created in Phase 3, not Phase 14 | Phases 3, 7 and 9 already require logged changes | Default in use |
 | T-14 | `AccessService` and `/download/{resource}` first appear in Phase 5 with the free-resource rule | Free downloads then use the same single access path that paid downloads use later | Default in use |
 | T-15 | Filament classes live in `app/Filament`, not inside the domain folders | Default Filament discovery works, and admin stays a thin layer over domain actions | Default in use |
+| T-16 | An account-deletion request (step 2.9) emails a placeholder address, `config('account.support_owner_email')` | D-10 (support owner assigned) is still open; this keeps the notification working without inventing who receives it. Replace the address once D-10 is decided. | Default in use |
+| T-17 | `CurriculumSeeder` loads a small placeholder Class 1–3 / Maths–English–EVS topic and skill map in `database/seeders/data/curriculum.php`, explicitly marked not-approved | Phase 0's real teacher-approved curriculum map does not exist yet (phase-00-scope-freeze.md's own curriculum map section is unfilled). This exercises the full taxonomy pipeline (seeder, `CurriculumTree`, admin, tests) without blocking on content that only a teacher reviewer can produce. Replace the data file wholesale once the real map is approved; the seeder's `updateOrCreate`-by-slug design makes that a data swap, not a code change. | Default in use |
 
 ## Tables added beyond the source plan
 
@@ -79,6 +81,7 @@ These are choices made while fitting the source plan to this repo. They are in u
 | `products.primary_class_id` | The `{class}` part of the product URL | 6 |
 | `products.subscription_plan_id` | Links the membership product to its plan | 10 |
 | `resource_versions.preview_status` | Blocks publishing when preview generation failed | 4 |
+| `resource_versions.correction_severity`, `resource_versions.customer_notice_required` | Stages a correction's severity and notice flag between "create correction" and the publish that writes the `resource_corrections` row (step 4.9) | 4 |
 | `resources.is_free`, `resources.featured` | The explicit free flag (step 9.4) and homepage featuring | 4, 5 |
 | `downloads.access_source`, `downloads.variant` | Correction notices and reporting | 9 |
 | `learning_weeks.released_at` | Makes the release job safe to run twice | 10 |

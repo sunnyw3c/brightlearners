@@ -184,6 +184,8 @@ Index `(status, published_at)`.
 | checksum | string(64) ? | sha256 of the main file |
 | change_notes | text ? | |
 | preview_status | string | `pending`, `ready`, `failed`. **Added** — a version cannot be published until this is `ready`. |
+| correction_severity | string ? | `minor`, `material`. **Added** — staged on "create correction" (step 4.9) until this version is published, when `PublishResourceVersion` copies it into a new `resource_corrections` row. |
+| customer_notice_required | boolean | **Added** — staged alongside `correction_severity` for the same reason. |
 | reviewed_by | FK users ? | |
 | reviewed_at | timestamp ? | the review date required by BR-07 |
 | published_at | timestamp ? | once set, the row and its files are immutable |
