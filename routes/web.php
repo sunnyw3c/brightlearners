@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Cart\CartCouponController;
+use App\Http\Controllers\Cart\CartItemController;
+use App\Http\Controllers\Checkout\CheckoutController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Free\FreeResourceController;
 use App\Http\Controllers\HealthController;
@@ -34,6 +38,17 @@ Route::get('/shop/{class}/{slug}', [ShopController::class, 'show'])
     ->where('class', 'class-[a-z0-9-]+|all-classes')
     ->name('shop.show');
 Route::get('/products/{slug}', [ShopController::class, 'alias'])->name('products.alias');
+
+Route::get('/cart', CartController::class)->name('cart.show');
+Route::post('/cart/items', [CartItemController::class, 'store'])->name('cart.items.store');
+Route::delete('/cart/items/{product}', [CartItemController::class, 'destroy'])->name('cart.items.destroy');
+Route::post('/cart/coupon', [CartCouponController::class, 'store'])->name('cart.coupon.store');
+Route::delete('/cart/coupon', [CartCouponController::class, 'destroy'])->name('cart.coupon.destroy');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+});
 
 // Constrained so this class-landing wildcard cannot swallow /free, /search
 // and the other top-level pages above (docs/reference/routes-and-screens.md,

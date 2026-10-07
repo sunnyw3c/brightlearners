@@ -75,32 +75,34 @@
     --color-action-foreground: var(--action-foreground);
 }
 
-:root {
-    --background: oklch(0.985 0.006 250);
-    --foreground: oklch(0.2 0.03 258);
+:root,
+.public-theme {
+    color-scheme: light;
+    --background: oklch(0.985 0.011 244);
+    --foreground: oklch(0.22 0.055 258);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.2 0.03 258);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.2 0.03 258);
-    --primary: oklch(0.55 0.21 260);
+    --primary: oklch(0.56 0.215 260);
     --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.95 0.025 260);
+    --secondary: oklch(0.955 0.027 246);
     --secondary-foreground: oklch(0.35 0.1 260);
-    --muted: oklch(0.96 0.008 258);
-    --muted-foreground: oklch(0.5 0.03 258);
+    --muted: oklch(0.965 0.012 248);
+    --muted-foreground: oklch(0.49 0.035 258);
     --accent: oklch(0.95 0.025 260);
     --accent-foreground: oklch(0.35 0.1 260);
     --destructive: oklch(0.58 0.22 25);
     --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(0.91 0.012 258);
-    --input: oklch(0.91 0.012 258);
+    --border: oklch(0.91 0.018 247);
+    --input: oklch(0.91 0.018 247);
     --ring: oklch(0.7 0.1 260);
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 1.1rem;
+    --radius: 1rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.2 0.03 258);
     --sidebar-primary: oklch(0.55 0.21 260);
@@ -122,6 +124,41 @@
     /* "Accent action" — used from Phase 10 for the membership "Join Now" button */
     --action: oklch(0.64 0.22 15);
     --action-foreground: oklch(0.99 0 0);
+}
+
+/*
+ * Tailwind resolves its semantic colour aliases on the root element. Public
+ * pages intentionally stay light, so redefine those aliases at the public
+ * layout boundary instead of inheriting the active account appearance.
+ */
+.public-theme {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warm: var(--warm);
+    --color-warm-foreground: var(--warm-foreground);
+    --color-highlight: var(--highlight);
+    --color-highlight-foreground: var(--highlight-foreground);
+    --color-action: var(--action);
+    --color-action-foreground: var(--action-foreground);
 }
 
 .dark {
@@ -174,6 +211,51 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
+        background-image:
+            radial-gradient(
+                circle at 0 0,
+                color-mix(in oklab, var(--primary) 5%, transparent),
+                transparent 26rem
+            ),
+            radial-gradient(
+                circle at 100% 18rem,
+                color-mix(in oklab, var(--highlight) 7%, transparent),
+                transparent 24rem
+            );
+        background-attachment: fixed;
+    }
+
+    ::selection {
+        background: color-mix(in oklab, var(--primary) 22%, transparent);
+    }
+
+    button,
+    a,
+    input,
+    select {
+        @apply focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none;
+    }
+}
+
+@layer components {
+    .page-container {
+        @apply mx-auto w-full max-w-[96rem] px-4 sm:px-6 lg:px-8;
+    }
+
+    .eyebrow {
+        @apply inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/80 px-3 py-1.5 text-xs font-bold tracking-wide text-primary shadow-sm backdrop-blur;
+    }
+
+    .section-title {
+        @apply text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl;
+    }
+
+    .surface-card {
+        @apply rounded-3xl border border-white/70 bg-card shadow-[0_16px_50px_-28px_rgba(15,35,80,0.28)];
+    }
+
+    .field-control {
+        @apply h-11 min-w-0 rounded-xl border border-input bg-background px-3 text-sm shadow-xs transition-colors hover:border-primary/30 focus:border-primary;
     }
 }

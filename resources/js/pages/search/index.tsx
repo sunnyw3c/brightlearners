@@ -26,18 +26,31 @@ export default function SearchIndex({ q, results, seo }: Props) {
                 <meta name="robots" content="noindex" />
             </Head>
 
-            <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-                <h1 className="text-2xl font-semibold">Search</h1>
+            <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6">
+                <div className="text-center">
+                    <p className="mb-2 text-sm font-bold text-primary">
+                        Find the perfect next activity
+                    </p>
+                    <h1 className="text-3xl font-black tracking-[-0.035em] sm:text-4xl">
+                        Search BrightLearners
+                    </h1>
+                </div>
 
-                <form method="get" action={search().url} className="flex gap-2">
+                <form
+                    method="get"
+                    action={search().url}
+                    className="surface-card flex gap-2 p-3"
+                >
                     <input
                         type="text"
                         name="q"
                         defaultValue={q}
                         placeholder="Search for a worksheet, activity or topic"
-                        className="flex-1 rounded-md border px-3 py-2"
+                        className="field-control h-12 flex-1 border-0 bg-transparent shadow-none"
                     />
-                    <Button type="submit">Search</Button>
+                    <Button type="submit" size="lg">
+                        Search
+                    </Button>
                 </form>
 
                 {q === '' ? (

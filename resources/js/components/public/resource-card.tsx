@@ -1,12 +1,17 @@
 import { Link } from '@inertiajs/react';
-import { FileText } from 'lucide-react';
+import { ArrowRight, Clock3, FileText, Files } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { ResourceCardData } from '@/types/public';
 
 export function ResourceCard({ resource }: { resource: ResourceCardData }) {
     const content = (
-        <div className="flex h-full flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-md">
-            <div className="aspect-4/3 w-full overflow-hidden bg-linear-to-br from-primary/10 via-highlight/10 to-warm/10">
+        <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_16px_45px_-32px_rgba(15,35,80,0.42)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_24px_60px_-32px_rgba(15,35,80,0.45)]">
+            <div className="relative aspect-4/3 w-full overflow-hidden bg-linear-to-br from-sky-50 via-amber-50 to-rose-50 p-3">
+                {resource.free && (
+                    <Badge className="absolute top-4 left-4 z-10 border-2 border-white bg-success px-2.5 py-1 text-[0.65rem] font-black tracking-wider text-success-foreground shadow-sm">
+                        FREE
+                    </Badge>
+                )}
                 {resource.preview_image_url ? (
                     <img
                         src={resource.preview_image_url}
@@ -14,58 +19,56 @@ export function ResourceCard({ resource }: { resource: ResourceCardData }) {
                         height={resource.preview_height ?? undefined}
                         alt={resource.title}
                         loading="lazy"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full rounded-2xl object-cover shadow-sm transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                 ) : (
-                    <div className="flex h-full w-full items-center justify-center">
-                        <FileText className="size-10 text-primary/50" />
+                    <div className="flex h-full w-full items-center justify-center rounded-2xl border border-white/80 bg-white/75">
+                        <FileText
+                            className="size-12 text-primary/45"
+                            strokeWidth={1.5}
+                        />
                     </div>
                 )}
             </div>
-            <div className="flex flex-1 flex-col gap-2 p-4">
-                <div className="flex items-center gap-2">
-                    {resource.free && (
-                        <Badge className="border-transparent bg-success text-success-foreground">
-                            FREE
-                        </Badge>
-                    )}
-                    {resource.class_name && (
-                        <span className="text-xs text-muted-foreground">
-                            {resource.class_name}
-                            {resource.subject_name
-                                ? ` · ${resource.subject_name}`
-                                : ''}
-                        </span>
-                    )}
-                </div>
-                <p className="text-base leading-snug font-semibold">
+            <div className="flex flex-1 flex-col gap-3 p-5">
+                {(resource.class_name || resource.subject_name) && (
+                    <p className="text-[0.68rem] font-bold tracking-[0.08em] text-primary/75 uppercase">
+                        {[resource.class_name, resource.subject_name]
+                            .filter(Boolean)
+                            .join(' · ')}
+                    </p>
+                )}
+                <h3 className="text-base leading-snug font-extrabold tracking-tight">
                     {resource.title}
-                </p>
+                </h3>
                 {resource.summary && (
-                    <p className="line-clamp-2 text-sm text-muted-foreground">
+                    <p className="line-clamp-2 text-sm leading-5 text-muted-foreground">
                         {resource.summary}
                     </p>
                 )}
-                {(resource.estimated_minutes || resource.page_count) && (
-                    <div className="mt-auto flex gap-3 pt-1 text-xs text-muted-foreground">
+                <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/70 pt-4">
+                    <div className="flex gap-3 text-xs font-medium text-muted-foreground">
                         {resource.estimated_minutes && (
-                            <span>{resource.estimated_minutes} min</span>
+                            <span className="inline-flex items-center gap-1">
+                                <Clock3 className="size-3.5" />{' '}
+                                {resource.estimated_minutes} min
+                            </span>
                         )}
                         {resource.page_count && (
-                            <span>
+                            <span className="inline-flex items-center gap-1">
+                                <Files className="size-3.5" />{' '}
                                 {resource.page_count}{' '}
                                 {resource.page_count === 1 ? 'page' : 'pages'}
                             </span>
                         )}
                     </div>
-                )}
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-primary/9 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                        <ArrowRight className="size-4" />
+                    </span>
+                </div>
             </div>
-        </div>
+        </article>
     );
 
-    if (!resource.url) {
-        return content;
-    }
-
-    return <Link href={resource.url}>{content}</Link>;
+    return resource.url ? <Link href={resource.url}>{content}</Link> : content;
 }

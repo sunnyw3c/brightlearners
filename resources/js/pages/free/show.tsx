@@ -1,5 +1,12 @@
 import { Head } from '@inertiajs/react';
-import { Download } from 'lucide-react';
+import {
+    BookCheck,
+    CheckCircle2,
+    Download,
+    FileText,
+    Printer,
+    Sparkles,
+} from 'lucide-react';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { MetaList } from '@/components/public/meta-list';
 import { PreviewCarousel } from '@/components/public/preview-carousel';
@@ -47,30 +54,38 @@ export default function FreeResourceShow({
                 <link rel="canonical" href={seo.canonical} />
             </Head>
 
-            <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+            <div className="page-container space-y-8 py-6 sm:py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />
 
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                    <PreviewCarousel
-                        previews={resourceDetail.previews}
-                        title={resource.title}
-                    />
-
+                <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-12">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-2">
+                        <div className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-xs font-bold text-primary shadow-sm">
+                            <FileText className="size-4" /> Printable preview
+                        </div>
+                        <PreviewCarousel
+                            previews={resourceDetail.previews}
+                            title={resource.title}
+                        />
+                    </div>
+
+                    <div className="surface-card space-y-5 p-6 sm:p-8">
+                        <div className="flex flex-wrap items-center gap-2">
                             {resource.free && (
-                                <Badge className="border-transparent bg-success text-success-foreground">
+                                <Badge className="border-transparent bg-success px-3 py-1 text-success-foreground">
                                     Free Resource
                                 </Badge>
                             )}
+                            <span className="text-xs font-bold tracking-wide text-primary uppercase">
+                                {resource.type}
+                            </span>
                         </div>
 
-                        <h1 className="text-2xl font-bold sm:text-3xl">
+                        <h1 className="text-3xl font-black tracking-[-0.035em] sm:text-4xl">
                             {resource.title}
                         </h1>
 
                         {resource.summary && (
-                            <p className="text-muted-foreground">
+                            <p className="leading-7 text-muted-foreground">
                                 {resource.summary}
                             </p>
                         )}
@@ -115,8 +130,9 @@ export default function FreeResourceShow({
                         />
 
                         {resourceDetail.learning_objective && (
-                            <div className="rounded-2xl border bg-muted/30 p-5">
-                                <p className="text-sm font-semibold">
+                            <div className="rounded-2xl border border-primary/10 bg-primary/5 p-5">
+                                <p className="flex items-center gap-2 text-sm font-bold">
+                                    <BookCheck className="size-4 text-primary" />
                                     What your child will learn
                                 </p>
                                 <p className="mt-1 text-sm text-muted-foreground">
@@ -125,21 +141,34 @@ export default function FreeResourceShow({
                             </div>
                         )}
 
-                        <Button asChild size="lg">
-                            <a href={resourceDetail.download_url}>
-                                <Download className="mr-1 size-4" />
-                                Download Free PDF
-                            </a>
-                        </Button>
+                        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+                            <Button asChild size="lg" className="w-full">
+                                <a href={resourceDetail.download_url}>
+                                    <Download className="size-4" />
+                                    Download Free PDF
+                                </a>
+                            </Button>
+                            <span className="inline-flex items-center justify-center gap-1.5 rounded-xl border bg-muted/30 px-4 text-xs font-bold text-muted-foreground">
+                                <Printer className="size-4" /> Print ready
+                            </span>
+                        </div>
+
+                        <p className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                            <CheckCircle2 className="size-4 text-success" />
+                            Reviewed learning material with a clear objective
+                        </p>
                     </div>
                 </div>
 
                 {related.length > 0 && (
-                    <section className="space-y-4">
-                        <h2 className="text-xl font-semibold">
-                            You May Also Like
-                        </h2>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <section className="space-y-5 pt-8">
+                        <div>
+                            <p className="mb-1 flex items-center gap-1.5 text-sm font-bold text-primary">
+                                <Sparkles className="size-4" /> Keep learning
+                            </p>
+                            <h2 className="section-title">You May Also Like</h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                             {related.map((item) => (
                                 <ResourceCard key={item.id} resource={item} />
                             ))}

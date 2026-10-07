@@ -23,9 +23,9 @@ export function PreviewCarousel({
     const active = previews[activeIndex];
 
     return (
-        <div className="space-y-3">
+        <div className="space-y-4">
             <div
-                className="overflow-hidden rounded-lg border bg-muted"
+                className="overflow-hidden rounded-3xl border border-white/80 bg-linear-to-br from-sky-50 via-white to-amber-50 p-4 shadow-[0_24px_65px_-38px_rgba(15,35,80,0.5)] sm:p-6"
                 style={{ aspectRatio: `${active.width} / ${active.height}` }}
             >
                 <img
@@ -33,12 +33,12 @@ export function PreviewCarousel({
                     width={active.width}
                     height={active.height}
                     alt={`${title} — page ${activeIndex + 1}`}
-                    className="h-full w-full object-contain"
+                    className="h-full w-full rounded-xl object-contain shadow-sm"
                 />
             </div>
 
             {previews.length > 1 && (
-                <div className="flex gap-2">
+                <div className="flex gap-2 overflow-x-auto pb-1">
                     {previews.map((preview, index) => (
                         <button
                             key={preview.url}
@@ -46,10 +46,10 @@ export function PreviewCarousel({
                             onClick={() => setActiveIndex(index)}
                             aria-label={`Show page ${index + 1}`}
                             className={cn(
-                                'h-16 w-12 overflow-hidden rounded border',
+                                'h-20 w-14 shrink-0 overflow-hidden rounded-xl border-2 bg-white p-1 shadow-sm transition-all',
                                 index === activeIndex
-                                    ? 'border-primary'
-                                    : 'border-border',
+                                    ? 'border-primary ring-2 ring-primary/10'
+                                    : 'border-border hover:border-primary/35',
                             )}
                         >
                             <img

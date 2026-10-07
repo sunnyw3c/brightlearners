@@ -17,7 +17,7 @@ export function Pagination({
     return (
         <nav
             aria-label="Pagination"
-            className="flex items-center justify-center gap-2"
+            className="flex items-center justify-center gap-3 pt-4"
         >
             <Button
                 asChild={currentPage > 1}
@@ -32,7 +32,7 @@ export function Pagination({
                 )}
             </Button>
 
-            <span className="text-sm text-muted-foreground">
+            <span className="rounded-xl bg-white px-3 py-2 text-xs font-bold text-muted-foreground shadow-sm">
                 Page {currentPage} of {lastPage}
             </span>
 

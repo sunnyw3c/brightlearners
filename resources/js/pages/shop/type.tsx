@@ -55,24 +55,31 @@ export default function ShopType({
                 {seo.noindex && <meta name="robots" content="noindex" />}
             </Head>
 
-            <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
-                <header className="space-y-1">
-                    <h1 className="text-2xl font-semibold capitalize">
+            <div className="page-container space-y-8 py-7 sm:py-10">
+                <header className="rounded-[2rem] border border-white/80 bg-linear-to-br from-violet-50 via-blue-50 to-amber-50 p-7 shadow-[0_20px_60px_-42px_rgba(15,35,80,0.48)] sm:p-10">
+                    <p className="mb-2 text-sm font-bold text-primary">
+                        BrightLearners shop
+                    </p>
+                    <h1 className="text-3xl font-black tracking-[-0.035em] capitalize sm:text-4xl">
                         {heading}
                     </h1>
+                    <p className="mt-3 text-muted-foreground">
+                        Thoughtfully designed printable resources for focused
+                        practice at home.
+                    </p>
                 </header>
 
                 <form
                     method="get"
                     action={formAction}
-                    className="flex flex-wrap items-end gap-3 rounded-2xl border bg-card p-5 shadow-sm"
+                    className="surface-card grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.35fr_auto] lg:items-end"
                 >
-                    <label className="flex flex-col gap-1 text-sm">
+                    <label className="flex flex-col gap-2 text-xs font-bold text-foreground/70">
                         Class
                         <select
                             name="class"
                             defaultValue={filters.class ?? ''}
-                            className="rounded-md border px-2 py-1.5"
+                            className="field-control"
                         >
                             <option value="">All classes</option>
                             {filterOptions.classes.map((option) => (
@@ -83,12 +90,12 @@ export default function ShopType({
                         </select>
                     </label>
 
-                    <label className="flex flex-col gap-1 text-sm">
+                    <label className="flex flex-col gap-2 text-xs font-bold text-foreground/70">
                         Subject
                         <select
                             name="subject"
                             defaultValue={filters.subject ?? ''}
-                            className="rounded-md border px-2 py-1.5"
+                            className="field-control"
                         >
                             <option value="">All subjects</option>
                             {filterOptions.subjects.map((option) => (
@@ -99,12 +106,12 @@ export default function ShopType({
                         </select>
                     </label>
 
-                    <label className="flex flex-col gap-1 text-sm">
+                    <label className="flex flex-col gap-2 text-xs font-bold text-foreground/70">
                         Price
                         <select
                             name="price_band"
                             defaultValue={filters.price_band ?? ''}
-                            className="rounded-md border px-2 py-1.5"
+                            className="field-control"
                         >
                             <option value="">Any price</option>
                             {filterOptions.price_bands.map((band) => (
@@ -115,18 +122,20 @@ export default function ShopType({
                         </select>
                     </label>
 
-                    <label className="flex flex-col gap-1 text-sm">
+                    <label className="flex flex-col gap-2 text-xs font-bold text-foreground/70">
                         Search
                         <input
                             type="text"
                             name="q"
                             defaultValue={filters.q ?? ''}
                             placeholder="Title or description"
-                            className="rounded-md border px-2 py-1.5"
+                            className="field-control"
                         />
                     </label>
 
-                    <Button type="submit">Apply filters</Button>
+                    <Button type="submit" className="h-11">
+                        Apply filters
+                    </Button>
                     {hasActiveFilters && (
                         <Button asChild variant="ghost" type="button">
                             <a href={formAction}>Clear filters</a>
@@ -136,7 +145,10 @@ export default function ShopType({
 
                 {products.data.length > 0 ? (
                     <>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <p className="mb-5 text-sm font-bold text-foreground/70">
+                            {products.total} products
+                        </p>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                             {products.data.map((product) => (
                                 <ProductCard
                                     key={product.id}

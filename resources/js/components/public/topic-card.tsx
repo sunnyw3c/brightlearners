@@ -24,16 +24,21 @@ export function TopicCard({
     const { tint, iconTint, icon: TopicIcon } = PALETTE[index % PALETTE.length];
 
     return (
-        <Link href={topicHref(classSlug, subjectSlug, topic.slug)}>
-            <div className="flex h-full flex-col items-center gap-2 rounded-2xl border bg-card p-5 text-center shadow-sm transition-shadow hover:shadow-md">
+        <Link
+            href={topicHref(classSlug, subjectSlug, topic.slug)}
+            className="group"
+        >
+            <div className="flex h-full min-h-40 flex-col items-start gap-3 rounded-3xl border border-border/70 bg-card p-5 text-left shadow-[0_14px_38px_-30px_rgba(15,35,80,0.42)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/20 group-hover:shadow-lg">
                 <span
-                    className={`flex size-11 items-center justify-center rounded-full ${tint} ${iconTint}`}
+                    className={`flex size-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 ${tint} ${iconTint}`}
                 >
-                    <TopicIcon className="size-5" />
+                    <TopicIcon className="size-6" />
                 </span>
-                <p className="font-medium">{topic.name}</p>
+                <p className="mt-auto leading-snug font-extrabold">
+                    {topic.name}
+                </p>
                 {typeof topic.resource_count === 'number' && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs font-medium text-muted-foreground">
                         {topic.resource_count}{' '}
                         {topic.resource_count === 1 ? 'Resource' : 'Resources'}
                     </p>

@@ -44,24 +44,27 @@ export default function SubjectPage({
                 {seo.noindex && <meta name="robots" content="noindex" />}
             </Head>
 
-            <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+            <div className="page-container space-y-10 py-6 sm:py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />
 
-                <header className="space-y-2">
-                    <h1 className="text-2xl font-semibold">
+                <header className="rounded-[2rem] border border-white/80 bg-linear-to-br from-sky-100 via-blue-50 to-violet-50 p-7 shadow-[0_20px_60px_-42px_rgba(15,35,80,0.48)] sm:p-10">
+                    <p className="mb-2 text-sm font-bold text-primary">
+                        {subject.name} learning path
+                    </p>
+                    <h1 className="text-3xl font-black tracking-[-0.035em] sm:text-4xl">
                         {schoolClass.name} {subject.name}
                     </h1>
                     {intro && (
-                        <p className="max-w-2xl text-muted-foreground">
+                        <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
                             {intro}
                         </p>
                     )}
                 </header>
 
                 {topics.length > 0 && (
-                    <section className="space-y-4">
-                        <h2 className="text-xl font-semibold">Topics</h2>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <section className="space-y-5">
+                        <h2 className="section-title">Choose a topic</h2>
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                             {topics.map((topic, index) => (
                                 <TopicCard
                                     key={topic.id}
@@ -75,11 +78,11 @@ export default function SubjectPage({
                     </section>
                 )}
 
-                <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">Resources</h2>
+                <section className="space-y-5 pb-8">
+                    <h2 className="section-title">Resources</h2>
                     {resources.data.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                                 {resources.data.map((resource) => (
                                     <ResourceCard
                                         key={resource.id}

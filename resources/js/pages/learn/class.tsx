@@ -1,11 +1,12 @@
-import { Head } from '@inertiajs/react';
-import { BookOpen } from 'lucide-react';
+import { Head, Link } from '@inertiajs/react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { EmptyState } from '@/components/public/empty-state';
 import { ResourceCard } from '@/components/public/resource-card';
 import { SubjectChips } from '@/components/public/subject-chips';
 import { TopicCard } from '@/components/public/topic-card';
 import PublicLayout from '@/layouts/public-layout';
+import { index as freeIndex } from '@/routes/free';
 import type {
     BreadcrumbData,
     ResourceCardData,
@@ -53,23 +54,32 @@ export default function ClassPage({
                 {seo.noindex && <meta name="robots" content="noindex" />}
             </Head>
 
-            <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+            <div className="page-container space-y-10 py-6 sm:py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />
 
-                <header className="flex flex-col items-center gap-6 rounded-3xl bg-linear-to-br from-primary/10 via-highlight/10 to-warm/5 p-8 sm:flex-row sm:justify-between">
-                    <div className="space-y-2 text-center sm:text-left">
-                        <h1 className="text-3xl font-bold">
+                <header className="relative isolate flex min-h-60 flex-col justify-center overflow-hidden rounded-2xl bg-[#edf9ff] p-7 sm:p-10">
+                    <img
+                        src="/images/class-learning-banner.webp"
+                        width={1600}
+                        height={667}
+                        alt="A young learner reading a book"
+                        className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-r from-[#edf9ff] via-[#edf9ff]/95 to-transparent sm:via-[#edf9ff]/80 lg:via-[#edf9ff]/40" />
+                    <div className="relative max-w-3xl space-y-3 pr-0 sm:pr-56">
+                        <span className="eyebrow">
+                            <Sparkles className="size-3.5" /> Curated practice
+                            for young learners
+                        </span>
+                        <h1 className="text-3xl font-black tracking-[-0.035em] sm:text-4xl">
                             {schoolClass.name} Learning Resources
                         </h1>
                         {schoolClass.intro && (
-                            <p className="max-w-2xl text-muted-foreground">
+                            <p className="max-w-2xl leading-7 text-foreground/60">
                                 {schoolClass.intro}
                             </p>
                         )}
                     </div>
-                    <span className="flex size-20 shrink-0 items-center justify-center rounded-full bg-card shadow-sm">
-                        <BookOpen className="size-9 text-primary/70" />
-                    </span>
                 </header>
 
                 <SubjectChips
@@ -78,11 +88,18 @@ export default function ClassPage({
                 />
 
                 {popularTopics.length > 0 && (
-                    <section className="space-y-4">
-                        <h2 className="text-xl font-semibold">
-                            Popular Topics
-                        </h2>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <section className="space-y-5">
+                        <div className="flex items-end justify-between gap-4">
+                            <div>
+                                <p className="mb-1 text-sm font-bold text-primary">
+                                    Choose a skill area
+                                </p>
+                                <h2 className="section-title">
+                                    Popular Topics
+                                </h2>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
                             {popularTopics.map((topic, index) => {
                                 const subject = subjects.find(
                                     (candidate) =>
@@ -103,12 +120,25 @@ export default function ClassPage({
                     </section>
                 )}
 
-                <section className="space-y-4">
-                    <h2 className="text-xl font-semibold">
-                        Featured Free Resources
-                    </h2>
+                <section className="space-y-5 pb-8">
+                    <div className="flex items-end justify-between gap-4">
+                        <div>
+                            <p className="mb-1 text-sm font-bold text-success">
+                                Print. Practise. Progress.
+                            </p>
+                            <h2 className="section-title">
+                                Featured Free Resources
+                            </h2>
+                        </div>
+                        <Link
+                            href={freeIndex()}
+                            className="hidden items-center gap-1 text-sm font-bold text-primary hover:gap-2 sm:inline-flex"
+                        >
+                            View all <ArrowRight className="size-4" />
+                        </Link>
+                    </div>
                     {featuredResources.length > 0 ? (
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {featuredResources.map((resource) => (
                                 <ResourceCard
                                     key={resource.id}

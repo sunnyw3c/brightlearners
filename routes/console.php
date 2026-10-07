@@ -12,3 +12,4 @@ Schedule::command('foundation:heartbeat')->everyMinute();
 Schedule::command('queue:prune-failed', ['--hours' => 336])->daily()->onOneServer();
 Schedule::command('resources:publish-scheduled')->everyFiveMinutes()->onOneServer();
 Schedule::command('products:publish-scheduled')->everyFiveMinutes()->onOneServer();
+Schedule::command('orders:expire-pending')->everyFiveMinutes()->onOneServer();

@@ -3,10 +3,16 @@
 namespace App\Providers;
 
 use App\Domains\Accounts\Listeners\CreateNotificationPreferencesForNewUser;
+use App\Domains\Commerce\Listeners\MergeGuestCart;
 use App\Domains\Content\Events\ResourceVersionUploaded;
 use App\Domains\Content\Listeners\QueueResourcePreviewGeneration;
+use App\Domains\Membership\Contracts\MembershipChecker;
+use App\Domains\Membership\Services\NullMembershipChecker;
+use App\Domains\Payments\Contracts\PaymentGateway;
+use App\Domains\Payments\Gateways\FakeGateway;
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -23,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(MembershipChecker::class, NullMembershipChecker::class);
+        $this->app->bind(PaymentGateway::class, FakeGateway::class);
     }
 
     /**
@@ -68,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
     protected function configureEventListeners(): void
     {
         Event::listen(Registered::class, CreateNotificationPreferencesForNewUser::class);
+        Event::listen(Login::class, MergeGuestCart::class);
         Event::listen(ResourceVersionUploaded::class, QueueResourcePreviewGeneration::class);
     }
 }

@@ -47,68 +47,79 @@ export default function LearnIndex({ classes, breadcrumbs, seo }: Props) {
                 <link rel="canonical" href={seo.canonical} />
             </Head>
 
-            <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+            <div className="page-container space-y-9 py-7 sm:py-10">
                 <PublicBreadcrumbs items={breadcrumbs} />
 
-                <header className="space-y-1">
-                    <h1 className="text-2xl font-semibold">
+                <header className="rounded-[2rem] border border-white/80 bg-linear-to-br from-blue-50 via-white to-amber-50 p-7 shadow-[0_20px_60px_-42px_rgba(15,35,80,0.48)] sm:p-10">
+                    <p className="mb-2 text-sm font-bold text-primary">
+                        Curriculum explorer
+                    </p>
+                    <h1 className="text-3xl font-black tracking-[-0.035em] sm:text-4xl">
                         Browse what every class learns
                     </h1>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="mt-3 text-muted-foreground">
                         Subjects, topics and skills for Class 1 to Class 3.
                     </p>
                 </header>
 
-                {classes.map((schoolClass) => (
-                    <section key={schoolClass.id} className="space-y-4">
-                        <h2 className="text-lg font-semibold">
-                            <Link href={classHref(schoolClass.slug)}>
-                                {schoolClass.name}
-                            </Link>
-                        </h2>
+                <div className="grid gap-6 lg:grid-cols-3">
+                    {classes.map((schoolClass) => (
+                        <section
+                            key={schoolClass.id}
+                            className="surface-card space-y-5 p-6"
+                        >
+                            <h2 className="text-xl font-black text-primary">
+                                <Link href={classHref(schoolClass.slug)}>
+                                    {schoolClass.name}
+                                </Link>
+                            </h2>
 
-                        {schoolClass.subjects.map((subject) => (
-                            <div key={subject.id} className="space-y-2 pl-4">
-                                <h3 className="font-medium">
-                                    <Link
-                                        href={subjectHref(
-                                            schoolClass.slug,
-                                            subject.slug,
-                                        )}
-                                    >
-                                        {subject.name}
-                                    </Link>
-                                </h3>
+                            {schoolClass.subjects.map((subject) => (
+                                <div
+                                    key={subject.id}
+                                    className="space-y-3 border-t border-border/70 pt-4"
+                                >
+                                    <h3 className="font-extrabold">
+                                        <Link
+                                            href={subjectHref(
+                                                schoolClass.slug,
+                                                subject.slug,
+                                            )}
+                                        >
+                                            {subject.name}
+                                        </Link>
+                                    </h3>
 
-                                {subject.topics.map((topic) => (
-                                    <div
-                                        key={topic.id}
-                                        className="space-y-1 pl-4"
-                                    >
-                                        <h4 className="text-sm font-medium text-muted-foreground">
-                                            <Link
-                                                href={topicHref(
-                                                    schoolClass.slug,
-                                                    subject.slug,
-                                                    topic.slug,
-                                                )}
-                                            >
-                                                {topic.name}
-                                            </Link>
-                                        </h4>
-                                        <ul className="list-disc space-y-1 pl-6 text-sm">
-                                            {topic.skills.map((skill) => (
-                                                <li key={skill.id}>
-                                                    {skill.name}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </section>
-                ))}
+                                    {subject.topics.map((topic) => (
+                                        <div
+                                            key={topic.id}
+                                            className="space-y-2 rounded-xl bg-muted/35 p-3"
+                                        >
+                                            <h4 className="text-sm font-bold text-foreground/70">
+                                                <Link
+                                                    href={topicHref(
+                                                        schoolClass.slug,
+                                                        subject.slug,
+                                                        topic.slug,
+                                                    )}
+                                                >
+                                                    {topic.name}
+                                                </Link>
+                                            </h4>
+                                            <ul className="list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+                                                {topic.skills.map((skill) => (
+                                                    <li key={skill.id}>
+                                                        {skill.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </section>
+                    ))}
+                </div>
             </div>
         </PublicLayout>
     );

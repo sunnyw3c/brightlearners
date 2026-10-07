@@ -17,7 +17,7 @@ export function PublicBreadcrumbs({ items }: { items: BreadcrumbData[] }) {
 
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+            <BreadcrumbList className="text-xs font-medium text-muted-foreground">
                 {items.map((item, index) => {
                     const isLast = index === items.length - 1;
 

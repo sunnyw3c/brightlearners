@@ -20,7 +20,7 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-02 | Phase 4 | Object storage provider, bucket and CDN strategy | An S3-compatible private bucket for files and a public bucket behind a CDN for previews | Open | | | |
 | D-03 | Phase 5 | Do free downloads need a login or email, or stay frictionless with optional sign-up? | Frictionless, with an optional email box | Default in use | | | |
 | D-04 | Phase 6 | Exact launch SKUs; which products are member-discount eligible; does the 15% member discount stay in the pilot? | Fill the table in [../reference/commercial-config.md](../reference/commercial-config.md) | Open | | | |
-| D-05 | Phase 7 | GST / tax / invoice treatment, from a qualified adviser | Tax fields reserved and set to zero until confirmed | Open | | | |
+| D-05 | Phase 7 | GST / tax / invoice treatment, from a qualified adviser | Tax fields reserved and set to zero until confirmed | Decided | Reserve tax fields and charge zero tax until a qualified adviser confirms the treatment. | Product owner | 2026-10-07 |
 | D-06 | Phase 8 | Razorpay account ownership, settlement details and refund permissions | — | Open | | | |
 | D-07 | Phase 9 | Can an expired member re-download packs released during their membership? | No re-download after expiry; files already downloaded stay usable | Open | | | |
 | D-08 | Phase 10 | Pilot start date and the exact class / programme release calendar | One fixed weekly release day and time for all classes | Open | | | |
@@ -31,7 +31,7 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-13 | Phase 2 | What may a parent do before verifying their email? | Browse and download free resources; verify before checkout, library and dashboard | Default in use | | | |
 | D-14 | Phase 8, 9 | Refund policy: are partial refunds supported, and what does a refund do to access? | Full refunds only during the pilot; a full refund revokes that order's access | Open | | | |
 | D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Default in use | | | |
-| D-16 | Phase 7 | Does a coupon stack with the member discount? | Yes, in the order sale price → member discount → coupon; no coupon may bring the total to zero | Open | | | |
+| D-16 | Phase 7 | Does a coupon stack with the member discount? | Yes, in the order sale price → member discount → coupon; no coupon may bring the total to zero | Decided | Coupons stack after the member discount; no coupon may reduce an order total to zero. | Product owner | 2026-10-07 |
 | D-17 | Phase 10 | What happens when a current member tries to buy membership again? | Blocked while a membership is active | Open | | | |
 
 ## Mockup against plan

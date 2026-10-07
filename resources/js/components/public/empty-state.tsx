@@ -11,11 +11,11 @@ export function EmptyState({
     action?: ReactNode;
 }) {
     return (
-        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed bg-muted/20 p-12 text-center">
-            <span className="flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <SearchX className="size-5" />
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-primary/20 bg-white/65 p-12 text-center shadow-sm">
+            <span className="flex size-14 items-center justify-center rounded-2xl bg-primary/8 text-primary">
+                <SearchX className="size-6" />
             </span>
-            <p className="text-base font-semibold">{title}</p>
+            <p className="text-lg font-extrabold">{title}</p>
             {description && (
                 <p className="max-w-md text-sm text-muted-foreground">
                     {description}
