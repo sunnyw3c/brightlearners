@@ -1,4 +1,12 @@
 import { Head } from '@inertiajs/react';
+import {
+    BookMarked,
+    BookOpen,
+    CalendarCheck,
+    Hash,
+    Package,
+    RotateCcw,
+} from 'lucide-react';
 import { EmptyState } from '@/components/public/empty-state';
 import { Pagination } from '@/components/public/pagination';
 import { ProductCard } from '@/components/public/product-card';
@@ -6,6 +14,15 @@ import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
 import { type as shopTypeRoute } from '@/routes/shop';
 import type { Paginated, ProductCardData, SeoProps } from '@/types/public';
+
+const TYPE_ICONS: Record<string, typeof BookOpen> = {
+    'topic-packs': Hash,
+    workbooks: BookOpen,
+    ebooks: BookMarked,
+    'holiday-packs': CalendarCheck,
+    'revision-packs': RotateCcw,
+    bundles: Package,
+};
 
 type FilterOption = { id: number; name: string; slug: string };
 
@@ -46,6 +63,7 @@ export default function ShopType({
         (value) => value !== null && value !== '',
     );
     const formAction = shopTypeRoute({ type: typeSegment }).url;
+    const TypeIcon = TYPE_ICONS[typeSegment] ?? BookOpen;
 
     return (
         <PublicLayout>
@@ -56,10 +74,11 @@ export default function ShopType({
             </Head>
 
             <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
-                <header className="space-y-1">
-                    <h1 className="text-2xl font-semibold capitalize">
-                        {heading}
-                    </h1>
+                <header className="flex items-center gap-6 rounded-3xl bg-linear-to-br from-violet-500/10 via-primary/10 to-highlight/10 p-8">
+                    <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-card shadow-sm">
+                        <TypeIcon className="size-7 text-primary/70" />
+                    </span>
+                    <h1 className="text-3xl font-bold capitalize">{heading}</h1>
                 </header>
 
                 <form

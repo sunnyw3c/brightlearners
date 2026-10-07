@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react';
+import { Shapes } from 'lucide-react';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { EmptyState } from '@/components/public/empty-state';
 import { Pagination } from '@/components/public/pagination';
@@ -49,15 +50,20 @@ export default function TopicPage({
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />
 
-                <header className="space-y-2">
-                    <h1 className="text-2xl font-semibold">
-                        {schoolClass.name} {subject.name}: {topic.name}
-                    </h1>
-                    {intro && (
-                        <p className="max-w-2xl text-muted-foreground">
-                            {intro}
-                        </p>
-                    )}
+                <header className="flex flex-col items-center gap-6 rounded-3xl bg-linear-to-br from-primary/10 via-highlight/10 to-warm/5 p-8 sm:flex-row sm:justify-between">
+                    <div className="space-y-2 text-center sm:text-left">
+                        <h1 className="text-3xl font-bold">
+                            {schoolClass.name} {subject.name}: {topic.name}
+                        </h1>
+                        {intro && (
+                            <p className="max-w-2xl text-muted-foreground">
+                                {intro}
+                            </p>
+                        )}
+                    </div>
+                    <span className="flex size-20 shrink-0 items-center justify-center rounded-full bg-card shadow-sm">
+                        <Shapes className="size-9 text-primary/70" />
+                    </span>
                 </header>
 
                 {skills.length > 0 && (
@@ -69,7 +75,7 @@ export default function TopicPage({
                             {skills.map((skill) => (
                                 <li
                                     key={skill.id}
-                                    className="rounded-full border px-3 py-1 text-sm"
+                                    className="rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
                                 >
                                     {skill.name}
                                 </li>
