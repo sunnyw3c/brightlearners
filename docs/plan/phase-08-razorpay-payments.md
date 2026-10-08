@@ -39,34 +39,34 @@ Read them through `config/services.php` (`services.razorpay.*`). Only the key ID
 
 ## Build steps
 
-- [ ] **8.1** Create the internal order first, then create the Razorpay Order from its authoritative total.
+- [x] **8.1** Create the internal order first, then create the Razorpay Order from its authoritative total.
   - `App\Domains\Payments\Gateways\RazorpayGateway` implements the `PaymentGateway` contract from Phase 7.
   - `CreateRazorpayOrder` sends the amount in paise, currency `INR` and the internal order number as the receipt.
 
-- [ ] **8.2** Store the gateway order ID against the internal order, in a `payments` row with status `created`. If the pending order already has a Razorpay order, reuse it.
+- [x] **8.2** Store the gateway order ID against the internal order, in a `payments` row with status `created`. If the pending order already has a Razorpay order, reuse it.
 
-- [ ] **8.3** Open Razorpay Checkout with the public key only. The secret never leaves the server. Load Razorpay's checkout script only on the payment page, and only in the browser (not during SSR).
+- [x] **8.3** Open Razorpay Checkout with the public key only. The secret never leaves the server. Load Razorpay's checkout script only on the payment page, and only in the browser (not during SSR).
 
-- [ ] **8.4** Verify the payment signature on the server when the browser calls back.
+- [x] **8.4** Verify the payment signature on the server when the browser calls back.
   - `VerifyRazorpayCallback` checks the signature with the SDK's utility, then fetches the payment from Razorpay and confirms it is captured and that amount and currency equal the internal order.
   - Only then does it call `MarkOrderPaid`.
 
-- [ ] **8.5** Receive webhooks and verify the HMAC signature using the raw request body and the webhook secret.
+- [x] **8.5** Receive webhooks and verify the HMAC signature using the raw request body and the webhook secret.
   - Use `$request->getContent()`. Do not re-encode parsed JSON.
   - Exclude `webhooks/*` from CSRF protection in `bootstrap/app.php` (`preventRequestForgery(except: [...])` in this Laravel version; confirm with `search-docs`).
   - An invalid signature returns 400 and is recorded with `signature_valid = false`.
 
-- [ ] **8.6** Save the `webhook_events` row before any side-effect, and make processing idempotent.
+- [x] **8.6** Save the `webhook_events` row before any side-effect, and make processing idempotent.
   - The event ID from Razorpay's header is stored with a unique index on `(provider, event_id)`. A second delivery fails the insert and is answered with 200 straight away.
   - The controller only stores the event and dispatches `ProcessRazorpayWebhook` on the `payments` queue.
 
-- [ ] **8.7** Treat webhook or provider verification as the final reconciliation, even when the browser callback never arrives. The callback and the webhook both end in the same `MarkOrderPaid` action, in either order.
+- [x] **8.7** Treat webhook or provider verification as the final reconciliation, even when the browser callback never arrives. The callback and the webhook both end in the same `MarkOrderPaid` action, in either order.
 
-- [ ] **8.8** Record payment method, status and provider payload safely.
+- [x] **8.8** Record payment method, status and provider payload safely.
   - The stored payload is encrypted.
   - Secrets, signatures and full payloads are never written to the log.
 
-- [ ] **8.9** Protect against duplicate events, and wrap mark-paid and the entitlement trigger in a transaction.
+- [x] **8.9** Protect against duplicate events, and wrap mark-paid and the entitlement trigger in a transaction.
 
   `MarkOrderPaid`:
   1. opens a transaction and locks the order row;
@@ -75,17 +75,17 @@ Read them through `config/services.php` (`services.razorpay.*`). Only the key ID
   4. moves the order to `paid` through `TransitionOrder`, updates the payment to `captured`, sets `paid_at`;
   5. dispatches `OrderPaid` after the transaction commits.
 
-- [ ] **8.10** Implement the full and partial refund record model, if the business supports partial refunds (D-14), and keep it in step with the gateway.
+- [x] **8.10** Implement the full and partial refund record model, if the business supports partial refunds (D-14), and keep it in step with the gateway.
   - A Filament action on the payment, guarded by `refunds.issue`. The amount cannot exceed what remains.
   - The `refunds` row starts as `pending`. The refund webhook moves it to `processed` and fires `RefundCompleted`.
   - The order becomes `refunded` or `partially_refunded`.
 
-- [ ] **8.11** Create the reconciliation command for pending orders with an unclear browser outcome.
+- [x] **8.11** Create the reconciliation command for pending orders with an unclear browser outcome.
   - `payments:reconcile`, scheduled every 10 minutes.
   - For each pending order older than a few minutes that has a Razorpay order, ask Razorpay for its payments and call `MarkOrderPaid` or mark it failed.
   - `orders:expire-pending` from Phase 7 runs after this and skips anything reconciliation is still handling.
 
-- [ ] **8.12** Build the customer-facing success, pending and failed states. Never show success before the server has confirmed it.
+- [x] **8.12** Build the customer-facing success, pending and failed states. Never show success before the server has confirmed it.
   - The success page reads the order status from the server. While the order is still pending it shows "confirming your payment" and re-checks every few seconds.
   - A failed payment offers a retry on the same order.
 
@@ -146,10 +146,10 @@ All in `tests/Feature/Payments/`. Fake the Razorpay HTTP calls; sign test webhoo
 
 ## Exit checklist
 
-- [ ] No payment path can create duplicate entitlements or complete an order twice.
-- [ ] A paid order can be recovered when the browser callback never returns.
-- [ ] Support can tell failed, pending and paid apart.
-- [ ] The Razorpay secrets are absent from `public/build` and from the logs.
+- [x] No payment path can create duplicate entitlements or complete an order twice.
+- [x] A paid order can be recovered when the browser callback never returns.
+- [x] Support can tell failed, pending and paid apart.
+- [x] The Razorpay secrets are absent from `public/build` and from the logs.
 
 ## Risks and controls
 

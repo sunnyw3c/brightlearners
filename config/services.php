@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'razorpay' => [
+        'key_id' => env('RAZORPAY_KEY_ID', 'rzp_test_key_id'),
+        'key_secret' => env('RAZORPAY_KEY_SECRET', 'rzp_test_key_secret'),
+        'webhook_secret' => env('RAZORPAY_WEBHOOK_SECRET', 'rzp_test_webhook_secret'),
+    ],
+
 ];

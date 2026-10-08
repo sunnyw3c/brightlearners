@@ -2,11 +2,23 @@
 
 namespace App\Providers;
 
+use App\Domains\Access\Events\ResourceDownloaded;
+use App\Domains\Access\Listeners\GrantEntitlementsOnOrderPaid;
+use App\Domains\Access\Listeners\RecordResourceDownload;
+use App\Domains\Access\Listeners\RevokeEntitlementsOnRefund;
 use App\Domains\Accounts\Listeners\CreateNotificationPreferencesForNewUser;
+use App\Domains\Commerce\Listeners\MergeGuestCartOnLogin;
 use App\Domains\Content\Events\ResourceVersionUploaded;
 use App\Domains\Content\Listeners\QueueResourcePreviewGeneration;
+use App\Domains\Membership\Contracts\MembershipChecker;
+use App\Domains\Membership\Services\DefaultMembershipChecker;
+use App\Domains\Payments\Contracts\PaymentGateway;
+use App\Domains\Payments\Events\OrderPaid;
+use App\Domains\Payments\Events\RefundCompleted;
+use App\Domains\Payments\Gateways\RazorpayGateway;
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -23,7 +35,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(MembershipChecker::class, DefaultMembershipChecker::class);
+        $this->app->bind(PaymentGateway::class, RazorpayGateway::class);
     }
 
     /**
@@ -69,5 +82,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(Registered::class, CreateNotificationPreferencesForNewUser::class);
         Event::listen(ResourceVersionUploaded::class, QueueResourcePreviewGeneration::class);
+        Event::listen(Login::class, MergeGuestCartOnLogin::class);
+        Event::listen(OrderPaid::class, GrantEntitlementsOnOrderPaid::class);
+        Event::listen(RefundCompleted::class, RevokeEntitlementsOnRefund::class);
+        Event::listen(ResourceDownloaded::class, RecordResourceDownload::class);
     }
 }

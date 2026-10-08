@@ -45,15 +45,15 @@ Add `config/commerce.php` for order expiry minutes, tax settings and the order-n
 
 ## Build steps
 
-- [ ] **7.1** Create carts and cart items. Keep a guest cart through a secure identifier and merge it on login.
+- [x] **7.1** Create carts and cart items. Keep a guest cart through a secure identifier and merge it on login.
   - A guest cart is found by `carts.token`, a random UUID in an encrypted, HTTP-only cookie.
   - `App\Domains\Commerce\Services\CartManager` returns the current cart for a guest or a user.
   - A listener on the `Login` event merges the guest cart into the user's cart. The same product is never added twice.
   - The cart can be used without an account. Checkout requires login, because a purchase needs a library to land in.
 
-- [ ] **7.2** Reload product availability and price on the server before checkout, every time. A product that is no longer `active` is removed from the cart with a message.
+- [x] **7.2** Reload product availability and price on the server before checkout, every time. A product that is no longer `active` is removed from the cart with a message.
 
-- [ ] **7.3** Implement the pricing service. It applies the public sale price, the member discount and an approved coupon in a fixed order:
+- [x] **7.3** Implement the pricing service. It applies the public sale price, the member discount and an approved coupon in a fixed order:
 
   1. Line price = `ProductPrice::for($product)` (sale price if its window is open, otherwise regular).
   2. Member discount on lines whose product is eligible, if the buyer has an active membership. Until Phase 10 this reads a `MembershipChecker` contract that always answers "no".
@@ -63,19 +63,19 @@ Add `config/commerce.php` for order expiry minutes, tax settings and the order-n
 
   `PricingService` returns a `PriceBreakdown` object: lines, subtotal, discount, tax, total. The cart page, the checkout page and `CreateCartOrder` all use this one object.
 
-- [ ] **7.4** Represent money consistently. Percent discounts use integer arithmetic and one rounding rule (round half up). A discount is spread across lines so that the line totals add up exactly to the order total.
+- [x] **7.4** Represent money consistently. Percent discounts use integer arithmetic and one rounding rule (round half up). A discount is spread across lines so that the line totals add up exactly to the order total.
 
-- [ ] **7.5** Create coupons with code, type, value, minimum order, schedule, maximum uses and a per-user limit.
+- [x] **7.5** Create coupons with code, type, value, minimum order, schedule, maximum uses and a per-user limit.
   - `ApplyCoupon` checks active, date window, minimum order, total uses and uses by this user.
   - The usage limit is checked again inside the order transaction with the coupon row locked (`lockForUpdate`), so two simultaneous checkouts cannot both take the last use.
   - Do not allow a coupon that makes the total zero during the pilot. Razorpay cannot take a zero payment.
 
-- [ ] **7.6** Create the order from the validated cart, and snapshot product name, SKU and type, unit price, discount, tax and final total on each order item.
+- [x] **7.6** Create the order from the validated cart, and snapshot product name, SKU and type, unit price, discount, tax and final total on each order item.
   - `CreateCartOrder` runs in one database transaction: re-price, re-validate, lock the coupon, write the order and items, write the coupon usage, set `pending_payment`.
   - If the user already has an unexpired pending order for the same cart contents, return that order instead of creating another. This is what makes a double click safe.
   - Order number format: prefix + year + padded sequence, e.g. `BL-2026-000123`.
 
-- [ ] **7.7** Define the states: `draft`, `pending_payment`, `paid`, `failed`, `cancelled`, `refunded`, `partially_refunded`.
+- [x] **7.7** Define the states: `draft`, `pending_payment`, `paid`, `failed`, `cancelled`, `refunded`, `partially_refunded`.
 
   | From | Allowed next |
   |---|---|
@@ -88,16 +88,16 @@ Add `config/commerce.php` for order expiry minutes, tax settings and the order-n
 
   `TransitionOrder` is the only code that changes `orders.status`. It throws on a move that is not in the table.
 
-- [ ] **7.8** Make sure a later product price change does not alter a historical order. Order pages read only `orders` and `order_items`.
+- [x] **7.8** Make sure a later product price change does not alter a historical order. Order pages read only `orders` and `order_items`.
 
-- [ ] **7.9** Reserve the invoice and tax fields: `tax` on orders and items, `billing_state`, `gstin`, `invoice_number`. Do not finalise GST behaviour until the accountant confirms classification and invoice requirements (D-05).
+- [x] **7.9** Reserve the invoice and tax fields: `tax` on orders and items, `billing_state`, `gstin`, `invoice_number`. Do not finalise GST behaviour until the accountant confirms classification and invoice requirements (D-05).
 
-- [ ] **7.10** Create the checkout screen with minimal fields and clear digital-delivery, licence and refund terms.
+- [x] **7.10** Create the checkout screen with minimal fields and clear digital-delivery, licence and refund terms.
   - Fields: billing name, email (pre-filled), optional phone.
   - A required checkbox accepts the licence and refund terms, with links.
   - Every amount shown comes from `PriceBreakdown`.
 
-- [ ] **7.11** Create the cleanup for abandoned pending orders.
+- [x] **7.11** Create the cleanup for abandoned pending orders.
   - Command `orders:expire-pending`, scheduled every 5 minutes.
   - A pending order past `expires_at` becomes `cancelled`, its coupon usage is released, and `OrderExpired` fires.
   - From Phase 8 onward, an order with a payment still being reconciled is skipped.
@@ -158,8 +158,9 @@ Navigation group: Commerce. In the mockup this is the "Orders" menu item.
 
 ## Exit checklist
 
-- [ ] A complete checkout reaches `pending_payment` with correct totals using the fake payment adapter.
-- [ ] Every amount shown in checkout equals the order total produced by the pricing service.
+- [x] A complete checkout reaches `pending_payment` with correct totals using the fake payment adapter.
+- [x] Every amount shown in checkout equals the order total produced by the pricing service.
+
 
 ## Risks and controls
 

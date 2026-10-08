@@ -33,17 +33,18 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P6-02 | [6 Products](../plan/phase-06-product-catalogue.md) | Product pages | 6.6, 6.7, 6.8, 6.10 | Done (6.10's mechanism is built; the two flagship ebooks themselves await Phase 16 content/QA) |
 | P6-03 | [6 Products](../plan/phase-06-product-catalogue.md) | Shop filters | 6.11 | Done |
 | P6-04 | [6 Products](../plan/phase-06-product-catalogue.md) | Member-discount flag | 6.9 | Done |
-| P7-01 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Cart | 7.1, 7.2 | Not started |
-| P7-02 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Pricing service | 7.3, 7.4 | Not started |
-| P7-03 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Coupons | 7.5 | Not started |
-| P7-04 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Orders / state machine | 7.6–7.11 | Not started |
-| P8-01 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Razorpay order / callback | 8.1–8.4, 8.12 | Not started |
-| P8-02 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Webhook idempotency | 8.5–8.9 | Not started |
-| P8-03 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Refund / reconciliation | 8.10, 8.11 | Not started |
-| P9-01 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Entitlements | 9.1–9.5, 9.10, 9.11 | Not started |
-| P9-02 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Signed downloads | 9.6 | Not started |
-| P9-03 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Library | 9.8, 9.9 | Not started |
-| P9-04 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Download audit | 9.7 | Not started |
+| P7-01 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Cart | 7.1, 7.2 | Done |
+| P7-02 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Pricing service | 7.3, 7.4 | Done |
+| P7-03 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Coupons | 7.5 | Done |
+| P7-04 | [7 Cart & orders](../plan/phase-07-cart-pricing-orders.md) | Orders / state machine | 7.6–7.11 | Done |
+
+| P8-01 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Razorpay order / callback | 8.1–8.4, 8.12 | Done |
+| P8-02 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Webhook idempotency | 8.5–8.9 | Done |
+| P8-03 | [8 Payments](../plan/phase-08-razorpay-payments.md) | Refund / reconciliation | 8.10, 8.11 | Done |
+| P9-01 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Entitlements | 9.1–9.5, 9.10, 9.11 | Done |
+| P9-02 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Signed downloads | 9.6 | Done |
+| P9-03 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Library | 9.8, 9.9 | Done |
+| P9-04 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Download audit | 9.7 | Done |
 | P10-01 | [10 Membership](../plan/phase-10-membership-programme.md) | Plans / subscriptions | 10.1, 10.7, 10.8 | Not started |
 | P10-02 | [10 Membership](../plan/phase-10-membership-programme.md) | 90-day pilot | 10.2, 10.6 | Not started |
 | P10-03 | [10 Membership](../plan/phase-10-membership-programme.md) | Programmes / weeks / items | 10.3, 10.4, 10.9, 10.10 | Not started |

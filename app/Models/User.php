@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Domains\Accounts\Enums\UserStatus;
 use App\Domains\Accounts\Models\LearningProfile;
 use App\Domains\Accounts\Models\NotificationPreference;
+use App\Domains\Commerce\Models\Order;
 use Database\Factories\UserFactory;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
@@ -91,6 +92,14 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     public function notificationPreference(): HasOne
     {
         return $this->hasOne(NotificationPreference::class);
+    }
+
+    /**
+     * @return HasMany<Order, $this>
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 
     /**

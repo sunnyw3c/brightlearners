@@ -36,18 +36,18 @@ php artisan make:listener App/Domains/Access/Listeners/GrantEntitlementsOnOrderP
 
 ## Build steps
 
-- [ ] **9.1** Create entitlements as the single source of access truth: user (and optional profile), resource, source type and ID, start, end and revoked timestamps.
+- [x] **9.1** Create entitlements as the single source of access truth: user (and optional profile), resource, source type and ID, start, end and revoked timestamps.
 
-- [ ] **9.2** On `OrderPaid`, expand each purchased product or bundle into resource entitlements, inside a transaction.
+- [x] **9.2** On `OrderPaid`, expand each purchased product or bundle into resource entitlements, inside a transaction.
   - Use `Product::deliverableResources()` from Phase 6.
   - `source_type = order_item`, `source_id` = the order item.
   - Insert with "ignore if it exists", relying on the unique index `(user_id, resource_id, source_type, source_id)`. Running the listener twice creates nothing new.
 
-- [ ] **9.3** A one-time purchase entitlement does not expire: `ends_at` is null. It ends only by refund or revocation under the policy.
+- [x] **9.3** A one-time purchase entitlement does not expire: `ends_at` is null. It ends only by refund or revocation under the policy.
 
-- [ ] **9.4** Free resources bypass entitlements through the explicit `resources.is_free` flag. No rows are written for free access.
+- [x] **9.4** Free resources bypass entitlements through the explicit `resources.is_free` flag. No rows are written for free access.
 
-- [ ] **9.5** Implement `AccessService::canAccess($user, $resource)` and use it everywhere.
+- [x] **9.5** Implement `AccessService::canAccess($user, $resource)` and use it everywhere.
 
   It returns an `AccessDecision` (`allowed`, `source`, `entitlement`, `reason`). The rules, in order:
 
@@ -63,28 +63,28 @@ php artisan make:listener App/Domains/Access/Listeners/GrantEntitlementsOnOrderP
 
   Nothing else in the codebase decides access. Library queries, the download controller, progress updates and the support "why" screen all call this service.
 
-- [ ] **9.6** Generate a short-lived signed URL only after the access check. Never expose the private storage key as a permanent public URL.
+- [x] **9.6** Generate a short-lived signed URL only after the access check. Never expose the private storage key as a permanent public URL.
   - `GenerateSignedDownload` takes an allowed `AccessDecision`, the resource and the variant (colour, low-ink, answer key), and returns `Storage::disk('resources')->temporaryUrl(...)`.
   - Lifetime comes from config (suggested 5 minutes).
   - The download filename includes the version.
   - It is the only class that calls `temporaryUrl` on the `resources` disk.
 
-- [ ] **9.7** Log every download and the version delivered, in `downloads`, from a listener on `ResourceDownloaded` (the event Phase 5 already fires).
+- [x] **9.7** Log every download and the version delivered, in `downloads`, from a listener on `ResourceDownloaded` (the event Phase 5 already fires).
 
-- [ ] **9.8** Build `/account/library` with Purchased, Membership, Free and Completed tabs or filters.
+- [x] **9.8** Build `/account/library` with Purchased, Membership, Free and Completed tabs or filters.
   - Purchased: resources with a live entitlement.
   - Membership: empty until Phase 10.
   - Free: free resources this user has downloaded.
   - Completed: arrives with progress in Phase 11.
   - In the mockup this is "Downloads" in the dashboard sidebar and the "Recent Downloads" list.
 
-- [ ] **9.9** Show the current resource version, and a correction notice when a material update exists after the version the user last downloaded.
+- [x] **9.9** Show the current resource version, and a correction notice when a material update exists after the version the user last downloaded.
 
-- [ ] **9.10** Handle refund revocation according to D-14, without deleting audit history.
+- [x] **9.10** Handle refund revocation according to D-14, without deleting audit history.
   - `ReviewOrRevokeEntitlements` listens to `RefundCompleted`. A full refund sets `revoked_at` on that order's entitlements. A partial refund follows the policy.
   - Rows are never deleted.
 
-- [ ] **9.11** Define the membership post-expiry rule precisely and encode it in the membership rule.
+- [x] **9.11** Define the membership post-expiry rule precisely and encode it in the membership rule.
   - Fixed: files already downloaded stay legally usable; new downloads and online member content stop when membership ends.
   - Still to decide (D-07): can an expired member re-download packs that were released while they were a member? Write the answer into config (`membership.redownload_after_expiry`) so the rule in Phase 10 reads it.
 
@@ -139,9 +139,9 @@ Complete `AffectedCustomers` from Phase 4 so it returns real users.
 
 ## Exit checklist
 
-- [ ] One paid test order appears in My Library and downloads through a temporary URL.
-- [ ] Every download controller calls the central access service.
-- [ ] No paid PDF exists under the public web root. Add a CI check that fails if a PDF appears in `public/`.
+- [x] One paid test order appears in My Library and downloads through a temporary URL.
+- [x] Every download controller calls the central access service.
+- [x] No paid PDF exists under the public web root. Add a CI check that fails if a PDF appears in `public/`.
 
 ## Risks and controls
 

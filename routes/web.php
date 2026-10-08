@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Commerce\CartController;
+use App\Http\Controllers\Commerce\CheckoutController;
+use App\Http\Controllers\Commerce\OrderResultController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Free\FreeResourceController;
 use App\Http\Controllers\HealthController;
@@ -8,6 +11,8 @@ use App\Http\Controllers\Learn\ClassController;
 use App\Http\Controllers\Learn\LearnController;
 use App\Http\Controllers\Learn\SubjectController;
 use App\Http\Controllers\Learn\TopicController;
+use App\Http\Controllers\Payments\PaymentController;
+use App\Http\Controllers\Payments\WebhookController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Shop\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +39,23 @@ Route::get('/shop/{class}/{slug}', [ShopController::class, 'show'])
     ->where('class', 'class-[a-z0-9-]+|all-classes')
     ->name('shop.show');
 Route::get('/products/{slug}', [ShopController::class, 'alias'])->name('products.alias');
+
+Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+Route::post('/cart/items', [CartController::class, 'addItem'])->name('cart.items.store');
+Route::delete('/cart/items/{product}', [CartController::class, 'removeItem'])->name('cart.items.destroy');
+Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon.store');
+Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.destroy');
+
+Route::post('/webhooks/razorpay', WebhookController::class)->name('webhooks.razorpay');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout/payment', [PaymentController::class, 'store'])->name('checkout.payment');
+    Route::post('/payments/razorpay/callback', [PaymentController::class, 'callback'])->name('payments.razorpay.callback');
+    Route::get('/order/{order}/success', [OrderResultController::class, 'success'])->name('orders.success');
+    Route::get('/order/{order}/payment-pending', [OrderResultController::class, 'pending'])->name('orders.payment-pending');
+});
 
 // Constrained so this class-landing wildcard cannot swallow /free, /search
 // and the other top-level pages above (docs/reference/routes-and-screens.md,
