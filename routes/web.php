@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Commerce\CartController;
 use App\Http\Controllers\Commerce\CheckoutController;
 use App\Http\Controllers\Commerce\OrderResultController;
@@ -12,10 +13,13 @@ use App\Http\Controllers\Learn\LearnController;
 use App\Http\Controllers\Learn\SubjectController;
 use App\Http\Controllers\Learn\TopicController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\ParentHubController;
 use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\Payments\WebhookController;
+use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Shop\ShopController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -43,6 +47,14 @@ Route::get('/products/{slug}', [ShopController::class, 'alias'])->name('products
 
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
 Route::get('/membership/sample-month', [MembershipController::class, 'sample'])->name('membership.sample');
+
+Route::get('/parents', [ParentHubController::class, 'index'])->name('parents.index');
+Route::get('/parents/{category:slug}', [ParentHubController::class, 'category'])->name('parents.category');
+Route::get('/blog/{slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemaps/{section}.xml', [SitemapController::class, 'section'])->name('sitemap.section');
+Route::get('/robots.txt', RobotsController::class)->name('robots');
 
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 Route::post('/cart/items', [CartController::class, 'addItem'])->name('cart.items.store');

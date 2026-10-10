@@ -100,11 +100,13 @@ Added phase by phase. Keep this list in step with `routes/console.php`.
 
 Nothing secret has a `VITE_` prefix.
 
-## Indexing switch
+## Indexing switch and launch SEO procedures
 
-- Non-production environments send `X-Robots-Tag: noindex, nofollow` and a blocking `robots.txt` (Phase 12).
-- Production allows crawling only when `APP_ENV=production`.
-- At launch: confirm the production `robots.txt`, verify Search Console and submit `/sitemap.xml`.
+- **Staging / Non-Production Blocking**: Every non-production response is automatically appended with `X-Robots-Tag: noindex, nofollow` via `BlockIndexingOutsideProduction` middleware. Additionally, `/robots.txt` serves `User-agent: *\nDisallow: /` to block crawlers outside production.
+- **Production Enabling**: Set `APP_ENV=production` in the production `.env`. This removes the `noindex` header and allows `/robots.txt` to permit crawling of public routes and advertise the sitemap index.
+- **Sitemap Generation & Warmup**: Run `php artisan sitemap:generate` to pre-generate and warm the cache for `/sitemap.xml` and all segmented sitemaps (`/sitemaps/pages.xml`, `/sitemaps/resources.xml`, `/sitemaps/products.xml`, `/sitemaps/articles.xml`). The scheduler runs this command daily.
+- **Google Search Console Verification**: Add `GOOGLE_SITE_VERIFICATION=your_verification_token` to production `.env` (configured in `config/services.php` as `services.google.site_verification`). The verification meta tag is rendered in the HTML head.
+- **Sitemap Submission**: Submit `https://brightlearners.in/sitemap.xml` in Google Search Console after verification. Monitor index coverage and 404s weekly.
 
 ## Incident contacts
 

@@ -41,7 +41,7 @@ class IssueRefund
             $keySecret = config('services.razorpay.key_secret');
             $providerRefundId = 'rfnd_fake_'.Str::random(12);
 
-            if ($keyId && $keySecret && class_exists(Api::class) && ! Str::contains($keyId, 'rzp_test_key_id') && $payment->provider_payment_id) {
+            if (! app()->environment('testing') && $keyId && $keySecret && class_exists(Api::class) && ! Str::contains($keyId, ['rzp_test_key_id', 'mock']) && $payment->provider_payment_id) {
                 try {
                     $api = new Api($keyId, $keySecret);
                     $rzpRefund = $api->refund->create([

@@ -16,3 +16,4 @@ Schedule::command('payments:reconcile')->everyTenMinutes()->onOneServer();
 Schedule::command('orders:expire-pending')->everyFiveMinutes()->onOneServer();
 Schedule::command('membership:release-weeks')->everyFiveMinutes()->onOneServer();
 Schedule::command('membership:expire')->hourly()->onOneServer();
+Schedule::command('sitemap:generate')->daily()->onOneServer();

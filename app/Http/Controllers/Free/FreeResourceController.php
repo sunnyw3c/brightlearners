@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Free;
 
 use App\Domains\Content\Queries\FreeResourceIndexQuery;
 use App\Domains\Content\Queries\FreeResourceShowQuery;
+use App\Domains\Growth\Services\SeoBuilder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Free\FreeResourceIndexRequest;
 use App\Support\Data\ResourceCard;
@@ -84,12 +85,8 @@ class FreeResourceController extends Controller
             'related' => $query->related($resource)
                 ->map(ResourceCard::fromLearningResource(...))
                 ->all(),
-            'breadcrumbs' => $query->breadcrumbs($resource),
-            'seo' => new Seo(
-                title: $resource->title,
-                description: $resource->summary,
-                canonical: route('free.show', ['class' => $canonicalClass, 'subject' => $canonicalSubject, 'slug' => $slug]),
-            ),
+            'breadcrumbs' => $breadcrumbs = $query->breadcrumbs($resource),
+            'seo' => SeoBuilder::forResource($resource, breadcrumbs: $breadcrumbs),
         ]);
     }
 }

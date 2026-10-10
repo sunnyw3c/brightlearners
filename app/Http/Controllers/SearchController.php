@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domains\Catalog\Queries\ProductSearchQuery;
 use App\Domains\Content\Queries\ResourceSearchQuery;
+use App\Domains\Growth\Queries\ArticleSearchQuery;
 use App\Support\Data\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,8 +20,12 @@ class SearchController extends Controller
 {
     private const PER_PAGE = 12;
 
-    public function __invoke(Request $request, ResourceSearchQuery $resourceQuery, ProductSearchQuery $productQuery): Response
-    {
+    public function __invoke(
+        Request $request,
+        ResourceSearchQuery $resourceQuery,
+        ProductSearchQuery $productQuery,
+        ArticleSearchQuery $articleQuery,
+    ): Response {
         $term = trim((string) $request->query('q', ''));
         $page = (int) $request->integer('page', 1);
 
@@ -29,6 +34,7 @@ class SearchController extends Controller
         } else {
             $combined = $resourceQuery->search($term, 1, self::PER_PAGE)->getCollection()
                 ->concat($productQuery->search($term, self::PER_PAGE))
+                ->concat($articleQuery->search($term, self::PER_PAGE))
                 ->values();
 
             $results = new LengthAwarePaginator(

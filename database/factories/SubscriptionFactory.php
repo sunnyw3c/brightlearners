@@ -31,6 +31,13 @@ class SubscriptionFactory extends Factory
         ];
     }
 
+    public function active(): static
+    {
+        return $this->state(fn () => [
+            'status' => SubscriptionStatus::Active,
+        ]);
+    }
+
     public function expired(): static
     {
         return $this->state(fn () => [

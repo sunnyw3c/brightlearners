@@ -1,7 +1,15 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, Users } from 'lucide-react';
+import {
+    BarChart3,
+    BookOpen,
+    CreditCard,
+    Download,
+    LayoutGrid,
+    Settings,
+    ShoppingBag,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,33 +21,48 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes/account';
-import { index as profilesIndex } from '@/routes/account/profiles';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: '/account/dashboard',
         icon: LayoutGrid,
     },
     {
-        title: 'Learning profiles',
-        href: profilesIndex(),
+        title: 'My Learning',
+        href: '/account/weekly-learning',
+        icon: BookOpen,
+    },
+    {
+        title: 'Downloads',
+        href: '/account/library',
+        icon: Download,
+    },
+    {
+        title: 'Membership',
+        href: '/account/membership',
+        icon: CreditCard,
+    },
+    {
+        title: 'Orders',
+        href: '/account/orders',
+        icon: ShoppingBag,
+    },
+    {
+        title: 'Progress',
+        href: '/account/progress',
+        icon: BarChart3,
+    },
+    {
+        title: 'Profiles',
+        href: '/account/profiles',
         icon: Users,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        title: 'Settings',
+        href: '/account/settings',
+        icon: Settings,
     },
 ];
 
@@ -50,7 +73,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href="/account/dashboard" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -63,7 +86,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

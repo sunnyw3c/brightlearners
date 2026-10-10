@@ -34,6 +34,10 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        @if ($googleVerification = config('services.google.site_verification'))
+            <meta name="google-site-verification" content="{{ $googleVerification }}">
+        @endif
+
         @fonts
 
         @viteReactRefresh

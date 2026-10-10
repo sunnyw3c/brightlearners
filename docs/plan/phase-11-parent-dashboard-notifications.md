@@ -41,25 +41,25 @@ php artisan make:notification CorrectionNotice --no-interaction
 
 ## Build steps
 
-- [ ] **11.1** Design the dashboard around one active learning profile at a time, with a profile switcher.
+- [x] **11.1** Design the dashboard around one active learning profile at a time, with a profile switcher.
   - The chosen profile ID is kept in the session.
   - Every request re-checks that the profile belongs to the logged-in user. A profile ID from the browser is never trusted.
 
-- [ ] **11.2** Show this week first. Do not bury parents in analytics. The first screen holds the current week's items and one clear next action.
+- [x] **11.2** Show this week first. Do not bury parents in analytics. The first screen holds the current week's items and one clear next action.
 
-- [ ] **11.3** Add the progress states: `not_started`, `opened`, `downloaded`, `completed`.
+- [x] **11.3** Add the progress states: `not_started`, `opened`, `downloaded`, `completed`.
   - `RecordProgress` moves a status forward only. It never moves it back.
   - `opened` is set when the library detail or weekly item is opened; `downloaded` by a listener on `ResourceDownloaded`; `completed` by the parent.
 
-- [ ] **11.4** Let the parent mark an activity complete. A simple feedback field can be added later. `RecordProgress` calls `AccessService` first, so progress cannot be recorded on something the family cannot access.
+- [x] **11.4** Let the parent mark an activity complete. A simple feedback field can be added later. `RecordProgress` calls `AccessService` first, so progress cannot be recorded on something the family cannot access.
 
-- [ ] **11.5** Show monthly progress such as "3 of 4 packs opened" or "completed", without claiming academic mastery.
+- [x] **11.5** Show monthly progress such as "3 of 4 packs opened" or "completed", without claiming academic mastery.
 
-- [ ] **11.6** Show the next release date and the next skill check.
+- [x] **11.6** Show the next release date and the next skill check.
 
-- [ ] **11.7** Link purchased resources and membership resources into one library. Complete the Membership and Completed tabs of `/account/library` from Phase 9.
+- [x] **11.7** Link purchased resources and membership resources into one library. Complete the Membership and Completed tabs of `/account/library` from Phase 9.
 
-- [ ] **11.8** Implement the notifications: new weekly pack, monthly check available, membership expiring, order confirmation and correction notices.
+- [x] **11.8** Implement the notifications: new weekly pack, monthly check available, membership expiring, order confirmation and correction notices.
 
   | Notification | Trigger | Kind |
   |---|---|---|
@@ -69,15 +69,15 @@ php artisan make:notification CorrectionNotice --no-interaction
   | `WeeklyPackReleased` | `LearningWeekReleased` | learning reminder |
   | `MonthlyCheckAvailable` | `LearningMonthPublished` | learning reminder |
 
-- [ ] **11.9** Keep transactional and learning messages separate from marketing consent.
+- [x] **11.9** Keep transactional and learning messages separate from marketing consent.
   - Transactional messages are always sent.
   - Learning reminders and membership notices follow their switches in `notification_preferences`.
   - Marketing consent controls marketing only. Turning it off never stops a receipt or an access notice.
   - Put the check in one place, `App\Domains\Accounts\Services\NotificationGate`, and call it from each notification's `via()`.
 
-- [ ] **11.10** Queue every email. No page request waits for mail. Notifications implement `ShouldQueue` on the `notifications` queue.
+- [x] **11.10** Queue every email. No page request waits for mail. Notifications implement `ShouldQueue` on the `notifications` queue.
 
-- [ ] **11.11** Create accessible empty states for a family with no membership or no profile: explain what is missing and give one action (add a child, see the membership, browse free resources).
+- [x] **11.11** Create accessible empty states for a family with no membership or no profile: explain what is missing and give one action (add a child, see the membership, browse free resources).
 
 ## Data model
 
@@ -123,9 +123,9 @@ Events: `ResourceOpened`, `ResourceDownloaded` (exists since Phase 5), `Resource
 
 ## Exit checklist
 
-- [ ] A parent with one member profile sees the current week within one screen.
-- [ ] A parent can complete a resource and see the month progress update.
-- [ ] Every notification type has a preview or test-send in staging.
+- [x] A parent with one member profile sees the current week within one screen.
+- [x] A parent can complete a resource and see the month progress update.
+- [x] Every notification type has a preview or test-send in staging.
 
 ## Risks and controls
 

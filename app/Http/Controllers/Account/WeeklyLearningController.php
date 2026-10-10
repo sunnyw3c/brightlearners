@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Domains\Accounts\Models\LearningProfile;
+use App\Domains\Accounts\Services\ActiveProfileManager;
 use App\Domains\Membership\Contracts\MembershipChecker;
 use App\Domains\Membership\Enums\LearningProgramStatus;
 use App\Domains\Membership\Models\LearningProgram;
 use App\Domains\Membership\Models\LearningWeek;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -105,5 +108,15 @@ class WeeklyLearningController extends Controller
             'is_active_member' => $isActiveMember,
             'programmes' => $programmes,
         ]);
+    }
+
+    public function showProfile(
+        Request $request,
+        LearningProfile $profile,
+        ActiveProfileManager $profileManager,
+    ): RedirectResponse {
+        $profileManager->setActiveProfile($request->user(), $profile);
+
+        return redirect()->route('account.weekly-learning');
     }
 }

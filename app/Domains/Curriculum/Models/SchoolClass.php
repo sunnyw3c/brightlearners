@@ -89,4 +89,12 @@ class SchoolClass extends Model
             'active' => 'boolean',
         ];
     }
+
+    /**
+     * Canonical URL for this school class (step 12.4).
+     */
+    public function canonicalUrl(): string
+    {
+        return route('learn.class', ['class' => $this->slug]);
+    }
 }

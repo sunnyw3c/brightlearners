@@ -33,7 +33,7 @@ use Laravel\Scout\Searchable;
     'difficulty', 'estimated_minutes', 'page_count', 'supplies', 'language',
     'has_answer_key', 'low_ink_available', 'licence_type', 'is_free',
     'ai_assisted', 'featured', 'status', 'scheduled_for', 'published_at',
-    'created_by',
+    'seo_title', 'seo_description', 'created_by',
 ])]
 #[UseFactory(LearningResourceFactory::class)]
 #[UsePolicy(LearningResourcePolicy::class)]
@@ -170,6 +170,25 @@ class LearningResource extends Model
     public function primaryTopicSlug(): ?string
     {
         return $this->primaryMapping()?->skill?->topic?->slug;
+    }
+
+    /**
+     * Canonical URL for this resource (step 12.4).
+     */
+    public function canonicalUrl(): ?string
+    {
+        $class = $this->primaryClassSlug();
+        $subject = $this->primarySubjectSlug();
+
+        if ($class === null || $subject === null) {
+            return null;
+        }
+
+        return route('free.show', [
+            'class' => $class,
+            'subject' => $subject,
+            'slug' => $this->slug,
+        ]);
     }
 
     /**

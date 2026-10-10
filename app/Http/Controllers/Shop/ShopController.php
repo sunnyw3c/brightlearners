@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Domains\Catalog\Enums\ProductType;
 use App\Domains\Catalog\Queries\ShopIndexQuery;
 use App\Domains\Catalog\Queries\ShopShowQuery;
+use App\Domains\Growth\Services\SeoBuilder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\ShopIndexRequest;
 use App\Support\Data\ProductCard;
@@ -113,12 +114,8 @@ class ShopController extends Controller
                     ->all(),
             ],
             'related' => $query->related($product)->all(),
-            'breadcrumbs' => $query->breadcrumbs($product),
-            'seo' => new Seo(
-                title: $product->name,
-                description: $product->seo_description ?? $product->short_description,
-                canonical: route('shop.show', ['class' => $canonicalClass, 'slug' => $slug]),
-            ),
+            'breadcrumbs' => $breadcrumbs = $query->breadcrumbs($product),
+            'seo' => SeoBuilder::forProduct($product, breadcrumbs: $breadcrumbs),
         ]);
     }
 

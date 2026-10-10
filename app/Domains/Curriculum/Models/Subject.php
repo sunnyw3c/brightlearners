@@ -61,4 +61,17 @@ class Subject extends Model
             'active' => 'boolean',
         ];
     }
+
+    /**
+     * Canonical URL for this subject (step 12.4).
+     */
+    public function canonicalUrl(?SchoolClass $schoolClass = null): string
+    {
+        $classSlug = $schoolClass?->slug ?? $this->classes()->first()?->slug ?? 'class-1';
+
+        return route('learn.subject', [
+            'class' => $classSlug,
+            'subject' => $this->slug,
+        ]);
+    }
 }

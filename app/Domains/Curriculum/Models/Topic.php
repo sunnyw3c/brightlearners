@@ -73,4 +73,19 @@ class Topic extends Model
             'active' => 'boolean',
         ];
     }
+
+    /**
+     * Canonical URL for this topic (step 12.4).
+     */
+    public function canonicalUrl(?SchoolClass $schoolClass = null): string
+    {
+        $classSlug = $schoolClass?->slug ?? $this->classes()->first()?->slug ?? 'class-1';
+        $subjectSlug = $this->subject?->slug ?? 'maths';
+
+        return route('learn.topic', [
+            'class' => $classSlug,
+            'subject' => $subjectSlug,
+            'topic' => $this->slug,
+        ]);
+    }
 }

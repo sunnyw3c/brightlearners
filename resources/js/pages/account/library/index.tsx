@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Download as DownloadIcon, AlertCircle, FileDown } from 'lucide-react';
@@ -23,12 +23,13 @@ type LibraryResourceProp = {
 type Props = {
     purchased: LibraryResourceProp[];
     membership: LibraryResourceProp[];
+    completed: LibraryResourceProp[];
     free: LibraryResourceProp[];
 };
 
-export default function LibraryIndex({ purchased, membership, free }: Props) {
+export default function LibraryIndex({ purchased, membership, completed = [], free }: Props) {
     const [activeTab, setActiveTab] = useState<
-        'purchased' | 'membership' | 'free'
+        'purchased' | 'membership' | 'completed' | 'free'
     >('purchased');
 
     const currentList =
@@ -36,10 +37,12 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
             ? purchased
             : activeTab === 'membership'
               ? membership
-              : free;
+              : activeTab === 'completed'
+                ? completed
+                : free;
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={[{ title: 'Downloads', href: '/account/library' }]}>
             <Head title="My Learning Library — BrightLearners" />
 
             <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
@@ -48,8 +51,7 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                         My Learning Library
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                        Access and download all your purchased worksheets, topic
-                        packs, and free materials.
+                        Access and download all your purchased worksheets, weekly membership packs, and completed materials.
                     </p>
                 </header>
 
@@ -73,7 +75,17 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                                 : 'text-muted-foreground hover:text-foreground'
                         }`}
                     >
-                        Membership (0)
+                        Membership ({membership.length})
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('completed')}
+                        className={`pb-3 transition-colors ${
+                            activeTab === 'completed'
+                                ? 'border-b-2 border-primary font-semibold text-foreground'
+                                : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                    >
+                        Completed ({completed.length})
                     </button>
                     <button
                         onClick={() => setActiveTab('free')}
@@ -101,13 +113,25 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                                 {activeTab === 'purchased'
                                     ? "You haven't purchased any learning resources yet. Explore our shop to find topic packs and workbooks!"
                                     : activeTab === 'membership'
-                                      ? 'Membership programmes and weekly releases will be available soon.'
-                                      : 'You have not downloaded any free resources yet.'}
+                                      ? 'No released membership materials available yet. Weekly packs drop as your programme advances.'
+                                      : activeTab === 'completed'
+                                        ? 'No completed activities yet. Mark activities complete from your parent dashboard to see them here!'
+                                        : 'You have not downloaded any free resources yet.'}
                             </p>
                         </div>
                         {activeTab === 'purchased' && (
                             <Button asChild className="mt-2" size="sm">
-                                <a href="/shop">Browse Shop</a>
+                                <Link href="/shop">Browse Shop</Link>
+                            </Button>
+                        )}
+                        {activeTab === 'membership' && (
+                            <Button asChild className="mt-2" size="sm">
+                                <Link href="/membership">Explore Membership</Link>
+                            </Button>
+                        )}
+                        {activeTab === 'completed' && (
+                            <Button asChild className="mt-2" size="sm">
+                                <Link href="/account/dashboard">Go to Dashboard</Link>
                             </Button>
                         )}
                     </div>
@@ -131,12 +155,12 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                                     </div>
 
                                     <h2 className="line-clamp-1 text-base font-bold">
-                                        <a
+                                        <Link
                                             href={`/account/library/${item.slug}`}
                                             className="hover:underline"
                                         >
                                             {item.title}
-                                        </a>
+                                        </Link>
                                     </h2>
 
                                     {item.summary && (
@@ -149,8 +173,7 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                                         <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-xs text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
                                             <AlertCircle className="h-4 w-4 shrink-0" />
                                             <span>
-                                                An updated version of this
-                                                resource is available!
+                                                An updated version of this resource is available!
                                             </span>
                                         </div>
                                     )}
@@ -171,11 +194,11 @@ export default function LibraryIndex({ purchased, membership, free }: Props) {
                                             variant="outline"
                                             size="sm"
                                         >
-                                            <a
+                                            <Link
                                                 href={`/account/library/${item.slug}`}
                                             >
                                                 Details
-                                            </a>
+                                            </Link>
                                         </Button>
                                         <Button asChild size="sm">
                                             <a

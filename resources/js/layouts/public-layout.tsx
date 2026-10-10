@@ -14,3 +14,6 @@ export default function PublicLayout({
         </div>
     );
 }
+
+export { PublicLayout };
+

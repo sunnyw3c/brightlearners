@@ -49,15 +49,15 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P10-02 | [10 Membership](../plan/phase-10-membership-programme.md) | 90-day pilot | 10.2, 10.6 | Done |
 | P10-03 | [10 Membership](../plan/phase-10-membership-programme.md) | Programmes / weeks / items | 10.3, 10.4, 10.9, 10.10 | Done |
 | P10-04 | [10 Membership](../plan/phase-10-membership-programme.md) | Release scheduler | 10.5, 10.11 | Done |
-| P11-01 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Dashboard | 11.1, 11.2, 11.6, 11.7, 11.11 | Not started |
-| P11-02 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Progress | 11.3, 11.4, 11.5 | Not started |
-| P11-03 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Learning notifications | 11.8, 11.10 | Not started |
-| P11-04 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Preference handling | 11.9 | Not started |
-| P12-01 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Article CMS | 12.1, 12.2, 12.11, 12.14 | Not started |
-| P12-02 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | SEO metadata | 12.3, 12.4, 12.5, 12.12, 12.13 | Not started |
-| P12-03 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Sitemaps | 12.6 | Not started |
-| P12-04 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Structured data | 12.7, 12.8, 12.9 | Not started |
-| P12-05 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Redirects | 12.10 | Not started |
+| P11-01 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Dashboard | 11.1, 11.2, 11.6, 11.7, 11.11 | Done |
+| P11-02 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Progress | 11.3, 11.4, 11.5 | Done |
+| P11-03 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Learning notifications | 11.8, 11.10 | Done |
+| P11-04 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Preference handling | 11.9 | Done |
+| P12-01 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Article CMS | 12.1, 12.2, 12.11, 12.14 | Done |
+| P12-02 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | SEO metadata | 12.3, 12.4, 12.5, 12.12, 12.13 | Done |
+| P12-03 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Sitemaps | 12.6 | Done |
+| P12-04 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Structured data | 12.7, 12.8, 12.9 | Done |
+| P12-05 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Redirects | 12.10 | Done |
 | P13-01 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Event taxonomy | 13.1, 13.2, 13.9 | Not started |
 | P13-02 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | First-party analytics | 13.3, 13.4 | Not started |
 | P13-03 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Pilot dashboard | 13.6, 13.7, 13.8 | Not started |

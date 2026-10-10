@@ -7,11 +7,24 @@ use App\Domains\Access\Listeners\GrantEntitlementsOnOrderPaid;
 use App\Domains\Access\Listeners\RecordResourceDownload;
 use App\Domains\Access\Listeners\RevokeEntitlementsOnRefund;
 use App\Domains\Accounts\Listeners\CreateNotificationPreferencesForNewUser;
+use App\Domains\Catalog\Models\Product;
 use App\Domains\Commerce\Listeners\MergeGuestCartOnLogin;
+use App\Domains\Content\Events\MaterialCorrectionPublished;
 use App\Domains\Content\Events\ResourceVersionUploaded;
 use App\Domains\Content\Listeners\QueueResourcePreviewGeneration;
+use App\Domains\Content\Listeners\SendCorrectionNoticeOnPublished;
+use App\Domains\Content\Models\LearningResource;
+use App\Domains\Growth\Models\Article;
+use App\Domains\Growth\Observers\SlugRedirectObserver;
+use App\Domains\Learning\Listeners\RecordProgressOnDownload;
 use App\Domains\Membership\Contracts\MembershipChecker;
+use App\Domains\Membership\Events\LearningMonthPublished;
+use App\Domains\Membership\Events\LearningWeekReleased;
+use App\Domains\Membership\Events\MembershipExpiring;
 use App\Domains\Membership\Listeners\ActivateMembershipOnOrderPaid;
+use App\Domains\Membership\Listeners\SendLearningNotificationOnWeekReleased;
+use App\Domains\Membership\Listeners\SendMembershipExpiringNotice;
+use App\Domains\Membership\Listeners\SendMonthlyCheckNotification;
 use App\Domains\Membership\Services\DefaultMembershipChecker;
 use App\Domains\Payments\Contracts\PaymentGateway;
 use App\Domains\Payments\Events\OrderPaid;
@@ -47,6 +60,14 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->configureEventListeners();
+        $this->configureModelObservers();
+    }
+
+    protected function configureModelObservers(): void
+    {
+        Article::observe(SlugRedirectObserver::class);
+        Product::observe(SlugRedirectObserver::class);
+        LearningResource::observe(SlugRedirectObserver::class);
     }
 
     /**
@@ -88,5 +109,10 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(OrderPaid::class, ActivateMembershipOnOrderPaid::class);
         Event::listen(RefundCompleted::class, RevokeEntitlementsOnRefund::class);
         Event::listen(ResourceDownloaded::class, RecordResourceDownload::class);
+        Event::listen(ResourceDownloaded::class, RecordProgressOnDownload::class);
+        Event::listen(MaterialCorrectionPublished::class, SendCorrectionNoticeOnPublished::class);
+        Event::listen(MembershipExpiring::class, SendMembershipExpiringNotice::class);
+        Event::listen(LearningWeekReleased::class, SendLearningNotificationOnWeekReleased::class);
+        Event::listen(LearningMonthPublished::class, SendMonthlyCheckNotification::class);
     }
 }

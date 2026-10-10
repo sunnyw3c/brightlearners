@@ -1,5 +1,5 @@
-import { Head } from '@inertiajs/react';
 import { Check, Download, FileCheck, ShieldCheck } from 'lucide-react';
+import { Seo } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { MetaList } from '@/components/public/meta-list';
 import { PreviewCarousel } from '@/components/public/preview-carousel';
@@ -50,10 +50,7 @@ export default function ShopShow({
 }: Props) {
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-10 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />

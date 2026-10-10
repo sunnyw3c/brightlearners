@@ -45,46 +45,46 @@ php artisan make:middleware BlockIndexingOutsideProduction --no-interaction
 
 ## Build steps
 
-- [ ] **12.1** Create the article categories: learning at home, maths help, English help, reading, activities, learning routines, parent guides. Seed them.
+- [x] **12.1** Create the article categories: learning at home, maths help, English help, reading, activities, learning routines, parent guides. Seed them.
 
-- [ ] **12.2** Build the article CMS with author, publish date and related class, skills, resources and products.
+- [x] **12.2** Build the article CMS with author, publish date and related class, skills, resources and products.
   - Filament resource with a rich-text body. Sanitise the stored HTML before it is rendered on the public site.
   - Relations go in `article_relations`.
   - Add `Searchable` to `Article` so guides appear in `/search`.
 
-- [ ] **12.3** Create template-driven SEO titles and meta descriptions with a manual override. Editors should not have to fill every field.
+- [x] **12.3** Create template-driven SEO titles and meta descriptions with a manual override. Editors should not have to fill every field.
   - `SeoBuilder` produces a `SeoData` object (title, description, canonical, robots, Open Graph) for each page type from a template, for example `{resource title} — Class {n} {subject} worksheet | BrightLearners`.
   - A model's own `seo_title` / `seo_description` wins when it is filled.
   - Controllers pass `seo` as a page prop. One React `<Seo>` component renders it inside Inertia's `<Head>`, so it is in the server-rendered HTML.
 
-- [ ] **12.4** Define canonical URLs for classes, topics, resources, products and articles. One function per model returns its canonical URL; the sitemap, the `<Seo>` component and structured data all call it.
+- [x] **12.4** Define canonical URLs for classes, topics, resources, products and articles. One function per model returns its canonical URL; the sitemap, the `<Seo>` component and structured data all call it.
 
-- [ ] **12.5** Mark arbitrary filter and sort combinations `noindex`, unless one is deliberately promoted to its own landing page. Phase 5 set this up; confirm it for the shop and Parent Hub.
+- [x] **12.5** Mark arbitrary filter and sort combinations `noindex`, unless one is deliberately promoted to its own landing page. Phase 5 set this up; confirm it for the shop and Parent Hub.
 
-- [ ] **12.6** Create segmented sitemaps for pages, resources, products and articles. Include only published, canonical URLs.
+- [x] **12.6** Create segmented sitemaps for pages, resources, products and articles. Include only published, canonical URLs.
   - `/sitemap.xml` is an index pointing at `/sitemaps/pages.xml`, `/sitemaps/resources.xml`, `/sitemaps/products.xml`, `/sitemaps/articles.xml`.
   - Generate them with a scheduled command and cache the output.
   - `/robots.txt` is a route. In production it allows crawling and names the sitemap. Everywhere else it disallows everything.
 
-- [ ] **12.7** Add `BreadcrumbList` structured data wherever a hierarchy exists. Reuse the breadcrumb trail built in Phase 5.
+- [x] **12.7** Add `BreadcrumbList` structured data wherever a hierarchy exists. Reuse the breadcrumb trail built in Phase 5.
 
-- [ ] **12.8** Add `Organization` (site-wide) and `Article` structured data.
+- [x] **12.8** Add `Organization` (site-wide) and `Article` structured data.
 
-- [ ] **12.9** Add `Product` / `Offer` structured data to sellable product pages, using the current server price and availability. Do not add rating data unless real reviews exist.
+- [x] **12.9** Add `Product` / `Offer` structured data to sellable product pages, using the current server price and availability. Do not add rating data unless real reviews exist.
 
-- [ ] **12.10** Add redirect management for changed slugs and retired pages.
+- [x] **12.10** Add redirect management for changed slugs and retired pages.
   - A Filament resource for `redirects`.
   - `HandleRedirects` looks up the path only when the request would otherwise be a 404.
   - On save, refuse a redirect that points at itself, at another redirect's source, or back to its own source.
   - Changing a published slug writes the redirect automatically.
 
-- [ ] **12.11** Create an SEO landing page only when it offers useful, unique explanatory content and real resources. No empty keyword shells.
+- [x] **12.11** Create an SEO landing page only when it offers useful, unique explanatory content and real resources. No empty keyword shells.
 
-- [ ] **12.12** Implement Open Graph image, title and description, with site-wide defaults for pages that have none.
+- [x] **12.12** Implement Open Graph image, title and description, with site-wide defaults for pages that have none.
 
-- [ ] **12.13** Add Search Console verification and sitemap submission to the launch checklist. The verification value comes from config, not from the template.
+- [x] **12.13** Add Search Console verification and sitemap submission to the launch checklist. The verification value comes from config, not from the template.
 
-- [ ] **12.14** Create internal links from articles to the relevant free resource, paid pack and membership, where they fit the context. Render the article's `article_relations` as a "Try this" block.
+- [x] **12.14** Create internal links from articles to the relevant free resource, paid pack and membership, where they fit the context. Render the article's `article_relations` as a "Try this" block.
 
 ## Data model
 
@@ -135,10 +135,10 @@ Navigation group: Marketing.
 
 ## Exit checklist
 
-- [ ] Every launch resource and product is reachable through crawlable internal links, not only through site search.
-- [ ] The sitemaps validate, and staging can be blocked from indexing.
-- [ ] The production indexing controls are documented.
-- [ ] [../checklists/seo.md](../checklists/seo.md) is complete.
+- [x] Every launch resource and product is reachable through crawlable internal links, not only through site search.
+- [x] The sitemaps validate, and staging can be blocked from indexing.
+- [x] The production indexing controls are documented.
+- [x] [../checklists/seo.md](../checklists/seo.md) is complete.
 
 ## Risks and controls
 

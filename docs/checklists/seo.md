@@ -4,41 +4,41 @@ From Appendix J of the source plan. The public pages are built in [Phase 5](../p
 
 ## On every canonical page
 
-- [ ] Unique title and H1
-- [ ] Useful class / topic copy; no empty keyword pages
-- [ ] Stable slug
-- [ ] Breadcrumbs
-- [ ] Canonical tag
-- [ ] Body content present in the SSR HTML
-- [ ] Meta description
-- [ ] Open Graph / Twitter metadata
-- [ ] Image alt text and dimensions
+- [x] Unique title and H1
+- [x] Useful class / topic copy; no empty keyword pages
+- [x] Stable slug
+- [x] Breadcrumbs
+- [x] Canonical tag
+- [x] Body content present in the SSR HTML
+- [x] Meta description
+- [x] Open Graph / Twitter metadata
+- [x] Image alt text and dimensions
 
 ## Structured data
 
-- [ ] Product / Offer JSON-LD for sellable items
-- [ ] Article JSON-LD
-- [ ] BreadcrumbList JSON-LD
-- [ ] Organization JSON-LD
+- [x] Product / Offer JSON-LD for sellable items
+- [x] Article JSON-LD
+- [x] BreadcrumbList JSON-LD
+- [x] Organization JSON-LD
 
 ## Crawling and indexing
 
-- [ ] XML sitemap
-- [ ] Robots policy
-- [ ] No staging indexing
-- [ ] 404 / 410 / 301 rules
-- [ ] No uncontrolled filter-index explosion
-- [ ] Redirect on a changed slug
+- [x] XML sitemap
+- [x] Robots policy
+- [x] No staging indexing
+- [x] 404 / 410 / 301 rules
+- [x] No uncontrolled filter-index explosion
+- [x] Redirect on a changed slug
 
 ## Internal linking
 
-- [ ] Internal links from class → subject → topic → resource
-- [ ] Related resources and products
-- [ ] No important resource is an orphan
+- [x] Internal links from class → subject → topic → resource
+- [x] Related resources and products
+- [x] No important resource is an orphan
 
 ## Performance
 
-- [ ] Mobile performance
+- [x] Mobile performance
 
 ## Launch
 

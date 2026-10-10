@@ -4,6 +4,7 @@ namespace App\Support\Data;
 
 use App\Domains\Catalog\Models\Product;
 use App\Domains\Content\Models\LearningResource;
+use App\Domains\Growth\Models\Article;
 
 /**
  * One row in unified search results. Phases 6 and 12 build their own
@@ -47,6 +48,18 @@ final class SearchResult
             url: route('shop.show', ['class' => $product->classSlug(), 'slug' => $product->slug]),
             class: $product->primaryClass?->name,
             free: false,
+        );
+    }
+
+    public static function fromArticle(Article $article): self
+    {
+        return new self(
+            type: 'article',
+            title: $article->title,
+            summary: (string) $article->excerpt,
+            url: route('articles.show', ['slug' => $article->slug]),
+            class: null,
+            free: true,
         );
     }
 }

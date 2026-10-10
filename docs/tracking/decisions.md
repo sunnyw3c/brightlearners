@@ -47,7 +47,7 @@ The mockup and the source plan disagree on these points. Detail is in [../refere
 | M-05 | Phase 6, 7 | Quantity steppers on product and cart? | No. Quantity is always 1 for a digital household product. | Default in use | | | |
 | M-06 | Phase 6 | Use "Aligned to School Curriculum"? The plan rules out compliance claims. | Use wording the teacher reviewer approves | Default in use | | | |
 | M-07 | Phase 14 | Custom dark admin as drawn? | A Filament theme with a dark sidebar | Open | | | |
-| M-08 | Phase 11 | How is the dashboard progress figure worded? | "Activities opened / completed", never a score | Open | | | |
+| M-08 | Phase 11 | How is the dashboard progress figure worded? | "Activities opened / completed", never a score | Decided | "Activities opened / completed", never a score | Phase 11 implementation | 2026-10-10 |
 
 ## Technical defaults
 

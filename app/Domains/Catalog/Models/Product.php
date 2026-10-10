@@ -238,12 +238,29 @@ class Product extends Model
     }
 
     /**
+     * Canonical URL for this product (step 12.4).
+     */
+    public function canonicalUrl(): string
+    {
+        return route('shop.show', [
+            'class' => $this->classSlug(),
+            'slug' => $this->slug,
+        ]);
+    }
+
+    /**
      * @param  Builder<Product>  $query
      * @return Builder<Product>
      */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where($this->qualifyColumn('status'), ProductStatus::Active->value);
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === ProductStatus::Active
+            && ($this->publish_at === null || $this->publish_at->isPast());
     }
 
     /**

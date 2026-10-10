@@ -1,7 +1,12 @@
 <?php
 
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 use Spatie\Permission\Models\Role;
+
+beforeEach(function () {
+    $this->seed(RolesAndPermissionsSeeder::class);
+});
 
 test('a guest is redirected to the admin login', function () {
     $this->get('/admin')->assertRedirect(route('filament.admin.auth.login'));

@@ -9,6 +9,8 @@ test('staging responses prevent search indexing', function () {
 });
 
 test('local responses do not set a robots header', function () {
+    $this->app->detectEnvironment(fn (): string => 'local');
+
     $this->get(route('home'))
         ->assertOk()
         ->assertHeaderMissing('X-Robots-Tag');

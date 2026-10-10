@@ -45,15 +45,18 @@ export function SiteHeader() {
                     >
                         Workbooks
                     </Link>
-                    {disabledNavItems.map((item) => (
-                        <span
-                            key={item.label}
-                            title={item.reason}
-                            className="cursor-not-allowed text-muted-foreground"
-                        >
-                            {item.label}
-                        </span>
-                    ))}
+                    <Link
+                        href="/membership"
+                        className="text-foreground/70 transition-colors hover:text-foreground"
+                    >
+                        Membership
+                    </Link>
+                    <Link
+                        href="/parents"
+                        className="text-foreground/70 transition-colors hover:text-foreground"
+                    >
+                        Parent Hub
+                    </Link>
                 </nav>
 
                 <div className="flex items-center gap-2">
