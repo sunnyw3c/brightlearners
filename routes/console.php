@@ -14,3 +14,5 @@ Schedule::command('resources:publish-scheduled')->everyFiveMinutes()->onOneServe
 Schedule::command('products:publish-scheduled')->everyFiveMinutes()->onOneServer();
 Schedule::command('payments:reconcile')->everyTenMinutes()->onOneServer();
 Schedule::command('orders:expire-pending')->everyFiveMinutes()->onOneServer();
+Schedule::command('membership:release-weeks')->everyFiveMinutes()->onOneServer();
+Schedule::command('membership:expire')->hourly()->onOneServer();

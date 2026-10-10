@@ -45,10 +45,10 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P9-02 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Signed downloads | 9.6 | Done |
 | P9-03 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Library | 9.8, 9.9 | Done |
 | P9-04 | [9 Entitlements](../plan/phase-09-entitlements-downloads-library.md) | Download audit | 9.7 | Done |
-| P10-01 | [10 Membership](../plan/phase-10-membership-programme.md) | Plans / subscriptions | 10.1, 10.7, 10.8 | Not started |
-| P10-02 | [10 Membership](../plan/phase-10-membership-programme.md) | 90-day pilot | 10.2, 10.6 | Not started |
-| P10-03 | [10 Membership](../plan/phase-10-membership-programme.md) | Programmes / weeks / items | 10.3, 10.4, 10.9, 10.10 | Not started |
-| P10-04 | [10 Membership](../plan/phase-10-membership-programme.md) | Release scheduler | 10.5, 10.11 | Not started |
+| P10-01 | [10 Membership](../plan/phase-10-membership-programme.md) | Plans / subscriptions | 10.1, 10.7, 10.8 | Done |
+| P10-02 | [10 Membership](../plan/phase-10-membership-programme.md) | 90-day pilot | 10.2, 10.6 | Done |
+| P10-03 | [10 Membership](../plan/phase-10-membership-programme.md) | Programmes / weeks / items | 10.3, 10.4, 10.9, 10.10 | Done |
+| P10-04 | [10 Membership](../plan/phase-10-membership-programme.md) | Release scheduler | 10.5, 10.11 | Done |
 | P11-01 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Dashboard | 11.1, 11.2, 11.6, 11.7, 11.11 | Not started |
 | P11-02 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Progress | 11.3, 11.4, 11.5 | Not started |
 | P11-03 | [11 Dashboard](../plan/phase-11-parent-dashboard-notifications.md) | Learning notifications | 11.8, 11.10 | Not started |

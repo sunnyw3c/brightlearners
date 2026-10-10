@@ -106,5 +106,13 @@ jobs:
             exit 1
           fi
 
+      - name: Ensure no paid or private PDFs exist under public web root
+        shell: bash
+        run: |
+          if find public -type f -name "*.pdf" | grep -q .; then
+            echo "PDF files found in public directory!"
+            exit 1
+          fi
+
       - name: Build Inertia SSR bundle
         run: npm run build:ssr

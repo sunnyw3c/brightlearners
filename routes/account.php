@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Account\LearningProfileController;
 use App\Http\Controllers\Account\LibraryController;
+use App\Http\Controllers\Account\MembershipController;
 use App\Http\Controllers\Account\OrderController;
+use App\Http\Controllers\Account\WeeklyLearningController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('account')->name('account.')->group(function () {
@@ -18,4 +20,7 @@ Route::middleware(['auth', 'verified'])->prefix('account')->name('account.')->gr
 
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+    Route::get('membership', [MembershipController::class, 'index'])->name('membership');
+    Route::get('weekly-learning', [WeeklyLearningController::class, 'index'])->name('weekly-learning');
 });

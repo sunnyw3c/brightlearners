@@ -11,6 +11,7 @@ use App\Domains\Commerce\Listeners\MergeGuestCartOnLogin;
 use App\Domains\Content\Events\ResourceVersionUploaded;
 use App\Domains\Content\Listeners\QueueResourcePreviewGeneration;
 use App\Domains\Membership\Contracts\MembershipChecker;
+use App\Domains\Membership\Listeners\ActivateMembershipOnOrderPaid;
 use App\Domains\Membership\Services\DefaultMembershipChecker;
 use App\Domains\Payments\Contracts\PaymentGateway;
 use App\Domains\Payments\Events\OrderPaid;
@@ -84,6 +85,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(ResourceVersionUploaded::class, QueueResourcePreviewGeneration::class);
         Event::listen(Login::class, MergeGuestCartOnLogin::class);
         Event::listen(OrderPaid::class, GrantEntitlementsOnOrderPaid::class);
+        Event::listen(OrderPaid::class, ActivateMembershipOnOrderPaid::class);
         Event::listen(RefundCompleted::class, RevokeEntitlementsOnRefund::class);
         Event::listen(ResourceDownloaded::class, RecordResourceDownload::class);
     }

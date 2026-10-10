@@ -3,12 +3,14 @@
 namespace App\Domains\Commerce\Services;
 
 use App\Domains\Catalog\Enums\ProductStatus;
+use App\Domains\Catalog\Enums\ProductType;
 use App\Domains\Catalog\Models\Product;
 use App\Domains\Catalog\Services\ProductPrice;
 use App\Domains\Commerce\Actions\ApplyCoupon;
 use App\Domains\Commerce\Models\Cart;
 use App\Domains\Commerce\Models\CartItem;
 use App\Domains\Commerce\Models\Coupon;
+use App\Domains\Membership\Contracts\MembershipChecker;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -18,6 +20,10 @@ use Illuminate\Validation\ValidationException;
 class CartManager
 {
     public const COOKIE_NAME = 'cart_token';
+
+    public function __construct(
+        private readonly MembershipChecker $membershipChecker,
+    ) {}
 
     public function getCart(?User $user = null): Cart
     {
@@ -65,6 +71,26 @@ class CartManager
             throw ValidationException::withMessages([
                 'product_id' => 'This product is not available for purchase.',
             ]);
+        }
+
+        if ($product->type === ProductType::Membership) {
+            $user = $cart->user ?? Auth::user();
+            if ($user !== null && $this->membershipChecker->hasActiveMembership($user)) {
+                throw ValidationException::withMessages([
+                    'product_id' => 'You already have an active membership.',
+                ]);
+            }
+
+            $hasMembershipInCart = $cart->items()
+                ->whereHas('product', fn ($q) => $q->where('type', ProductType::Membership))
+                ->where('product_id', '!=', $product->id)
+                ->exists();
+
+            if ($hasMembershipInCart) {
+                throw ValidationException::withMessages([
+                    'product_id' => 'Your cart can only contain one membership.',
+                ]);
+            }
         }
 
         // Digital products are quantity 1

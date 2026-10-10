@@ -63,7 +63,12 @@ export default function OrderShow({ order }: Props) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                    'X-CSRF-TOKEN':
+                        (
+                            document.querySelector(
+                                'meta[name="csrf-token"]',
+                            ) as HTMLMetaElement
+                        )?.content || '',
                 },
                 body: JSON.stringify({ order_id: order.id }),
             });
@@ -123,21 +128,25 @@ export default function OrderShow({ order }: Props) {
             <Head title={`Order ${order.order_number} — BrightLearners`} />
 
             <div className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-2xl font-bold tracking-tight">{order.order_number}</h1>
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                order.status === 'paid'
-                                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                                    : order.status === 'pending_payment'
-                                    ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
-                            }`}>
+                            <h1 className="text-2xl font-bold tracking-tight">
+                                {order.order_number}
+                            </h1>
+                            <span
+                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                    order.status === 'paid'
+                                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                        : order.status === 'pending_payment'
+                                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                                          : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+                                }`}
+                            >
                                 {order.status_label}
                             </span>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="mt-1 text-xs text-muted-foreground">
                             Placed on {order.created_at}
                         </p>
                     </div>
@@ -150,18 +159,31 @@ export default function OrderShow({ order }: Props) {
                 <div className="grid gap-6 md:grid-cols-3">
                     {/* Items Purchased */}
                     <div className="space-y-4 md:col-span-2">
-                        <div className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-                            <h2 className="font-semibold text-base">Purchased Items</h2>
+                        <div className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
+                            <h2 className="text-base font-semibold">
+                                Purchased Items
+                            </h2>
                             <div className="divide-y">
                                 {order.items.map((item) => (
-                                    <div key={item.id} className="py-3 flex justify-between items-center gap-4">
+                                    <div
+                                        key={item.id}
+                                        className="flex items-center justify-between gap-4 py-3"
+                                    >
                                         <div>
-                                            <div className="font-medium text-sm">{item.product_name}</div>
+                                            <div className="text-sm font-medium">
+                                                {item.product_name}
+                                            </div>
                                             <div className="text-xs text-muted-foreground capitalize">
-                                                {item.product_type.replace('_', ' ')} {item.sku ? `• ${item.sku}` : ''}
+                                                {item.product_type.replace(
+                                                    '_',
+                                                    ' ',
+                                                )}{' '}
+                                                {item.sku
+                                                    ? `• ${item.sku}`
+                                                    : ''}
                                             </div>
                                         </div>
-                                        <div className="text-right font-medium text-sm">
+                                        <div className="text-right text-sm font-medium">
                                             {item.total.formatted}
                                         </div>
                                     </div>
@@ -170,16 +192,38 @@ export default function OrderShow({ order }: Props) {
                         </div>
 
                         {/* Billing Information */}
-                        <div className="rounded-2xl border bg-card p-6 shadow-sm space-y-3 text-sm">
-                            <h2 className="font-semibold text-base">Billing Details</h2>
+                        <div className="space-y-3 rounded-2xl border bg-card p-6 text-sm shadow-sm">
+                            <h2 className="text-base font-semibold">
+                                Billing Details
+                            </h2>
                             <div className="grid grid-cols-2 gap-2 text-muted-foreground">
-                                <div>Name: <span className="font-medium text-foreground">{order.billing_name}</span></div>
-                                <div>Email: <span className="font-medium text-foreground">{order.billing_email}</span></div>
+                                <div>
+                                    Name:{' '}
+                                    <span className="font-medium text-foreground">
+                                        {order.billing_name}
+                                    </span>
+                                </div>
+                                <div>
+                                    Email:{' '}
+                                    <span className="font-medium text-foreground">
+                                        {order.billing_email}
+                                    </span>
+                                </div>
                                 {order.billing_phone && (
-                                    <div>Phone: <span className="font-medium text-foreground">{order.billing_phone}</span></div>
+                                    <div>
+                                        Phone:{' '}
+                                        <span className="font-medium text-foreground">
+                                            {order.billing_phone}
+                                        </span>
+                                    </div>
                                 )}
                                 {order.billing_state && (
-                                    <div>State: <span className="font-medium text-foreground">{order.billing_state}</span></div>
+                                    <div>
+                                        State:{' '}
+                                        <span className="font-medium text-foreground">
+                                            {order.billing_state}
+                                        </span>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -187,43 +231,65 @@ export default function OrderShow({ order }: Props) {
 
                     {/* Financial Summary */}
                     <div className="space-y-4 md:col-span-1">
-                        <div className="rounded-2xl border bg-card p-5 shadow-sm space-y-3 text-sm">
-                            <h2 className="font-semibold text-base">Financial Summary</h2>
+                        <div className="space-y-3 rounded-2xl border bg-card p-5 text-sm shadow-sm">
+                            <h2 className="text-base font-semibold">
+                                Financial Summary
+                            </h2>
                             <div className="space-y-2">
                                 <div className="flex justify-between text-muted-foreground">
                                     <span>Subtotal</span>
-                                    <span className="font-medium text-foreground">{order.subtotal.formatted}</span>
+                                    <span className="font-medium text-foreground">
+                                        {order.subtotal.formatted}
+                                    </span>
                                 </div>
 
                                 {order.discount.paise > 0 && (
                                     <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
-                                        <span>Discount {order.coupon_code ? `(${order.coupon_code})` : ''}</span>
-                                        <span className="font-medium">-{order.discount.formatted}</span>
+                                        <span>
+                                            Discount{' '}
+                                            {order.coupon_code
+                                                ? `(${order.coupon_code})`
+                                                : ''}
+                                        </span>
+                                        <span className="font-medium">
+                                            -{order.discount.formatted}
+                                        </span>
                                     </div>
                                 )}
 
                                 {order.tax.paise > 0 && (
                                     <div className="flex justify-between text-muted-foreground">
                                         <span>Tax</span>
-                                        <span className="font-medium text-foreground">{order.tax.formatted}</span>
+                                        <span className="font-medium text-foreground">
+                                            {order.tax.formatted}
+                                        </span>
                                     </div>
                                 )}
 
-                                <div className="border-t pt-3 flex justify-between font-bold text-base">
+                                <div className="flex justify-between border-t pt-3 text-base font-bold">
                                     <span>Total Amount</span>
-                                    <span className="text-emerald-600 dark:text-emerald-400">{order.total.formatted}</span>
+                                    <span className="text-emerald-600 dark:text-emerald-400">
+                                        {order.total.formatted}
+                                    </span>
                                 </div>
                             </div>
 
                             {order.status === 'pending_payment' && (
-                                <Button onClick={handlePayNow} disabled={loadingPayment} className="w-full mt-4" size="lg">
+                                <Button
+                                    onClick={handlePayNow}
+                                    disabled={loadingPayment}
+                                    className="mt-4 w-full"
+                                    size="lg"
+                                >
                                     {loadingPayment ? (
                                         <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />{' '}
+                                            Processing...
                                         </>
                                     ) : (
                                         <>
-                                            <CreditCard className="mr-2 h-4 w-4" /> Pay {order.total.formatted} Now
+                                            <CreditCard className="mr-2 h-4 w-4" />{' '}
+                                            Pay {order.total.formatted} Now
                                         </>
                                     )}
                                 </Button>

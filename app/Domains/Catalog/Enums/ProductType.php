@@ -14,6 +14,7 @@ enum ProductType: string
     case HolidayPack = 'holiday_pack';
     case RevisionPack = 'revision_pack';
     case Bundle = 'bundle';
+    case Membership = 'membership';
 
     /**
      * The `{type}` segment of `/shop/{type}` (docs/reference/routes-and-screens.md).
@@ -27,6 +28,7 @@ enum ProductType: string
             self::HolidayPack => 'holiday-packs',
             self::RevisionPack => 'revision-packs',
             self::Bundle => 'bundles',
+            self::Membership => 'membership',
         };
     }
 

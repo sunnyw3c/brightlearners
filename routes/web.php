@@ -11,6 +11,7 @@ use App\Http\Controllers\Learn\ClassController;
 use App\Http\Controllers\Learn\LearnController;
 use App\Http\Controllers\Learn\SubjectController;
 use App\Http\Controllers\Learn\TopicController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\Payments\WebhookController;
 use App\Http\Controllers\SearchController;
@@ -39,6 +40,9 @@ Route::get('/shop/{class}/{slug}', [ShopController::class, 'show'])
     ->where('class', 'class-[a-z0-9-]+|all-classes')
     ->name('shop.show');
 Route::get('/products/{slug}', [ShopController::class, 'alias'])->name('products.alias');
+
+Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
+Route::get('/membership/sample-month', [MembershipController::class, 'sample'])->name('membership.sample');
 
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 Route::post('/cart/items', [CartController::class, 'addItem'])->name('cart.items.store');

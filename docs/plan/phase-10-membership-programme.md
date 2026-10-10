@@ -40,7 +40,7 @@ php artisan make:command ExpireMemberships --no-interaction
 
 ## Build steps
 
-- [ ] **10.1** Create the plan model with pilot, monthly, quarterly and annual definitions. Activate only the pilot.
+- [x] **10.1** Create the plan model with pilot, monthly, quarterly and annual definitions. Activate only the pilot.
 
   | Code | Price (paise) | Length | Active |
   |---|---|---|---|
@@ -51,22 +51,22 @@ php artisan make:command ExpireMemberships --no-interaction
 
   Create one product of type `membership` linked to `pilot_90` through `products.subscription_plan_id`. A cart can hold one membership product, and not while the user already has an active membership (D-17).
 
-- [ ] **10.2** On pilot purchase, create the membership with start date, end date and status. `auto_renew` is false.
+- [x] **10.2** On pilot purchase, create the membership with start date, end date and status. `auto_renew` is false.
   - `ActivateMembership` runs from a listener on `OrderPaid` when an order item is a membership product.
   - `starts_at` is the payment time, or the pilot start date from D-08 if that is later. `ends_at` is `starts_at` plus the plan length.
   - The unique index on `subscriptions.source_order_id` guarantees one membership per order, however many times the listener runs.
   - Write a `subscription_events` row and fire `MembershipActivated`.
 
-- [ ] **10.3** Create `learning_programs` by class and month, and `learning_weeks` 1–4.
+- [x] **10.3** Create `learning_programs` by class and month, and `learning_weeks` 1–4.
 
-- [ ] **10.4** Attach resources to weekly learning items in a deliberate order (`learning_items.sort_order`), with optional parent guidance text per item.
+- [x] **10.4** Attach resources to weekly learning items in a deliberate order (`learning_items.sort_order`), with optional parent guidance text per item.
 
-- [ ] **10.5** Support `release_at`, so the next week or month can be prepared early and released on time.
+- [x] **10.5** Support `release_at`, so the next week or month can be prepared early and released on time.
   - `membership:release-weeks` runs every 5 minutes. It picks weeks whose `release_at` has passed and `released_at` is empty.
   - `ReleaseLearningWeek` releases a week only if the programme is published and every item's resource has a published current version. It sets `released_at` and fires `LearningWeekReleased`.
   - A week that is due but not ready is not released. It appears on the admin dashboard as blocked.
 
-- [ ] **10.6** Create the membership access rule: an active membership grants eligible current resources; flagship products stay excluded unless the plan explicitly includes them.
+- [x] **10.6** Create the membership access rule: an active membership grants eligible current resources; flagship products stay excluded unless the plan explicitly includes them.
 
   Implement the `MembershipAccess` contract from Phase 9. A resource is allowed when all of these are true:
   1. it is an item in a week that has been released;
@@ -78,17 +78,17 @@ php artisan make:command ExpireMemberships --no-interaction
 
   Membership grants only what is in a released week. A flagship ebook is never a learning item, so membership never unlocks it.
 
-- [ ] **10.7** Apply the member discount on eligible one-time products only while the membership is active and the pricing rule allows it. Implement the `MembershipChecker` contract from Phase 7. The percentage comes from the plan's `benefits`.
+- [x] **10.7** Apply the member discount on eligible one-time products only while the membership is active and the pricing rule allows it. Implement the `MembershipChecker` contract from Phase 7. The percentage comes from the plan's `benefits`.
 
-- [ ] **10.8** Implement the membership expiry job and status changes.
+- [x] **10.8** Implement the membership expiry job and status changes.
   - `membership:expire` runs hourly: active memberships past `ends_at` become `expired`, with an event row and `MembershipExpired`.
   - `MembershipExpiring` fires a configured number of days before the end (suggested 14 and 3).
 
-- [ ] **10.9** Create the admin month-at-a-glance view: for each class and week, the number of items, each item's review status, the release time, and a ready / blocked indicator.
+- [x] **10.9** Create the admin month-at-a-glance view: for each class and week, the number of items, each item's review status, the release time, and a ready / blocked indicator.
 
-- [ ] **10.10** Require next-month readiness before the current month's final week, wherever operations demand it. A config switch makes this a warning or a hard block on releasing week 4.
+- [x] **10.10** Require next-month readiness before the current month's final week, wherever operations demand it. A config switch makes this a warning or a hard block on releasing week 4.
 
-- [ ] **10.11** Queue the weekly and new-month notifications. This phase fires the events; the emails and the dashboard are built in Phase 11.
+- [x] **10.11** Queue the weekly and new-month notifications. This phase fires the events; the emails and the dashboard are built in Phase 11.
 
 ## Data model
 
@@ -151,9 +151,9 @@ All in `tests/Feature/Membership/`. Use time travel for anything involving dates
 
 ## Exit checklist
 
-- [ ] The complete 90-day membership lifecycle passes with time-travel tests.
-- [ ] One full month for Classes 1–3 can be scheduled and released.
-- [ ] The membership page clearly states inclusions, exclusions, duration and renewal behaviour.
+- [x] The complete 90-day membership lifecycle passes with time-travel tests.
+- [x] One full month for Classes 1–3 can be scheduled and released.
+- [x] The membership page clearly states inclusions, exclusions, duration and renewal behaviour.
 
 ## Risks and controls
 

@@ -8,6 +8,7 @@ use App\Domains\Catalog\Policies\ProductPolicy;
 use App\Domains\Content\Enums\ResourceStatus;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Curriculum\Models\SchoolClass;
+use App\Domains\Membership\Models\SubscriptionPlan;
 use App\Support\Concerns\Auditable;
 use Database\Factories\ProductFactory;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -34,7 +35,7 @@ use Laravel\Scout\Searchable;
  */
 #[Fillable([
     'name', 'slug', 'type', 'sku', 'short_description', 'description',
-    'primary_class_id', 'regular_price', 'sale_price', 'sale_starts_at',
+    'primary_class_id', 'subscription_plan_id', 'regular_price', 'sale_price', 'sale_starts_at',
     'sale_ends_at', 'currency', 'member_discount_eligible', 'status',
     'featured', 'cover_path', 'publish_at', 'published_at', 'seo_title',
     'seo_description',
@@ -136,6 +137,14 @@ class Product extends Model
             ->withPivot(['sort_order', 'version_policy'])
             ->withTimestamps()
             ->orderBy('product_resources.sort_order');
+    }
+
+    /**
+     * @return BelongsTo<SubscriptionPlan, $this>
+     */
+    public function subscriptionPlan(): BelongsTo
+    {
+        return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
     }
 
     /**

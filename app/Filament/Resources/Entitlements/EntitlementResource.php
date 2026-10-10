@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Entitlements;
 
 use App\Domains\Access\Models\Entitlement;
+use App\Domains\Access\Services\AccessService;
 use App\Domains\Content\Models\LearningResource;
 use App\Filament\Resources\Entitlements\Pages\ListEntitlements;
 use App\Models\User;
@@ -97,6 +98,42 @@ class EntitlementResource extends Resource
                         Notification::make()
                             ->title('Entitlement Granted')
                             ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('checkAccess')
+                    ->label('Check Access (Why?)')
+                    ->icon('heroicon-o-question-mark-circle')
+                    ->color('gray')
+                    ->form([
+                        Forms\Components\Select::make('user_id')
+                            ->label('Customer User')
+                            ->options(User::query()->pluck('email', 'id'))
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\Select::make('resource_id')
+                            ->label('Learning Resource')
+                            ->options(LearningResource::query()->pluck('title', 'id'))
+                            ->searchable()
+                            ->required(),
+                    ])
+                    ->action(function (array $data): void {
+                        $user = User::find($data['user_id']);
+                        $resource = LearningResource::find($data['resource_id']);
+
+                        if (! $user || ! $resource) {
+                            return;
+                        }
+
+                        $decision = app(AccessService::class)->canAccess($user, $resource);
+
+                        $sourceText = $decision->source ? " (Source: {$decision->source})" : '';
+                        $reasonText = $decision->reason->value;
+
+                        Notification::make()
+                            ->title($decision->allowed ? 'Access ALLOWED' : 'Access DENIED')
+                            ->body("Result: {$reasonText}{$sourceText}")
+                            ->status($decision->allowed ? 'success' : 'danger')
+                            ->persistent()
                             ->send();
                     }),
             ])

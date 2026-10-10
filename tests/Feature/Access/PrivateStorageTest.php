@@ -12,3 +12,8 @@ test('The resources storage disk is configured as a private disk and not publicl
     $publicPath = public_path('resources');
     expect(file_exists($publicPath))->toBeFalse();
 });
+
+test('No paid or source PDF files exist under the public web root', function () {
+    $pdfFiles = glob(public_path('**/*.pdf')) ?: [];
+    expect($pdfFiles)->toBeEmpty();
+});

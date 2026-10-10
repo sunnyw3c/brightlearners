@@ -39,9 +39,12 @@ export default function OrderIndex({ orders }: Props) {
 
             <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
                 <header className="space-y-1">
-                    <h1 className="text-2xl font-bold tracking-tight">Order History</h1>
+                    <h1 className="text-2xl font-bold tracking-tight">
+                        Order History
+                    </h1>
                     <p className="text-sm text-muted-foreground">
-                        View past purchases and receipt details for your account.
+                        View past purchases and receipt details for your
+                        account.
                     </p>
                 </header>
 
@@ -50,33 +53,43 @@ export default function OrderIndex({ orders }: Props) {
                         {orders.data.map((order) => (
                             <div
                                 key={order.id}
-                                className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5"
+                                className="flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center"
                             >
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-3">
-                                        <span className="font-semibold text-base">{order.order_number}</span>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                            order.status === 'paid'
-                                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                                                : order.status === 'pending_payment'
-                                                ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
-                                        }`}>
+                                        <span className="text-base font-semibold">
+                                            {order.order_number}
+                                        </span>
+                                        <span
+                                            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                                order.status === 'paid'
+                                                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                                                    : order.status ===
+                                                        'pending_payment'
+                                                      ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                                                      : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+                                            }`}
+                                        >
                                             {order.status_label}
                                         </span>
                                     </div>
                                     <div className="text-xs text-muted-foreground">
-                                        Placed on {order.created_at} • {order.items_count} item(s)
+                                        Placed on {order.created_at} •{' '}
+                                        {order.items_count} item(s)
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between sm:justify-end gap-6">
-                                    <div className="text-right font-semibold text-base">
+                                <div className="flex items-center justify-between gap-6 sm:justify-end">
+                                    <div className="text-right text-base font-semibold">
                                         {order.total.formatted}
                                     </div>
 
                                     <Button asChild variant="outline" size="sm">
-                                        <a href={orderShowRoute.url({ order: order.id })}>
+                                        <a
+                                            href={orderShowRoute.url({
+                                                order: order.id,
+                                            })}
+                                        >
                                             View Details
                                         </a>
                                     </Button>
@@ -85,8 +98,10 @@ export default function OrderIndex({ orders }: Props) {
                         ))}
                     </div>
                 ) : (
-                    <div className="rounded-2xl border bg-card p-12 text-center shadow-sm space-y-4">
-                        <div className="text-muted-foreground">You haven't placed any orders yet.</div>
+                    <div className="space-y-4 rounded-2xl border bg-card p-12 text-center shadow-sm">
+                        <div className="text-muted-foreground">
+                            You haven't placed any orders yet.
+                        </div>
                         <Button asChild>
                             <a href={shopIndexRoute.url()}>Explore Shop</a>
                         </Button>
