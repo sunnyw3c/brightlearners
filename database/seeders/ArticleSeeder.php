@@ -20,8 +20,24 @@ class ArticleSeeder extends Seeder
     public function run(): void
     {
         $author = User::where('email', 'admin@brightlearners.in')->first()
+            ?? User::where('email', 'admin@brightlearners.test')->first()
             ?? User::where('email', 'admin@example.com')->first()
             ?? User::first();
+
+        if (! $author) {
+            $author = User::firstOrCreate(
+                ['email' => 'admin@brightlearners.in'],
+                [
+                    'name' => 'Super Admin',
+                    'password' => bcrypt('password'),
+                    'email_verified_at' => now(),
+                ]
+            );
+            if (class_exists(\Spatie\Permission\Models\Role::class)) {
+                $role = \Spatie\Permission\Models\Role::findOrCreate('super-admin', 'web');
+                $author->assignRole($role);
+            }
+        }
 
         $mathsCat = ArticleCategory::where('slug', 'maths-help')->first();
         $readingCat = ArticleCategory::where('slug', 'reading')->first();

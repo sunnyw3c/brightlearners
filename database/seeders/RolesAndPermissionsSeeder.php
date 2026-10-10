@@ -76,6 +76,8 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         foreach (self::ROLES as $role) {
             Role::findOrCreate($role, 'web');
         }
