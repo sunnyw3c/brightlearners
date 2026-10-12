@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\Entitlements;
 
+use App\Domains\Access\Actions\GrantManualEntitlement;
+use App\Domains\Access\Actions\RevokeManualEntitlement;
 use App\Domains\Access\Models\Entitlement;
 use App\Domains\Access\Services\AccessService;
 use App\Domains\Content\Models\LearningResource;
 use App\Filament\Resources\Entitlements\Pages\ListEntitlements;
 use App\Models\User;
 use BackedEnum;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -22,7 +25,7 @@ class EntitlementResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedKey;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Access & Customers';
+    protected static string|UnitEnum|null $navigationGroup = 'Support';
 
     protected static ?string $navigationLabel = 'Entitlements';
 
@@ -83,17 +86,16 @@ class EntitlementResource extends Resource
                             ->required(),
                     ])
                     ->action(function (array $data): void {
-                        Entitlement::query()->create([
-                            'user_id' => $data['user_id'],
-                            'resource_id' => $data['resource_id'],
-                            'source_type' => 'admin_grant',
-                            'starts_at' => now(),
-                            'ends_at' => $data['ends_at'] ?? null,
-                            'metadata' => [
-                                'reason' => $data['reason'],
-                                'granted_by' => auth()->id(),
-                            ],
-                        ]);
+                        $user = User::findOrFail($data['user_id']);
+                        $resource = LearningResource::findOrFail($data['resource_id']);
+                        $endsAt = ! empty($data['ends_at']) ? Carbon::parse($data['ends_at']) : null;
+
+                        app(GrantManualEntitlement::class)->handle(
+                            $user,
+                            $resource,
+                            $data['reason'],
+                            $endsAt
+                        );
 
                         Notification::make()
                             ->title('Entitlement Granted')
@@ -149,14 +151,10 @@ class EntitlementResource extends Resource
                             ->required(),
                     ])
                     ->action(function (Entitlement $record, array $data): void {
-                        $metadata = $record->metadata ?? [];
-                        $metadata['revocation_reason'] = $data['reason'];
-                        $metadata['revoked_by'] = auth()->id();
-
-                        $record->update([
-                            'revoked_at' => now(),
-                            'metadata' => $metadata,
-                        ]);
+                        app(RevokeManualEntitlement::class)->handle(
+                            $record,
+                            $data['reason']
+                        );
 
                         Notification::make()
                             ->title('Entitlement Revoked')

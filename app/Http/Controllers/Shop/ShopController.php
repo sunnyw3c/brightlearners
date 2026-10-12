@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Shop;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Catalog\Enums\ProductType;
 use App\Domains\Catalog\Queries\ShopIndexQuery;
 use App\Domains\Catalog\Queries\ShopShowQuery;
@@ -83,6 +85,16 @@ class ShopController extends Controller
         if ($class !== $canonicalClass) {
             return redirect()->route('shop.show', ['class' => $canonicalClass, 'slug' => $slug], 301);
         }
+
+        Analytics::track(
+            name: EventName::ProductView,
+            properties: [
+                'product_id' => $product->id,
+                'class' => $canonicalClass,
+                'price' => $product->price,
+            ],
+            source: 'server',
+        );
 
         $card = ProductCard::fromProduct($product);
         $deliverableResources = $product->deliverableResources();

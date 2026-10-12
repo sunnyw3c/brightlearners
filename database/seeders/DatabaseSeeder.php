@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ArticleCategorySeeder::class);
         $this->call(ArticleSeeder::class);
+        $this->call(PilotContentSeeder::class);
 
         User::firstOrCreate(
             ['email' => 'test@example.com'],

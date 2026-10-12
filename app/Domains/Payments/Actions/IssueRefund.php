@@ -8,6 +8,7 @@ use App\Domains\Payments\Enums\RefundStatus;
 use App\Domains\Payments\Events\RefundCompleted;
 use App\Domains\Payments\Models\Payment;
 use App\Domains\Payments\Models\Refund;
+use App\Support\Audit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -73,6 +74,14 @@ class IssueRefund
 
                 $this->transitionOrder->handle($order, $targetStatus);
             }
+
+            Audit::record(
+                'refund.issued',
+                $refund,
+                null,
+                ['amount' => $amount, 'reason' => $reason, 'status' => 'processed'],
+                ['payment_id' => $payment->id, 'order_id' => $order?->id]
+            );
 
             DB::afterCommit(function () use ($refund) {
                 RefundCompleted::dispatch($refund);

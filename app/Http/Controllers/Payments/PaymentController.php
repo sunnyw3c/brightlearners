@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Payments;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Commerce\Enums\OrderStatus;
 use App\Domains\Commerce\Models\Order;
 use App\Domains\Payments\Actions\VerifyRazorpayCallback;
@@ -61,6 +63,16 @@ class PaymentController extends Controller
 
             return redirect()->route('orders.success', $order->id)->with('success', 'Payment successful!');
         } catch (Throwable $e) {
+            Analytics::track(
+                name: EventName::PaymentFailed,
+                properties: [
+                    'order_id' => $order->id,
+                    'reason_category' => $e->getMessage(),
+                ],
+                userId: $order->user_id,
+                source: 'server',
+            );
+
             return redirect()->route('orders.payment-pending', $order->id)->with('error', $e->getMessage());
         }
     }

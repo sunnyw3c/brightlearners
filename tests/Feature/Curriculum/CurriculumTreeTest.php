@@ -1,10 +1,14 @@
 <?php
 
+use App\Domains\Content\Events\ResourcePublished;
+use App\Domains\Content\Models\ResourceVersion;
 use App\Domains\Curriculum\Models\SchoolClass;
 use App\Domains\Curriculum\Models\Skill;
 use App\Domains\Curriculum\Models\Subject;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Curriculum\Queries\CurriculumTree;
+use Illuminate\Cache\TaggableStore;
+use Illuminate\Support\Facades\Cache;
 
 function mapSkillToClass(SchoolClass $class, Skill $skill, bool $active = true): void
 {
@@ -133,4 +137,36 @@ test('a skill mapped to a different class does not appear for this class', funct
         ?->skills;
 
     expect($skills->pluck('id'))->not->toContain($skill->id);
+});
+
+test('curriculum tree is cached and invalidated on resource published and model updates', function () {
+    Cache::flush();
+
+    $class = SchoolClass::factory()->create();
+    $subject = Subject::factory()->create();
+    $topic = Topic::factory()->for($subject)->create();
+    $skill = Skill::factory()->for($topic)->create();
+    $class->subjects()->attach($subject->id, ['sort_order' => 0, 'active' => true]);
+    mapSkillToClass($class, $skill);
+
+    $tree = (new CurriculumTree)->get();
+    $supportsTags = Cache::getStore() instanceof TaggableStore;
+    $hasCache = fn () => $supportsTags
+        ? Cache::tags([CurriculumTree::CACHE_TAG])->has(CurriculumTree::CACHE_KEY)
+        : Cache::has(CurriculumTree::CACHE_KEY);
+
+    expect($hasCache())->toBeTrue();
+
+    // Verify cache invalidation on ResourcePublished
+    $version = ResourceVersion::factory()->create();
+    ResourcePublished::dispatch($version);
+    expect($hasCache())->toBeFalse();
+
+    // Repopulate cache
+    (new CurriculumTree)->get();
+    expect($hasCache())->toBeTrue();
+
+    // Invalidate on curriculum model update
+    $class->update(['name' => 'Renamed Class']);
+    expect($hasCache())->toBeFalse();
 });

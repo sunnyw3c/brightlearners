@@ -5,7 +5,9 @@ namespace App\Domains\Curriculum\Queries;
 use App\Domains\Curriculum\Models\SchoolClass;
 use App\Domains\Curriculum\Models\Subject;
 use App\Domains\Curriculum\Models\Topic;
+use Illuminate\Cache\TaggableStore;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * The public curriculum tree: class -> subjects -> topics -> skills,
@@ -16,16 +18,35 @@ use Illuminate\Support\Collection;
  */
 class CurriculumTree
 {
+    public const CACHE_KEY = 'curriculum:tree';
+
+    public const CACHE_TAG = 'curriculum';
+
     /**
      * @return Collection<int, SchoolClass>
      */
     public function get(): Collection
     {
-        return SchoolClass::query()
+        $resolver = fn (): Collection => SchoolClass::query()
             ->active()
             ->orderBy('sort_order')
             ->get()
             ->map(fn (SchoolClass $class): SchoolClass => $this->loadSubjects($class));
+
+        if (Cache::getStore() instanceof TaggableStore) {
+            return Cache::tags([self::CACHE_TAG])->remember(self::CACHE_KEY, now()->addDay(), $resolver);
+        }
+
+        return Cache::remember(self::CACHE_KEY, now()->addDay(), $resolver);
+    }
+
+    public static function flushCache(): void
+    {
+        if (Cache::getStore() instanceof TaggableStore) {
+            Cache::tags([self::CACHE_TAG])->flush();
+        }
+
+        Cache::forget(self::CACHE_KEY);
     }
 
     private function loadSubjects(SchoolClass $class): SchoolClass

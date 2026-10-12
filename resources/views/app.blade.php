@@ -38,6 +38,17 @@
             <meta name="google-site-verification" content="{{ $googleVerification }}">
         @endif
 
+        @if (app()->isProduction() && ($gaId = config('analytics.ga4_id')))
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '{{ $gaId }}');
+            </script>
+        @endif
+
         @fonts
 
         @viteReactRefresh

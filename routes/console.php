@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Analytics\Models\AnalyticsEvent;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -17,3 +18,5 @@ Schedule::command('orders:expire-pending')->everyFiveMinutes()->onOneServer();
 Schedule::command('membership:release-weeks')->everyFiveMinutes()->onOneServer();
 Schedule::command('membership:expire')->hourly()->onOneServer();
 Schedule::command('sitemap:generate')->daily()->onOneServer();
+Schedule::command('analytics:aggregate-daily')->dailyAt('00:05')->onOneServer();
+Schedule::command('model:prune', ['--model' => [AnalyticsEvent::class]])->dailyAt('01:00')->onOneServer();

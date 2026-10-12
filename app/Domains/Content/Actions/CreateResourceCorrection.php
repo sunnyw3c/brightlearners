@@ -9,6 +9,7 @@ use App\Domains\Content\Models\LearningResource;
 use App\Domains\Content\Models\ResourceVersion;
 use App\Domains\Content\Services\ResourceFileStorage;
 use App\Models\User;
+use App\Support\Audit;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
 
@@ -61,6 +62,14 @@ class CreateResourceCorrection
         ]);
 
         $resource->update(['status' => ResourceStatus::Draft]);
+
+        Audit::record(
+            'resource_version.created',
+            $version,
+            null,
+            ['version' => $nextVersion, 'file_path' => $filePath],
+            ['resource_id' => $resource->id, 'severity' => $severity->value, 'uploader_id' => $uploader->id]
+        );
 
         ResourceVersionUploaded::dispatch($version);
 

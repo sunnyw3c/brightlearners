@@ -31,4 +31,9 @@ class OrderPolicy
     {
         return false;
     }
+
+    public function forceDelete(User $user, Order $order): bool
+    {
+        return false;
+    }
 }

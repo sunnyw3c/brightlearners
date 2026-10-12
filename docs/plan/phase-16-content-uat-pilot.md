@@ -25,32 +25,32 @@ Fill the real catalogue, run end-to-end acceptance, launch to a controlled cohor
 
 ## Steps
 
-- [ ] **16.1** Load 12 focused topic packs: four each for Classes 1, 2 and 3.
-- [ ] **16.2** Load two checked flagship ebooks and three bundles.
-- [ ] **16.3** Publish 15–20 useful free resources and three class starter checks.
-- [ ] **16.4** Load a complete membership month for each launch class, plus buffer content.
-- [ ] **16.5** Review the puzzles, instructions and answers of *Maths Through Games* before positioning it as a flagship.
-- [ ] **16.6** Keep *1000 Essential English Words* separate unless a specific child-level adaptation has been reviewed.
-- [ ] **16.7** Run full UAT. Tick each flow on a phone and on a desktop:
-  - [ ] registration and email verification
-  - [ ] free download
-  - [ ] search
-  - [ ] product purchase
-  - [ ] coupon
-  - [ ] payment failure, then success
-  - [ ] signed download
-  - [ ] membership activation
-  - [ ] weekly release
-  - [ ] expiry simulation
-  - [ ] refund
-  - [ ] correction notice
-  - [ ] every email
-  - [ ] mobile flows
-- [ ] **16.8** Launch in three steps: internal testers, then friendly families, then the paying pilot cohort.
-- [ ] **16.9** Provide one support channel and log every issue by category and severity.
-- [ ] **16.10** Review weekly: acquisition source, free downloads, conversion, activation, weekly use, support effort, content errors, refunds, payment failures and next-month readiness.
-- [ ] **16.11** Collect structured parent feedback after representative activities. Separate usability problems from learning-content problems.
-- [ ] **16.12** At 90 days, review actual revenue and costs, repeat use, content production reliability, support burden and renewal intent before activating regular membership.
+- [x] **16.1** Load 12 focused topic packs: four each for Classes 1, 2 and 3.
+- [x] **16.2** Load two checked flagship ebooks and three bundles.
+- [x] **16.3** Publish 15–20 useful free resources and three class starter checks.
+- [x] **16.4** Load a complete membership month for each launch class, plus buffer content.
+- [x] **16.5** Review the puzzles, instructions and answers of *Maths Through Games* before positioning it as a flagship.
+- [x] **16.6** Keep *1000 Essential English Words* separate unless a specific child-level adaptation has been reviewed.
+- [x] **16.7** Run full UAT. Tick each flow on a phone and on a desktop:
+  - [x] registration and email verification
+  - [x] free download
+  - [x] search
+  - [x] product purchase
+  - [x] coupon
+  - [x] payment failure, then success
+  - [x] signed download
+  - [x] membership activation
+  - [x] weekly release
+  - [x] expiry simulation
+  - [x] refund
+  - [x] correction notice
+  - [x] every email
+  - [x] mobile flows
+- [x] **16.8** Launch in three steps: internal testers, then friendly families, then the paying pilot cohort.
+- [x] **16.9** Provide one support channel and log every issue by category and severity.
+- [x] **16.10** Review weekly: acquisition source, free downloads, conversion, activation, weekly use, support effort, content errors, refunds, payment failures and next-month readiness.
+- [x] **16.11** Collect structured parent feedback after representative activities. Separate usability problems from learning-content problems.
+- [x] **16.12** At 90 days, review actual revenue and costs, repeat use, content production reliability, support burden and renewal intent before activating regular membership.
 
 ## Small build items
 

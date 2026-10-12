@@ -47,7 +47,7 @@ visitor → free resource → product → purchase → membership → weekly use
 
 ## KPIs
 
-The source plan names these KPIs but does not define them. The definitions below are proposals. Confirm or change each one when Phase 13 builds it; after that a definition must not change silently.
+The definitions below are confirmed and implemented in [Phase 13](../plan/phase-13-analytics-kpis.md). Revenue is computed strictly from `orders` and `payments` to reconcile with actual monetary intake. After this phase, these definitions must not change silently.
 
 | KPI | Metric key | Definition | Source |
 |---|---|---|---|

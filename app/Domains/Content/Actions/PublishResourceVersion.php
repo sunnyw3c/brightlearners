@@ -12,6 +12,7 @@ use App\Domains\Content\Events\ResourcePublished;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Content\Models\ResourceCorrection;
 use App\Domains\Content\Models\ResourceVersion;
+use App\Support\Audit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -60,6 +61,14 @@ class PublishResourceVersion
             if ($previousCurrent !== null) {
                 $this->recordCorrection($resource, $previousCurrent, $version);
             }
+
+            Audit::record(
+                'resource.published',
+                $resource,
+                ['status' => 'draft'],
+                ['status' => 'published'],
+                ['version' => $version->version, 'version_id' => $version->id]
+            );
 
             ResourcePublished::dispatch($version);
 

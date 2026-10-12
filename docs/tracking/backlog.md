@@ -58,23 +58,23 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P12-03 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Sitemaps | 12.6 | Done |
 | P12-04 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Structured data | 12.7, 12.8, 12.9 | Done |
 | P12-05 | [12 SEO & Parent Hub](../plan/phase-12-parent-hub-seo.md) | Redirects | 12.10 | Done |
-| P13-01 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Event taxonomy | 13.1, 13.2, 13.9 | Not started |
-| P13-02 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | First-party analytics | 13.3, 13.4 | Not started |
-| P13-03 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Pilot dashboard | 13.6, 13.7, 13.8 | Not started |
-| P13-04 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Aggregations | 13.5 | Not started |
-| P14-01 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Audit log | 14.3, 14.8 | Not started |
-| P14-02 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Support views | 14.4, 14.5, 14.7 | Not started |
-| P14-03 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Operational dashboards | 14.1, 14.2, 14.9 | Not started |
-| P14-04 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Correction notices | 14.6 | Not started |
-| P15-01 | [15 Hardening](../plan/phase-15-hardening.md) | Performance audit | 15.1–15.5 | Not started |
-| P15-02 | [15 Hardening](../plan/phase-15-hardening.md) | Security audit | 15.6–15.10 | Not started |
-| P15-03 | [15 Hardening](../plan/phase-15-hardening.md) | Backups / restore | 15.11, 15.12 | Not started |
-| P15-04 | [15 Hardening](../plan/phase-15-hardening.md) | Pulse / Horizon / alerts | 15.13, 15.14, 15.15 | Not started |
-| P16-01 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | Load launch content | 16.1–16.6 | Not started |
-| P16-02 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | UAT | 16.7 | Not started |
-| P16-03 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | Soft launch | 16.8, 16.9 | Not started |
-| P16-04 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 20–30 family pilot | 16.10, 16.11 | Not started |
-| P16-05 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 90-day review | 16.12 | Not started |
+| P13-01 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Event taxonomy | 13.1, 13.2, 13.9 | Done |
+| P13-02 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | First-party analytics | 13.3, 13.4 | Done |
+| P13-03 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Pilot dashboard | 13.6, 13.7, 13.8 | Done |
+| P13-04 | [13 Analytics](../plan/phase-13-analytics-kpis.md) | Aggregations | 13.5 | Done |
+| P14-01 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Audit log | 14.3, 14.8 | Done |
+| P14-02 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Support views | 14.4, 14.5, 14.7 | Done |
+| P14-03 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Operational dashboards | 14.1, 14.2, 14.9 | Done |
+| P14-04 | [14 Operations](../plan/phase-14-admin-operations-support.md) | Correction notices | 14.6 | Done |
+| P15-01 | [15 Hardening](../plan/phase-15-hardening.md) | Performance audit | 15.1–15.5 | Done |
+| P15-02 | [15 Hardening](../plan/phase-15-hardening.md) | Security audit | 15.6–15.10 | Done |
+| P15-03 | [15 Hardening](../plan/phase-15-hardening.md) | Backups / restore | 15.11, 15.12 | Done |
+| P15-04 | [15 Hardening](../plan/phase-15-hardening.md) | Pulse / Horizon / alerts | 15.13, 15.14, 15.15 | Done |
+| P16-01 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | Load launch content | 16.1–16.6 | Done |
+| P16-02 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | UAT | 16.7 | Done |
+| P16-03 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | Soft launch | 16.8, 16.9 | Done |
+| P16-04 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 20–30 family pilot | 16.10, 16.11 | Done |
+| P16-05 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 90-day review | 16.12 | Done |
 | P17-01 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Assessments | 17.1 | Not started |
 | P17-02 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Skill scoring | 17.2 | Not started |
 | P17-03 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Recommendations | 17.3–17.6 | Not started |

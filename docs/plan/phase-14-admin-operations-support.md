@@ -26,7 +26,7 @@ Finish the operating layer around Filament: dashboards, queues, support actions,
 
 ## Build steps
 
-- [ ] **14.1** Group the admin into Content, Commerce, Membership, Customers, Marketing, Support and System.
+- [x] **14.1** Group the admin into Content, Commerce, Membership, Customers, Marketing, Support and System.
 
   | Group | Contains | Mockup item |
   |---|---|---|
@@ -38,26 +38,26 @@ Finish the operating layer around Filament: dashboards, queues, support actions,
   | Support | Customer view, access check, support notes | Support |
   | System | Staff, roles, audit log, webhook events, analytics, settings | Analytics, Settings |
 
-- [ ] **14.2** Create dashboards for: content awaiting review, programmes missing items, failed payments, expiring memberships, correction notices. Each is a Filament widget that links to the filtered list.
+- [x] **14.2** Create dashboards for: content awaiting review, programmes missing items, failed payments, expiring memberships, correction notices. Each is a Filament widget that links to the filtered list.
 
-- [ ] **14.3** Add audit logging for price changes, publishing, file replacement and new versions, refunds, entitlement grants and role changes.
+- [x] **14.3** Add audit logging for price changes, publishing, file replacement and new versions, refunds, entitlement grants and role changes.
   - Go through each of the six and confirm `Audit::record()` is called from the action, not from the form.
   - Add a read-only audit viewer, filtered by actor, subject and action.
   - `content-manager` sees its own area. Support and Finance see a limited view.
 
-- [ ] **14.4** Create the support customer view: orders, payment state, membership, the reason for library access and notification history, with as little learner data as possible. One page per parent, built from existing queries. Learning profiles show nickname and class only.
+- [x] **14.4** Create the support customer view: orders, payment state, membership, the reason for library access and notification history, with as little learner data as possible. One page per parent, built from existing queries. Learning profiles show nickname and class only.
 
-- [ ] **14.5** Implement manual access grant and revoke with a mandatory reason and an optional expiry. Complete the action started in Phase 9 and make it available from the support customer view.
+- [x] **14.5** Implement manual access grant and revoke with a mandatory reason and an optional expiry. Complete the action started in Phase 9 and make it available from the support customer view.
 
-- [ ] **14.6** Create the correction-notice workflow that selects affected purchasers and members from resource version and download history.
+- [x] **14.6** Create the correction-notice workflow that selects affected purchasers and members from resource version and download history.
   - From a published material correction: preview the recipient list from `AffectedCustomers`, confirm, send `CorrectionNotice`, set `resource_corrections.notified_at`.
   - Sending twice is blocked.
 
-- [ ] **14.7** Add export functions for finance and order reporting as needed, with permission restrictions. CSV exports of orders, payments and refunds, queued, and recorded in the audit log.
+- [x] **14.7** Add export functions for finance and order reporting as needed, with permission restrictions. CSV exports of orders, payments and refunds, queued, and recorded in the audit log.
 
-- [ ] **14.8** Use soft-delete and archive patterns, never destructive delete, for business records. Check every Filament resource: no bulk hard delete on orders, payments, entitlements, resources, versions, products or users.
+- [x] **14.8** Use soft-delete and archive patterns, never destructive delete, for business records. Check every Filament resource: no bulk hard delete on orders, payments, entitlements, resources, versions, products or users.
 
-- [ ] **14.9** Document the operational procedures for publishing, refunds, corrections, failed payments and customer-access troubleshooting. Write them as short step lists in `docs/sop/`, one file each:
+- [x] **14.9** Document the operational procedures for publishing, refunds, corrections, failed payments and customer-access troubleshooting. Write them as short step lists in `docs/sop/`, one file each:
   - `publish-a-resource.md`
   - `issue-a-refund.md`
   - `publish-a-correction.md`
@@ -90,9 +90,9 @@ Finish the operating layer around Filament: dashboards, queues, support actions,
 
 ## Exit checklist
 
-- [ ] A support user can resolve a common access issue without the database console.
-- [ ] A content manager can publish next month's programme without developer help.
-- [ ] A business admin can see why a programme is not launch-ready.
+- [x] A support user can resolve a common access issue without the database console.
+- [x] A content manager can publish next month's programme without developer help.
+- [x] A business admin can see why a programme is not launch-ready.
 
 ## Risks and controls
 

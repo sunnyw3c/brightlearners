@@ -2,12 +2,14 @@
 
 namespace App\Domains\Access\Models;
 
+use App\Domains\Access\Policies\EntitlementPolicy;
 use App\Domains\Accounts\Models\LearningProfile;
 use App\Domains\Content\Models\LearningResource;
 use App\Models\User;
 use Database\Factories\EntitlementFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'source_id', 'starts_at', 'ends_at', 'revoked_at', 'metadata',
 ])]
 #[UseFactory(EntitlementFactory::class)]
+#[UsePolicy(EntitlementPolicy::class)]
 class Entitlement extends Model
 {
     /** @use HasFactory<EntitlementFactory> */

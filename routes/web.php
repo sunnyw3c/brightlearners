@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Analytics\ClientEventController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Commerce\CartController;
 use App\Http\Controllers\Commerce\CheckoutController;
 use App\Http\Controllers\Commerce\OrderResultController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\Free\FreeResourceController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HomeController;
@@ -32,9 +34,9 @@ Route::get('/free/{class}/{subject}/{slug}', [FreeResourceController::class, 'sh
     ->where('class', 'class-[a-z0-9-]+')
     ->name('free.show');
 
-Route::get('/search', SearchController::class)->name('search');
+Route::get('/search', SearchController::class)->middleware('throttle:search')->name('search');
 
-Route::get('/download/{resource:slug}', DownloadController::class)->name('downloads.show');
+Route::get('/download/{resource:slug}', DownloadController::class)->middleware('throttle:downloads')->name('downloads.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{type}', [ShopController::class, 'type'])
@@ -59,12 +61,14 @@ Route::get('/robots.txt', RobotsController::class)->name('robots');
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 Route::post('/cart/items', [CartController::class, 'addItem'])->name('cart.items.store');
 Route::delete('/cart/items/{product}', [CartController::class, 'removeItem'])->name('cart.items.destroy');
-Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon.store');
+Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->middleware('throttle:coupon')->name('cart.coupon.store');
 Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.destroy');
 
 Route::post('/webhooks/razorpay', WebhookController::class)->name('webhooks.razorpay');
+Route::post('/events', [ClientEventController::class, 'store'])->middleware('throttle:events')->name('events.store');
+Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('throttle:60,1')->name('feedback.store');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'throttle:checkout'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('/checkout/payment', [PaymentController::class, 'store'])->name('checkout.payment');

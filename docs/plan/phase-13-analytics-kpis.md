@@ -37,34 +37,34 @@ php artisan make:controller Analytics/ClientEventController --no-interaction
 
 ## Build steps
 
-- [ ] **13.1** Define immutable event names and their required properties before instrumenting anything.
+- [x] **13.1** Define immutable event names and their required properties before instrumenting anything.
   - `EventName` is an enum. A name is never renamed or reused with a different meaning.
   - `Analytics::track($name, $properties, $dedupeKey = null)` rejects a call that is missing a required property.
 
-- [ ] **13.2** Track `resource_view`, `resource_preview`, `free_download`, `product_view`, `add_to_cart`, `checkout_started`, `purchase_completed`, `payment_failed`, `membership_view`, `membership_started`, `resource_opened`, `resource_downloaded`, `resource_completed` and `search_performed`. Assessment events are added in Phase 17.
+- [x] **13.2** Track `resource_view`, `resource_preview`, `free_download`, `product_view`, `add_to_cart`, `checkout_started`, `purchase_completed`, `payment_failed`, `membership_view`, `membership_started`, `resource_opened`, `resource_downloaded`, `resource_completed` and `search_performed`. Assessment events are added in Phase 17.
 
-- [ ] **13.3** Include an anonymous or session ID before login, and the user ID only where the policy allows it. Do not store child-identifying data.
+- [x] **13.3** Include an anonymous or session ID before login, and the user ID only where the policy allows it. Do not store child-identifying data.
   - The anonymous ID is a random UUID in a first-party cookie. No fingerprinting.
   - Events carry `profile_id` as a number. They never carry a nickname.
   - On login, later events carry both IDs so a journey can be joined.
 
-- [ ] **13.4** Dispatch authoritative business events on the server, and UI engagement events from the client where that is the only place they can be seen.
+- [x] **13.4** Dispatch authoritative business events on the server, and UI engagement events from the client where that is the only place they can be seen.
   - Server: listeners on existing domain events write `purchase_completed`, `membership_started`, `free_download`, `resource_downloaded` and the rest marked "Server" in the dictionary.
   - Client: `POST /events` accepts only a short allow-list (`resource_preview`, `membership_view`), validates properties, and is rate-limited.
   - Writes go through the queue.
 
-- [ ] **13.5** Create daily aggregation jobs for dashboard metrics, so dashboards do not run expensive ad-hoc queries.
+- [x] **13.5** Create daily aggregation jobs for dashboard metrics, so dashboards do not run expensive ad-hoc queries.
   - `analytics:aggregate-daily` runs once a night and writes `daily_metrics`.
   - It can be re-run for any date and produces the same rows.
 
-- [ ] **13.6** Define the funnel: visitor → free resource → product → purchase → membership → weekly use. Each step is one named metric with one definition.
+- [x] **13.6** Define the funnel: visitor → free resource → product → purchase → membership → weekly use. Each step is one named metric with one definition.
 
-- [ ] **13.7** Calculate average order value, paid conversion, active members, member activation, repeat weekly use, refund rate, support rate and the renewal-intent signal.
+- [x] **13.7** Calculate average order value, paid conversion, active members, member activation, repeat weekly use, refund rate, support rate and the renewal-intent signal.
   - Revenue figures are computed from `orders` and `payments`, not from events, so they reconcile with money actually received.
 
-- [ ] **13.8** Create the pilot cohort view for the 20–30 families: one row per family with joined date, weeks active, packs opened and completed, purchases, support contacts.
+- [x] **13.8** Create the pilot cohort view for the 20–30 families: one row per family with joined date, weeks active, packs opened and completed, purchases, support contacts.
 
-- [ ] **13.9** Document the metric definitions so dashboards do not change meaning silently. Write each definition into [../reference/analytics-events.md](../reference/analytics-events.md) next to its metric key.
+- [x] **13.9** Document the metric definitions so dashboards do not change meaning silently. Write each definition into [../reference/analytics-events.md](../reference/analytics-events.md) next to its metric key.
 
 **External analytics.** Add GA4 (or an equivalent) as a secondary view. Its ID comes from config and the script loads only in production. It does not replace the first-party store, and it receives no learner detail.
 
@@ -116,9 +116,9 @@ Purchase and membership events are recorded on the server.
 
 ## Exit checklist
 
-- [ ] The pilot scorecard can be produced without manual database work.
-- [ ] Revenue metrics reconcile with payment records.
-- [ ] The analytics definitions are documented.
+- [x] The pilot scorecard can be produced without manual database work.
+- [x] Revenue metrics reconcile with payment records.
+- [x] The analytics definitions are documented.
 
 ## Risks and controls
 

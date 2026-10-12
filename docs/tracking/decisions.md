@@ -25,14 +25,17 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-07 | Phase 9 | Can an expired member re-download packs released during their membership? | No re-download after expiry; files already downloaded stay usable | Open | | | |
 | D-08 | Phase 10 | Pilot start date and the exact class / programme release calendar | One fixed weekly release day and time for all classes | Open | | | |
 | D-09 | Phase 12 | Final brand, domain and indexable URLs / slugs | "BrightLearners" is the working name used in the mockup and the repo | Open | | | |
-| D-10 | Phase 16 | Legal / privacy / policy review complete; support owner assigned | — | Open | | | |
+| D-10 | Phase 16 | Legal / privacy / policy review complete; support owner assigned | Support owner assigned (support@brightlearners.in); legal/privacy/policy reviews complete | Decided | Support owner assigned (support@brightlearners.in); legal/privacy/policy reviews complete | User decision | 2026-10-12 |
 | D-11 | Phase 17 | Does pilot evidence support recurring billing and assessment investment? | Decide from the 90-day review | Open | | | |
 | D-12 | Phase 18 | Business case for teacher / school / app / AI expansion | One written case per item | Open | | | |
 | D-13 | Phase 2 | What may a parent do before verifying their email? | Browse and download free resources; verify before checkout, library and dashboard | Default in use | | | |
 | D-14 | Phase 8, 9 | Refund policy: are partial refunds supported, and what does a refund do to access? | Full refunds only during the pilot; a full refund revokes that order's access | Open | | | |
-| D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Default in use | | | |
+| D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Decided | Support can request a refund; Finance or an admin issues it | Phase 14 implementation | 2026-10-12 |
 | D-16 | Phase 7 | Does a coupon stack with the member discount? | Yes, in the order sale price → member discount → coupon; no coupon may bring the total to zero | Open | | | |
 | D-17 | Phase 10 | What happens when a current member tries to buy membership again? | Blocked while a membership is active | Open | | | |
+| D-18 | Phase 15 | Performance budget for public pages | Core Web Vitals Good: LCP < 2.5s, INP < 200ms, CLS < 0.1 | Decided | Core Web Vitals Good: LCP < 2.5s, INP < 200ms, CLS < 0.1 on mobile profile | User decision | 2026-10-12 |
+| D-19 | Phase 15 | Database backup strategy and retention | Managed daily automated database snapshots with 30-day retention; no extra PHP package | Decided | Cloud-managed daily automated database snapshots with 30-day retention; no extra PHP package | User decision | 2026-10-12 |
+| D-20 | Phase 15 | Observability packages and dashboard access | Install laravel/pulse and laravel/horizon; access restricted to super-admin | Decided | Defer Horizon and Pulse; implement observability using Laravel daily logging, /health check, and standard metrics | User decision | 2026-10-12 |
 
 ## Mockup against plan
 
@@ -46,7 +49,7 @@ The mockup and the source plan disagree on these points. Detail is in [../refere
 | M-04 | Phase 6 | Show the "30-Day Support" badge? | Not until the support policy is approved | Default in use | | | |
 | M-05 | Phase 6, 7 | Quantity steppers on product and cart? | No. Quantity is always 1 for a digital household product. | Default in use | | | |
 | M-06 | Phase 6 | Use "Aligned to School Curriculum"? The plan rules out compliance claims. | Use wording the teacher reviewer approves | Default in use | | | |
-| M-07 | Phase 14 | Custom dark admin as drawn? | A Filament theme with a dark sidebar | Open | | | |
+| M-07 | Phase 14 | Custom dark admin as drawn? | A Filament theme with a dark sidebar | Decided | A Filament theme with a dark sidebar | Phase 14 implementation | 2026-10-12 |
 | M-08 | Phase 11 | How is the dashboard progress figure worded? | "Activities opened / completed", never a score | Decided | "Activities opened / completed", never a score | Phase 11 implementation | 2026-10-10 |
 
 ## Technical defaults

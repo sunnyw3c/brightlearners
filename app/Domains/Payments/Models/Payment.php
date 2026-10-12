@@ -4,9 +4,11 @@ namespace App\Domains\Payments\Models;
 
 use App\Domains\Commerce\Models\Order;
 use App\Domains\Payments\Enums\PaymentStatus;
+use App\Domains\Payments\Policies\PaymentPolicy;
 use Database\Factories\PaymentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'verified_at', 'paid_at', 'payload_reference',
 ])]
 #[UseFactory(PaymentFactory::class)]
+#[UsePolicy(PaymentPolicy::class)]
 class Payment extends Model
 {
     /** @use HasFactory<PaymentFactory> */

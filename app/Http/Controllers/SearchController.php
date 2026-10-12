@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Catalog\Queries\ProductSearchQuery;
 use App\Domains\Content\Queries\ResourceSearchQuery;
 use App\Domains\Growth\Queries\ArticleSearchQuery;
@@ -42,6 +44,16 @@ class SearchController extends Controller
                 $combined->count(),
                 self::PER_PAGE,
                 $page,
+            );
+
+            Analytics::track(
+                name: EventName::SearchPerformed,
+                properties: [
+                    'query' => $term,
+                    'filters' => (array) $request->except(['q', 'page']),
+                    'result_count' => $results->total(),
+                ],
+                source: 'server',
             );
         }
 

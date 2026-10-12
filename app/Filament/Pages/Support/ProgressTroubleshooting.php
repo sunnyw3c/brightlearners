@@ -31,10 +31,15 @@ class ProgressTroubleshooting extends Page implements HasTable
     {
         $user = Auth::user();
 
-        return (bool) ($user?->hasPermissionTo('customers.view-limited')
-            || $user?->hasPermissionTo('customers.view')
-            || $user?->hasRole('super-admin')
-            || $user?->hasRole('customer-support'));
+        if ($user === null) {
+            return false;
+        }
+
+        if ($user->hasRole('super-admin') || $user->hasRole('customer-support')) {
+            return true;
+        }
+
+        return $user->can('customers.view-limited') || $user->can('customers.view');
     }
 
     public function table(Table $table): Table

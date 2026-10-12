@@ -2,27 +2,22 @@
 
 namespace App\Domains\Content\Listeners;
 
+use App\Domains\Content\Actions\SendCorrectionNoticesAction;
 use App\Domains\Content\Events\MaterialCorrectionPublished;
-use App\Domains\Content\Queries\AffectedCustomers;
-use App\Notifications\CorrectionNotice;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendCorrectionNoticeOnPublished implements ShouldQueue
 {
     public function __construct(
-        private readonly AffectedCustomers $affectedCustomers,
+        private readonly SendCorrectionNoticesAction $sendCorrectionNotices,
     ) {}
 
     public function handle(MaterialCorrectionPublished $event): void
     {
-        $users = $this->affectedCustomers->forResource($event->correction->resource_id);
-
-        foreach ($users as $user) {
-            $user->notify(new CorrectionNotice($event->correction));
+        if ($event->correction->notified_at !== null) {
+            return;
         }
 
-        $event->correction->updateQuietly([
-            'notified_at' => now(),
-        ]);
+        $this->sendCorrectionNotices->handle($event->correction);
     }
 }

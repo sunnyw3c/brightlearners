@@ -32,7 +32,7 @@ class UserPolicy
 
     public function delete(User $user, User $model): bool
     {
-        return $user->can('roles.manage') && $user->isNot($model);
+        return false;
     }
 
     public function restore(User $user, User $model): bool

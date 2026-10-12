@@ -8,6 +8,7 @@ use App\Domains\Content\Models\ResourceVersion;
 use App\Domains\Content\Services\PdfInfoReader;
 use App\Domains\Content\Services\ResourceFileStorage;
 use App\Models\User;
+use App\Support\Audit;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
 
@@ -50,6 +51,14 @@ class UploadResourceVersion
         ]);
 
         $this->fillPageCountIfMissing($resource, $filePath);
+
+        Audit::record(
+            'resource_version.created',
+            $version,
+            null,
+            ['version' => '1.0', 'file_path' => $filePath],
+            ['resource_id' => $resource->id, 'uploader_id' => $uploader->id]
+        );
 
         ResourceVersionUploaded::dispatch($version);
 

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Domains\Accounts\Enums\UserStatus;
+use App\Domains\Accounts\Models\Feedback;
 use App\Domains\Accounts\Models\LearningProfile;
 use App\Domains\Accounts\Models\NotificationPreference;
+use App\Domains\Accounts\Models\SupportNote;
 use App\Domains\Commerce\Models\Order;
+use App\Domains\Membership\Models\Subscription;
 use Database\Factories\UserFactory;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
@@ -100,6 +103,30 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * @return HasMany<Subscription, $this>
+     */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * @return HasMany<SupportNote, $this>
+     */
+    public function supportNotes(): HasMany
+    {
+        return $this->hasMany(SupportNote::class);
+    }
+
+    /**
+     * @return HasMany<Feedback, $this>
+     */
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(Feedback::class);
     }
 
     /**

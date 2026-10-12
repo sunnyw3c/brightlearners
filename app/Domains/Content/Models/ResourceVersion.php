@@ -4,11 +4,13 @@ namespace App\Domains\Content\Models;
 
 use App\Domains\Content\Enums\CorrectionSeverity;
 use App\Domains\Content\Enums\PreviewStatus;
+use App\Domains\Content\Policies\ResourceVersionPolicy;
 use App\Models\User;
 use App\Support\Concerns\Auditable;
 use Database\Factories\ResourceVersionFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +29,7 @@ use RuntimeException;
     'is_current', 'created_by',
 ])]
 #[UseFactory(ResourceVersionFactory::class)]
+#[UsePolicy(ResourceVersionPolicy::class)]
 class ResourceVersion extends Model
 {
     use Auditable;

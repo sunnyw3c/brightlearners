@@ -110,14 +110,38 @@ Nothing secret has a `VITE_` prefix.
 
 ## Incident contacts
 
-Fill in during Phase 15.
+| Area | Role / Assignee | Escalation Channel | Response SLA |
+|---|---|---|---|
+| Application / Server Infrastructure | Engineering Lead / DevOps On-Call | alerts@brightlearners.in / DevOps Pager | 15 mins (P0) / 1 hr (P1) |
+| Payments (Razorpay Account Owner) | Finance & Platform Admin | payments@brightlearners.in | 30 mins (P0 payment failure) |
+| Content Corrections & Invalidation | Lead Content Editor | content-ops@brightlearners.in | 2 hrs |
+| Customer Support & Refunds | Support Lead | support@brightlearners.in | 1 business day |
 
-| Area | Person | Contact |
-|---|---|---|
-| Application / server | | |
-| Payments (Razorpay account owner) | | |
-| Content corrections | | |
-| Customer support | | |
+### Incident Classification & Triage
+- **P0 (Critical Outage)**: Payment gateway down, private files leaking without signed URLs, checkout blocked, or site inaccessible. Immediate engineering escalation; put platform in maintenance mode (`php artisan down --secret=...`) if security is compromised.
+- **P1 (Degraded Performance)**: High rate of 429s for genuine traffic, slow page loads (LCP > 3.5s), queue worker backlog growing (>1,000 jobs).
+- **P2 (Minor / Functional)**: Isolated non-blocking UI issues, single resource preview generation retry.
+
+## Database & File Backup Recovery Runbook
+
+1. **Daily Automated Snapshots**: Managed daily database snapshot retained for 30 days off-server (Decision D-19).
+2. **Snapshot Restore Procedure**:
+   - Create a staging/recovery instance from the targeted daily snapshot point-in-time.
+   - Run verification query: `SELECT count(*) FROM users; SELECT count(*) FROM orders;`.
+   - Update DNS or database connection strings if initiating a full failover.
+   - Run `php artisan migrate --force` if schema sync is required.
+3. **Private Object Storage Lifecycle**: Versioning enabled on private `resources` bucket with 90-day non-current version expiration.
+
+## Queue & Process Restart Procedures
+
+- **Worker Graceful Restart**: Run `php artisan queue:restart`. Existing jobs complete; queue supervisors reload worker processes with updated code.
+- **SSR Process Reload**: Run `php artisan inertia:stop-ssr`. Supervisor restarts the Node SSR server with fresh client bundles.
+- **Cache Invalidation on Emergency Correction**:
+  ```bash
+  php artisan cache:clear
+  # CurriculumTree cache flush
+  php artisan tinker --execute 'App\Domains\Curriculum\Queries\CurriculumTree::flushCache();'
+  ```
 
 ## Local development on Windows
 

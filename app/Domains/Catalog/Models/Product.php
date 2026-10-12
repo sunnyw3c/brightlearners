@@ -5,6 +5,7 @@ namespace App\Domains\Catalog\Models;
 use App\Domains\Catalog\Enums\ProductStatus;
 use App\Domains\Catalog\Enums\ProductType;
 use App\Domains\Catalog\Policies\ProductPolicy;
+use App\Domains\Catalog\Services\ProductPrice;
 use App\Domains\Content\Enums\ResourceStatus;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Curriculum\Models\SchoolClass;
@@ -261,6 +262,11 @@ class Product extends Model
     {
         return $this->status === ProductStatus::Active
             && ($this->publish_at === null || $this->publish_at->isPast());
+    }
+
+    public function getPriceAttribute(): int
+    {
+        return ProductPrice::for($this);
     }
 
     /**

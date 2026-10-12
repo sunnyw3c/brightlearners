@@ -45,6 +45,7 @@ class HandleInertiaRequests extends Middleware
             'growth' => [
                 'google_site_verification' => config('growth.google_site_verification'),
             ],
+            'anonymousId' => $request->cookie('bl_anon_id') ?? $request->attributes->get('anonymous_id'),
         ];
     }
 }

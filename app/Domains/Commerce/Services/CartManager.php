@@ -2,6 +2,8 @@
 
 namespace App\Domains\Commerce\Services;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Catalog\Enums\ProductStatus;
 use App\Domains\Catalog\Enums\ProductType;
 use App\Domains\Catalog\Models\Product;
@@ -94,10 +96,23 @@ class CartManager
         }
 
         // Digital products are quantity 1
-        return CartItem::query()->firstOrCreate(
+        $item = CartItem::query()->firstOrCreate(
             ['cart_id' => $cart->id, 'product_id' => $product->id],
             ['quantity' => 1]
         );
+
+        Analytics::track(
+            name: EventName::AddToCart,
+            properties: [
+                'product_id' => $product->id,
+                'price' => $product->price,
+                'cart_id' => $cart->id,
+            ],
+            userId: $cart->user_id,
+            source: 'server',
+        );
+
+        return $item;
     }
 
     public function removeItem(Cart $cart, int $productId): void

@@ -2,6 +2,8 @@
 
 namespace App\Domains\Payments\Actions;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Commerce\Actions\TransitionOrder;
 use App\Domains\Commerce\Enums\OrderStatus;
 use App\Domains\Payments\Enums\PaymentStatus;
@@ -113,6 +115,18 @@ class ProcessRazorpayWebhook
         $order = $payment->order;
         if ($order !== null && $order->status === OrderStatus::PendingPayment) {
             $this->transitionOrder->handle($order, OrderStatus::Failed);
+        }
+
+        if ($order !== null) {
+            Analytics::track(
+                name: EventName::PaymentFailed,
+                properties: [
+                    'order_id' => $order->id,
+                    'reason_category' => $errorReason,
+                ],
+                userId: $order->user_id,
+                source: 'server',
+            );
         }
     }
 

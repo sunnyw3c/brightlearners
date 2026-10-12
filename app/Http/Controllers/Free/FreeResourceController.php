@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Free;
 
+use App\Domains\Analytics\Enums\EventName;
+use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Content\Queries\FreeResourceIndexQuery;
 use App\Domains\Content\Queries\FreeResourceShowQuery;
 use App\Domains\Growth\Services\SeoBuilder;
@@ -60,6 +62,18 @@ class FreeResourceController extends Controller
                 'slug' => $slug,
             ], 301);
         }
+
+        Analytics::track(
+            name: EventName::ResourceView,
+            properties: [
+                'resource_id' => $resource->id,
+                'class' => $canonicalClass,
+                'subject' => $canonicalSubject,
+                'skill' => $resource->primaryMapping()?->skill?->slug ?? 'general',
+                'source' => request()->query('source', 'free'),
+            ],
+            source: 'server',
+        );
 
         return Inertia::render('free/show', [
             'resource' => ResourceCard::fromLearningResource($resource),
