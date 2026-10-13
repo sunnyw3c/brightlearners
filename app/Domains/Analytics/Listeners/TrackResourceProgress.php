@@ -17,11 +17,11 @@ class TrackResourceProgress
         Analytics::track(
             name: EventName::ResourceOpened,
             properties: [
-                'profile_id' => $progress->profile_id,
+                'profile_id' => $progress->learning_profile_id,
                 'resource_id' => $progress->resource_id,
                 'source' => 'web',
             ],
-            userId: $progress->profile?->user_id,
+            userId: $progress->user_id ?? $progress->profile?->user_id,
             source: 'server',
         );
     }
@@ -34,10 +34,10 @@ class TrackResourceProgress
         Analytics::track(
             name: EventName::ResourceCompleted,
             properties: [
-                'profile_id' => $progress->profile_id,
+                'profile_id' => $progress->learning_profile_id,
                 'resource_id' => $progress->resource_id,
             ],
-            userId: $progress->profile?->user_id,
+            userId: $progress->user_id ?? $progress->profile?->user_id,
             source: 'server',
         );
     }

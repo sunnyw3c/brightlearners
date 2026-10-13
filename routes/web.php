@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Analytics\ClientEventController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\Commerce\CartController;
 use App\Http\Controllers\Commerce\CheckoutController;
 use App\Http\Controllers\Commerce\OrderResultController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Learn\LearnController;
 use App\Http\Controllers\Learn\SubjectController;
 use App\Http\Controllers\Learn\TopicController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MembershipManageController;
 use App\Http\Controllers\ParentHubController;
 use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\Payments\WebhookController;
@@ -49,6 +51,17 @@ Route::get('/products/{slug}', [ShopController::class, 'alias'])->name('products
 
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
 Route::get('/membership/sample-month', [MembershipController::class, 'sample'])->name('membership.sample');
+
+// Phase 17 Assessments & Recurring Membership Management
+Route::get('/assessment/{slug}', [AssessmentController::class, 'show'])->name('assessments.show');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/assessment/{slug}/attempt', [AssessmentController::class, 'startAttempt'])->name('assessments.start-attempt');
+    Route::post('/assessment/attempt/{attempt}/submit', [AssessmentController::class, 'submitAttempt'])->name('assessments.submit-attempt');
+    Route::get('/assessment/attempt/{attempt}/result', [AssessmentController::class, 'result'])->name('assessments.result');
+
+    Route::get('/membership/manage', [MembershipManageController::class, 'show'])->name('membership.manage');
+    Route::post('/membership/manage/cancel', [MembershipManageController::class, 'cancel'])->name('membership.cancel');
+});
 
 Route::get('/parents', [ParentHubController::class, 'index'])->name('parents.index');
 Route::get('/parents/{category:slug}', [ParentHubController::class, 'category'])->name('parents.category');

@@ -7,6 +7,7 @@ import {
     LayoutGrid,
     Settings,
     ShoppingBag,
+    Sparkles,
     Users,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -53,6 +54,16 @@ const mainNavItems: NavItem[] = [
         title: 'Progress',
         href: '/account/progress',
         icon: BarChart3,
+    },
+    {
+        title: 'Skill Checks',
+        href: '/account/assessments',
+        icon: Sparkles,
+    },
+    {
+        title: 'Recommendations',
+        href: '/account/recommendations',
+        icon: BookOpen,
     },
     {
         title: 'Profiles',

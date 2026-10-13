@@ -37,10 +37,11 @@ class SubscriptionPlanSeeder extends Seeder
                 'duration_months' => 1,
                 'price' => 19900,
                 'currency' => 'INR',
-                'auto_renew_supported' => false,
-                'active' => false,
+                'auto_renew_supported' => true,
+                'active' => true,
                 'benefits' => [
                     'member_discount_percent' => 15,
+                    'inclusions' => 'All weekly learning packs for Class 1–3, parent guidance, answer keys',
                 ],
             ]
         );
@@ -53,10 +54,11 @@ class SubscriptionPlanSeeder extends Seeder
                 'duration_months' => 3,
                 'price' => 54900,
                 'currency' => 'INR',
-                'auto_renew_supported' => false,
-                'active' => false,
+                'auto_renew_supported' => true,
+                'active' => true,
                 'benefits' => [
                     'member_discount_percent' => 15,
+                    'inclusions' => 'All weekly learning packs for Class 1–3, parent guidance, answer keys',
                 ],
             ]
         );
@@ -69,10 +71,11 @@ class SubscriptionPlanSeeder extends Seeder
                 'duration_months' => 12,
                 'price' => 179900,
                 'currency' => 'INR',
-                'auto_renew_supported' => false,
-                'active' => false,
+                'auto_renew_supported' => true,
+                'active' => true,
                 'benefits' => [
                     'member_discount_percent' => 15,
+                    'inclusions' => 'All weekly learning packs for Class 1–3, parent guidance, answer keys',
                 ],
             ]
         );

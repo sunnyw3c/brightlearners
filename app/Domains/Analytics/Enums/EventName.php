@@ -62,7 +62,8 @@ enum EventName: string
             self::MembershipView,
             self::ResourceView,
             self::ProductView,
-            self::SearchPerformed => true,
+            self::SearchPerformed,
+            self::RecommendationClicked => true,
             default => false,
         };
     }

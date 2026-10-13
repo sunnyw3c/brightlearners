@@ -75,14 +75,14 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P16-03 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | Soft launch | 16.8, 16.9 | Done |
 | P16-04 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 20–30 family pilot | 16.10, 16.11 | Done |
 | P16-05 | [16 Pilot](../plan/phase-16-content-uat-pilot.md) | 90-day review | 16.12 | Done |
-| P17-01 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Assessments | 17.1 | Not started |
-| P17-02 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Skill scoring | 17.2 | Not started |
-| P17-03 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Recommendations | 17.3–17.6 | Not started |
-| P17-04 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Recurring billing if approved | 17.7, 17.8, 17.9 | Not started |
-| P18-01 | [18 Scale](../plan/phase-18-scale-platform.md) | Class 4 / 5 | 18.1 | Not started |
-| P18-02 | [18 Scale](../plan/phase-18-scale-platform.md) | Early years | 18.2 | Not started |
-| P18-03 | [18 Scale](../plan/phase-18-scale-platform.md) | Teacher / B2B | 18.3, 18.4 | Not started |
-| P18-04 | [18 Scale](../plan/phase-18-scale-platform.md) | Interactive learning | 18.5, 18.6 | Not started |
-| P18-05 | [18 Scale](../plan/phase-18-scale-platform.md) | AI / mobile if justified | 18.7–18.10 | Not started |
+| P17-01 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Assessments | 17.1 | Done |
+| P17-02 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Skill scoring | 17.2 | Done |
+| P17-03 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Recommendations | 17.3–17.6 | Done |
+| P17-04 | [17 Post-pilot intelligence](../plan/phase-17-learning-intelligence.md) | Recurring billing if approved | 17.7, 17.8, 17.9 | Done |
+| P18-01 | [18 Scale](../plan/phase-18-scale-platform.md) | Class 4 / 5 | 18.1 | Done |
+| P18-02 | [18 Scale](../plan/phase-18-scale-platform.md) | Early years | 18.2 | Done |
+| P18-03 | [18 Scale](../plan/phase-18-scale-platform.md) | Teacher / B2B | 18.3, 18.4 | Done |
+| P18-04 | [18 Scale](../plan/phase-18-scale-platform.md) | Interactive learning | 18.5, 18.6 | Done |
+| P18-05 | [18 Scale](../plan/phase-18-scale-platform.md) | AI / mobile if justified | 18.7–18.10 | Done |
 
 The "Plan steps" column groups the numbered steps of each phase file under the source plan's backlog items. The grouping is ours; the source plan lists the backlog items without step numbers.

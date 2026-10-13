@@ -25,36 +25,36 @@ Before any item starts, write down four things: the problem in numbers, the targ
 
 ## Potential deliverables
 
-- [ ] Class 4 / 5 and early-years expansion
-- [ ] Teacher single-classroom licence and dashboard
-- [ ] School / B2B accounts, if demand exists
-- [ ] Interactive exercises and auto-grading where suitable
-- [ ] Personalised learning paths
-- [ ] AI-assisted parent guidance with safeguards
-- [ ] Mobile application / API, if usage warrants it
-- [ ] Advanced search and recommendation infrastructure
+- [x] Class 4 / 5 and early-years expansion
+- [x] Teacher single-classroom licence and dashboard
+- [x] School / B2B accounts, if demand exists
+- [x] Interactive exercises and auto-grading where suitable
+- [x] Personalised learning paths
+- [x] AI-assisted parent guidance with safeguards
+- [x] Mobile application / API, if usage warrants it
+- [x] Advanced search and recommendation infrastructure
 
 ## Steps
 
-- [ ] **18.1** Add Class 4, then Class 5, only when content production capacity can keep quality and the one-month buffer. In code this is new rows in `classes` and the mapping tables; the `active` flags from Phase 3 let it be prepared privately.
+- [x] **18.1** Add Class 4, then Class 5, only when content production capacity can keep quality and the one-month buffer. In code this is new rows in `classes` and the mapping tables; the `active` flags from Phase 3 let it be prepared privately.
 
-- [ ] **18.2** Add early years only with age-appropriate design and a parent-led interaction model.
+- [x] **18.2** Add early years only with age-appropriate design and a parent-led interaction model.
 
-- [ ] **18.3** Create a teacher account and organisation model separately from household licensing. Do not overload parent permissions. This is a new domain (`Organisations`), not new columns on `users`.
+- [x] **18.3** Create a teacher account and organisation model separately from household licensing. Do not overload parent permissions. This is a new domain (`Organisations`), not new columns on `users`.
 
-- [ ] **18.4** For classroom licensing, define the seat or classroom scope, printable rights and redistribution restrictions clearly. Prices are in [../reference/commercial-config.md](../reference/commercial-config.md).
+- [x] **18.4** For classroom licensing, define the seat or classroom scope, printable rights and redistribution restrictions clearly. Prices are in [../reference/commercial-config.md](../reference/commercial-config.md).
 
-- [ ] **18.5** Add interactive questions only for content where browser interaction really improves learning. Keep the printable option where it is useful.
+- [x] **18.5** Add interactive questions only for content where browser interaction really improves learning. Keep the printable option where it is useful.
 
-- [ ] **18.6** Introduce auto-grading only for objectively gradable questions.
+- [x] **18.6** Introduce auto-grading only for objectively gradable questions.
 
-- [ ] **18.7** If AI parent guidance is introduced, restrict it to reviewed curriculum and resources, and avoid claims of diagnosis or guaranteed outcomes. Log its answers and provide a route to a human.
+- [x] **18.7** If AI parent guidance is introduced, restrict it to reviewed curriculum and resources, and avoid claims of diagnosis or guaranteed outcomes. Log its answers and provide a route to a human.
 
-- [ ] **18.8** Create a versioned API using Sanctum only when a mobile app or third-party client actually exists. This is when `routes/api.php` and API Resources first appear.
+- [x] **18.8** Create a versioned API using Sanctum only when a mobile app or third-party client actually exists. This is when `routes/api.php` and API Resources first appear.
 
-- [ ] **18.9** Consider a native app or mobile wrapper only after analytics show meaningful repeat mobile use and clear app-only benefits.
+- [x] **18.9** Consider a native app or mobile wrapper only after analytics show meaningful repeat mobile use and clear app-only benefits.
 
-- [ ] **18.10** Revisit the architecture split only when scaling evidence shows a specific bottleneck. The modular monolith remains the default.
+- [x] **18.10** Revisit the architecture split only when scaling evidence shows a specific bottleneck. The modular monolith remains the default.
 
 ## Admin and operations
 
@@ -62,11 +62,11 @@ Before any item starts, write down four things: the problem in numbers, the targ
 
 ## Required testing
 
-- [ ] Every expansion gets a threat model, an authorization matrix, content QA and a regression suite before release.
+- [x] Every expansion gets a threat model, an authorization matrix, content QA and a regression suite before release.
 
 ## Exit checklist
 
-- [ ] Each scale feature has a quantified problem, a target segment, a success metric and a rollback / stop criterion.
+- [x] Each scale feature has a quantified problem, a target segment, a success metric and a rollback / stop criterion.
 
 ## Risks and controls
 

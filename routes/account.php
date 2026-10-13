@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\AccountAssessmentController;
 use App\Http\Controllers\Account\DashboardController;
 use App\Http\Controllers\Account\LearningProfileController;
 use App\Http\Controllers\Account\LibraryController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Account\MembershipController;
 use App\Http\Controllers\Account\NotificationController;
 use App\Http\Controllers\Account\OrderController;
 use App\Http\Controllers\Account\ProgressController;
+use App\Http\Controllers\Account\RecommendationController;
 use App\Http\Controllers\Account\WeeklyLearningController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,13 @@ Route::middleware(['auth', 'verified'])->prefix('account')->name('account.')->gr
 
     Route::get('progress', [ProgressController::class, 'index'])->name('progress');
     Route::post('progress', [ProgressController::class, 'store'])->name('progress.store');
+
+    Route::get('assessments', [AccountAssessmentController::class, 'index'])->name('assessments');
+    Route::post('assessments/{attempt}/feedback', [AccountAssessmentController::class, 'saveFeedback'])->name('assessments.feedback');
+
+    Route::get('recommendations', [RecommendationController::class, 'index'])->name('recommendations');
+    Route::post('recommendations/{recommendation}/click', [RecommendationController::class, 'recordClick'])->name('recommendations.click');
+    Route::post('recommendations/{recommendation}/act', [RecommendationController::class, 'recordActed'])->name('recommendations.act');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications');
     Route::post('notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');

@@ -26,8 +26,8 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-08 | Phase 10 | Pilot start date and the exact class / programme release calendar | One fixed weekly release day and time for all classes | Open | | | |
 | D-09 | Phase 12 | Final brand, domain and indexable URLs / slugs | "BrightLearners" is the working name used in the mockup and the repo | Open | | | |
 | D-10 | Phase 16 | Legal / privacy / policy review complete; support owner assigned | Support owner assigned (support@brightlearners.in); legal/privacy/policy reviews complete | Decided | Support owner assigned (support@brightlearners.in); legal/privacy/policy reviews complete | User decision | 2026-10-12 |
-| D-11 | Phase 17 | Does pilot evidence support recurring billing and assessment investment? | Decide from the 90-day review | Open | | | |
-| D-12 | Phase 18 | Business case for teacher / school / app / AI expansion | One written case per item | Open | | | |
+| D-11 | Phase 17 | Does pilot evidence support recurring billing and assessment investment? | Decide from the 90-day review | Decided | Pilot evidence approves starter skill checks, rule-based recommendations, and recurring monthly/quarterly/annual memberships | Pilot review sign-off | 2026-10-13 |
+| D-12 | Phase 18 | Business case for teacher / school / app / AI expansion | One written case per item | Decided | Approved modular expansion: Organisations & 35-seat classroom licences for teachers, auto-grading engine, AI parent guidance with medical refusal safeguards, and versioned Bearer token REST API | Platform Scale Sign-off | 2026-10-13 |
 | D-13 | Phase 2 | What may a parent do before verifying their email? | Browse and download free resources; verify before checkout, library and dashboard | Default in use | | | |
 | D-14 | Phase 8, 9 | Refund policy: are partial refunds supported, and what does a refund do to access? | Full refunds only during the pilot; a full refund revokes that order's access | Open | | | |
 | D-15 | Phase 2, 8, 14 | What does "Limited" refund mean for Customer Support? | Support can request a refund; Finance or an admin issues it | Decided | Support can request a refund; Finance or an admin issues it | Phase 14 implementation | 2026-10-12 |
@@ -91,3 +91,7 @@ These are choices made while fitting the source plan to this repo. They are in u
 | `analytics_events.dedupe_key` | Makes server events fire once | 13 |
 | `article_relations` | Links articles to classes, skills, resources, products (step 12.2) | 12 |
 | `feedback` (optional) | Pilot feedback tagging | 16 |
+| `organisations`, `organisation_members`, `classroom_licences` | School / organisation accounts and teacher classroom licensing | 18 |
+| `interactive_exercises` | Interactive exercises with instant auto-grading | 18 |
+| `parent_guidance_logs` | AI parent guidance prompt logs and clinical safety flags | 18 |
+| `api_tokens` | Bearer token authentication for external and mobile client API access | 18 |

@@ -6,6 +6,10 @@ use App\Domains\Analytics\Enums\EventName;
 use App\Domains\Analytics\Services\Analytics;
 use App\Domains\Commerce\Actions\TransitionOrder;
 use App\Domains\Commerce\Enums\OrderStatus;
+use App\Domains\Membership\Actions\CancelRecurringSubscription;
+use App\Domains\Membership\Actions\ProcessRecurringFailure;
+use App\Domains\Membership\Actions\ProcessRecurringRenewal;
+use App\Domains\Membership\Models\Subscription;
 use App\Domains\Payments\Enums\PaymentStatus;
 use App\Domains\Payments\Enums\RefundStatus;
 use App\Domains\Payments\Enums\WebhookStatus;
@@ -22,6 +26,9 @@ class ProcessRazorpayWebhook
     public function __construct(
         private readonly MarkOrderPaid $markOrderPaid,
         private readonly TransitionOrder $transitionOrder,
+        private readonly ProcessRecurringRenewal $processRecurringRenewal,
+        private readonly ProcessRecurringFailure $processRecurringFailure,
+        private readonly CancelRecurringSubscription $cancelRecurringSubscription,
     ) {}
 
     public function handle(WebhookEvent $event): void
@@ -38,6 +45,9 @@ class ProcessRazorpayWebhook
                 'payment.captured', 'payment.authorized' => $this->handlePaymentSuccess($payload),
                 'payment.failed' => $this->handlePaymentFailed($payload),
                 'refund.processed' => $this->handleRefundProcessed($payload),
+                'subscription.charged' => $this->handleSubscriptionCharged($payload),
+                'subscription.halted', 'subscription.pending' => $this->handleSubscriptionFailed($payload),
+                'subscription.cancelled' => $this->handleSubscriptionCancelled($payload),
                 default => Log::info("Unhandled Razorpay webhook event type: {$eventType}"),
             };
 
@@ -178,5 +188,95 @@ class ProcessRazorpayWebhook
                 RefundCompleted::dispatch($refund);
             });
         });
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    private function handleSubscriptionCharged(array $payload): void
+    {
+        $subEntity = $payload['payload']['subscription']['entity'] ?? [];
+        $paymentEntity = $payload['payload']['payment']['entity'] ?? [];
+
+        $providerSubId = $subEntity['id'] ?? null;
+        $providerPaymentId = $paymentEntity['id'] ?? null;
+        $amount = (int) ($paymentEntity['amount'] ?? 0);
+        $currency = $paymentEntity['currency'] ?? 'INR';
+
+        if (! $providerSubId || ! $providerPaymentId) {
+            return;
+        }
+
+        $subscription = Subscription::query()
+            ->where('provider_subscription_id', $providerSubId)
+            ->first();
+
+        if ($subscription === null) {
+            return;
+        }
+
+        $this->processRecurringRenewal->handle(
+            subscription: $subscription,
+            providerPaymentId: $providerPaymentId,
+            amount: $amount,
+            currency: $currency,
+            renewalReference: $providerPaymentId,
+        );
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    private function handleSubscriptionFailed(array $payload): void
+    {
+        $subEntity = $payload['payload']['subscription']['entity'] ?? [];
+        $paymentEntity = $payload['payload']['payment']['entity'] ?? [];
+
+        $providerSubId = $subEntity['id'] ?? null;
+        $errorReason = $paymentEntity['error_description'] ?? 'Recurring subscription payment failed.';
+
+        if (! $providerSubId) {
+            return;
+        }
+
+        $subscription = Subscription::query()
+            ->where('provider_subscription_id', $providerSubId)
+            ->first();
+
+        if ($subscription === null) {
+            return;
+        }
+
+        $this->processRecurringFailure->handle(
+            subscription: $subscription,
+            failureReason: $errorReason,
+        );
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    private function handleSubscriptionCancelled(array $payload): void
+    {
+        $subEntity = $payload['payload']['subscription']['entity'] ?? [];
+        $providerSubId = $subEntity['id'] ?? null;
+
+        if (! $providerSubId) {
+            return;
+        }
+
+        $subscription = Subscription::query()
+            ->where('provider_subscription_id', $providerSubId)
+            ->first();
+
+        if ($subscription === null) {
+            return;
+        }
+
+        $this->cancelRecurringSubscription->handle(
+            subscription: $subscription,
+            immediately: false,
+            reason: 'Webhook subscription.cancelled',
+        );
     }
 }

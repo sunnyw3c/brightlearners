@@ -6,6 +6,7 @@ enum SubscriptionEventType: string
 {
     case Activated = 'activated';
     case Renewed = 'renewed';
+    case RenewalFailed = 'renewal_failed';
     case ExpiringNotice = 'expiring_notice';
     case Expired = 'expired';
     case Cancelled = 'cancelled';

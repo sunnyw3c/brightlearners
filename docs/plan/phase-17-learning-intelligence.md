@@ -25,38 +25,38 @@ Use the validated taxonomy and behaviour data to make the experience more person
 
 ## Deliverables
 
-- [ ] Starter assessment engine
-- [ ] Skill scores
-- [ ] Rule-based recommendations
-- [ ] Improved progress dashboard
-- [ ] Recurring Razorpay subscription integration, if approved
-- [ ] Favourites / recently used / reviews, if evidence supports them
-- [ ] Class 4 preparation (optional)
+- [x] Starter assessment engine
+- [x] Skill scores
+- [x] Rule-based recommendations
+- [x] Improved progress dashboard
+- [x] Recurring Razorpay subscription integration, if approved
+- [x] Favourites / recently used / reviews, if evidence supports them (managed without fake reviews)
+- [x] Class 4 preparation (optional)
 
 ## Build steps
 
-- [ ] **17.1** Create assessments by class and subject, with sections and questions mapped to skills and difficulty. Assessments are versioned and go through the same teacher review idea as resources.
+- [x] **17.1** Create assessments by class and subject, with sections and questions mapped to skills and difficulty. Assessments are versioned and go through the same teacher review idea as resources.
 
-- [ ] **17.2** Create attempts, answers and results, and score by skill. State clearly that this is an informal learning check, not formal certification.
+- [x] **17.2** Create attempts, answers and results, and score by skill. State clearly that this is an informal learning check, not formal certification.
   - Scoring is a pure function of the answers and the assessment version, so it can be re-run.
   - A result is shown as a simple band per skill, never a precise-looking number.
 
-- [ ] **17.3** Start recommendations with deterministic rules: class + weak skill + an available reviewed resource. Never recommend another class's content or an unpublished product.
+- [x] **17.3** Start recommendations with deterministic rules: class + weak skill + an available reviewed resource. Never recommend another class's content or an unpublished product.
 
-- [ ] **17.4** Show why a recommendation exists, in parent-friendly language. Each recommendation stores a `reason_code` that maps to a sentence.
+- [x] **17.4** Show why a recommendation exists, in parent-friendly language. Each recommendation stores a `reason_code` that maps to a sentence.
 
-- [ ] **17.5** Track recommendation click, purchase and use. Add `recommendation_clicked` and the assessment events to the analytics dictionary.
+- [x] **17.5** Track recommendation click, purchase and use. Add `recommendation_clicked` and the assessment events to the analytics dictionary.
 
-- [ ] **17.6** Add parent feedback labels such as easy / comfortable / needs practice, only if their meaning is clear.
+- [x] **17.6** Add parent feedback labels such as easy / comfortable / needs practice, only if their meaning is clear.
 
-- [ ] **17.7** If regular membership is approved, activate the monthly, quarterly and annual plans and implement the recurring subscription lifecycle: mandate / authorization, renewal success and failure, cancellation, the grace and access policy, webhook reconciliation and customer communication.
+- [x] **17.7** If regular membership is approved, activate the monthly, quarterly and annual plans and implement the recurring subscription lifecycle: mandate / authorization, renewal success and failure, cancellation, the grace and access policy, webhook reconciliation and customer communication.
   - Reuse the Phase 8 webhook pipeline and its idempotency guard.
   - Add provider subscription IDs to `subscriptions`.
   - Re-check Razorpay's subscription documentation and current rules for recurring payments in India when this step starts.
 
-- [ ] **17.8** Use the pilot's actual willingness-to-pay and support data to re-test the membership price. Do not lock in the planning assumptions.
+- [x] **17.8** Use the pilot's actual willingness-to-pay and support data to re-test the membership price. Do not lock in the planning assumptions.
 
-- [ ] **17.9** Add Meilisearch only if catalogue size or search behaviour shows a need for typo tolerance, facets or scale.
+- [x] **17.9** Add Meilisearch only if catalogue size or search behaviour shows a need for typo tolerance, facets or scale.
 
 ## Data model
 
@@ -99,9 +99,9 @@ Column detail is in [../reference/database-blueprint.md](../reference/database-b
 
 ## Exit checklist
 
-- [ ] An assessment result maps to skills a parent can understand.
-- [ ] Recommendations have measurable click and use signals.
-- [ ] A recurring plan can complete success, failure, cancel and expiry in test mode.
+- [x] An assessment result maps to skills a parent can understand.
+- [x] Recommendations have measurable click and use signals.
+- [x] A recurring plan can complete success, failure, cancel and expiry in test mode.
 
 ## Risks and controls
 

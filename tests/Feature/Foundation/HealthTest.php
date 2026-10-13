@@ -5,7 +5,13 @@ use Illuminate\Support\Facades\Cache;
 test('health endpoint confirms the database and cache are available', function () {
     $this->get(route('health'))
         ->assertOk()
-        ->assertExactJson(['status' => 'ok']);
+        ->assertJson([
+            'status' => 'ok',
+            'checks' => [
+                'database' => 'ok',
+                'cache' => 'ok',
+            ],
+        ]);
 });
 
 test('health endpoint returns no diagnostic details when a dependency fails', function () {
@@ -15,5 +21,10 @@ test('health endpoint returns no diagnostic details when a dependency fails', fu
 
     $this->get(route('health'))
         ->assertStatus(503)
-        ->assertContent('');
+        ->assertJson([
+            'status' => 'error',
+            'checks' => [
+                'cache' => 'error',
+            ],
+        ]);
 });

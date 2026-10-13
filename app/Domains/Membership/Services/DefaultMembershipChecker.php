@@ -24,7 +24,13 @@ class DefaultMembershipChecker implements MembershipChecker
             ->where('user_id', $user->id)
             ->where('status', SubscriptionStatus::Active)
             ->where('starts_at', '<=', $now)
-            ->where('ends_at', '>', $now)
+            ->where(function ($q) use ($now) {
+                $q->where('ends_at', '>', $now)
+                    ->orWhere(function ($gq) use ($now) {
+                        $gq->whereNotNull('grace_ends_at')
+                            ->where('grace_ends_at', '>', $now);
+                    });
+            })
             ->exists();
     }
 
@@ -43,7 +49,13 @@ class DefaultMembershipChecker implements MembershipChecker
             $subscriptionsQuery
                 ->where('status', SubscriptionStatus::Active)
                 ->where('starts_at', '<=', $now)
-                ->where('ends_at', '>', $now);
+                ->where(function ($q) use ($now) {
+                    $q->where('ends_at', '>', $now)
+                        ->orWhere(function ($gq) use ($now) {
+                            $gq->whereNotNull('grace_ends_at')
+                                ->where('grace_ends_at', '>', $now);
+                        });
+                });
         } else {
             $subscriptionsQuery->whereIn('status', [SubscriptionStatus::Active, SubscriptionStatus::Expired]);
         }

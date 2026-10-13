@@ -35,7 +35,15 @@ class ResourceProgress extends Model
      */
     public function learningProfile(): BelongsTo
     {
-        return $this->belongsTo(LearningProfile::class);
+        return $this->belongsTo(LearningProfile::class, 'learning_profile_id');
+    }
+
+    /**
+     * @return BelongsTo<LearningProfile, $this>
+     */
+    public function profile(): BelongsTo
+    {
+        return $this->learningProfile();
     }
 
     /**
