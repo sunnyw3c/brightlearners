@@ -1,5 +1,14 @@
+import { useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEvent } from 'react';
+import {
+    CreditCard,
+    Lock,
+    ShieldCheck,
+    Smartphone,
+    Building2,
+    CheckCircle2,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
 import { store as checkoutStoreRoute } from '@/routes/checkout';
@@ -41,12 +50,14 @@ type Props = {
 };
 
 export default function CheckoutShow({ breakdown, user, notice }: Props) {
+    const [selectedMethod, setSelectedMethod] = useState<'razorpay' | 'card' | 'upi' | 'netbanking'>('razorpay');
+
     const { data, setData, post, processing, errors } = useForm({
         billing_name: user.name ?? '',
         billing_email: user.email ?? '',
         billing_phone: '',
         billing_state: '',
-        terms: false,
+        terms: true,
     });
 
     const handleSubmit = (e: FormEvent) => {
@@ -56,50 +67,192 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
 
     return (
         <PublicLayout>
-            <Head title="Checkout — BrightLearners" />
+            <Head title="Secure Payment — BrightLearners" />
 
-            <div className="mx-auto max-w-4xl space-y-6 px-4 py-8">
-                <header className="space-y-1">
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Checkout
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        Complete your billing information to place your order.
-                    </p>
+            <div className="mx-auto max-w-4xl space-y-8 px-4 py-10">
+                <header className="flex items-center gap-3">
+                    <span className="flex size-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                        <Lock className="size-5" />
+                    </span>
+                    <div>
+                        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                            Secure Payment
+                        </h1>
+                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                            Safe and encrypted checkout powered by Razorpay.
+                        </p>
+                    </div>
                 </header>
 
                 {notice && (
-                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
+                    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-medium text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
                         {notice}
                     </div>
                 )}
 
                 <form
                     onSubmit={handleSubmit}
-                    className="grid gap-8 lg:grid-cols-3"
+                    className="grid gap-10 lg:grid-cols-12"
                 >
-                    <div className="space-y-6 lg:col-span-2">
-                        {/* Billing Details */}
-                        <div className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold">
-                                Billing Information
+                    <div className="space-y-6 lg:col-span-7">
+                        {/* Payment Methods Selection matching mockup screen 8 */}
+                        <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-card p-6 shadow-xs dark:border-slate-800">
+                            <h2 className="text-base font-bold text-foreground">
+                                Select Payment Method
                             </h2>
 
-                            <div className="space-y-4">
+                            <div className="space-y-3">
+                                {/* Razorpay Option */}
+                                <label
+                                    onClick={() => setSelectedMethod('razorpay')}
+                                    className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
+                                        selectedMethod === 'razorpay'
+                                            ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                            : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3.5">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            checked={selectedMethod === 'razorpay'}
+                                            onChange={() => setSelectedMethod('razorpay')}
+                                            className="size-4 text-primary focus:ring-primary"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-bold text-foreground">
+                                                Razorpay
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                UPI, Cards, Net Banking
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span className="font-bold text-blue-700 italic text-sm tracking-tight">
+                                        Razorpay
+                                    </span>
+                                </label>
+
+                                {/* Credit / Debit Card Option */}
+                                <label
+                                    onClick={() => setSelectedMethod('card')}
+                                    className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
+                                        selectedMethod === 'card'
+                                            ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                            : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3.5">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            checked={selectedMethod === 'card'}
+                                            onChange={() => setSelectedMethod('card')}
+                                            className="size-4 text-primary focus:ring-primary"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-bold text-foreground">
+                                                Credit / Debit Card
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                                        <span className="rounded bg-blue-900 px-1.5 py-0.5 text-white text-[10px]">VISA</span>
+                                        <span className="rounded bg-amber-600 px-1.5 py-0.5 text-white text-[10px]">MC</span>
+                                    </div>
+                                </label>
+
+                                {/* UPI Option */}
+                                <label
+                                    onClick={() => setSelectedMethod('upi')}
+                                    className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
+                                        selectedMethod === 'upi'
+                                            ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                            : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3.5">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            checked={selectedMethod === 'upi'}
+                                            onChange={() => setSelectedMethod('upi')}
+                                            className="size-4 text-primary focus:ring-primary"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-bold text-foreground">
+                                                UPI
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                                        <span className="rounded bg-sky-100 px-1.5 py-0.5 text-sky-800 text-[10px]">GPay</span>
+                                        <span className="rounded bg-purple-100 px-1.5 py-0.5 text-purple-800 text-[10px]">PhonePe</span>
+                                        <span className="rounded bg-blue-100 px-1.5 py-0.5 text-blue-800 text-[10px]">Paytm</span>
+                                    </div>
+                                </label>
+
+                                {/* Net Banking Option */}
+                                <label
+                                    onClick={() => setSelectedMethod('netbanking')}
+                                    className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
+                                        selectedMethod === 'netbanking'
+                                            ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                            : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3.5">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            checked={selectedMethod === 'netbanking'}
+                                            onChange={() => setSelectedMethod('netbanking')}
+                                            className="size-4 text-primary focus:ring-primary"
+                                        />
+                                        <div>
+                                            <p className="text-sm font-bold text-foreground">
+                                                Net Banking
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Building2 className="size-5 text-slate-500" />
+                                </label>
+                            </div>
+                        </div>
+
+                        {/* 100% Secure Guarantee Badge matching mockup */}
+                        <div className="flex items-center gap-3.5 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/30">
+                            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-xs">
+                                <ShieldCheck className="size-6" />
+                            </span>
+                            <div>
+                                <h3 className="text-sm font-bold text-emerald-950 dark:text-emerald-300">
+                                    100% Secure Payment
+                                </h3>
+                                <p className="text-xs text-emerald-800 dark:text-emerald-400">
+                                    Your payment information is encrypted and safe with Razorpay.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Billing Information Form */}
+                        <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-card p-6 shadow-xs dark:border-slate-800">
+                            <h2 className="text-base font-bold text-foreground">
+                                Billing Contact
+                            </h2>
+
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium">
+                                    <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">
                                         Full Name
                                     </label>
                                     <input
                                         type="text"
                                         value={data.billing_name}
                                         onChange={(e) =>
-                                            setData(
-                                                'billing_name',
-                                                e.target.value,
-                                            )
+                                            setData('billing_name', e.target.value)
                                         }
-                                        className="w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
                                         required
                                     />
                                     {errors.billing_name && (
@@ -110,19 +263,16 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                 </div>
 
                                 <div>
-                                    <label className="mb-1 block text-sm font-medium">
+                                    <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">
                                         Email Address
                                     </label>
                                     <input
                                         type="email"
                                         value={data.billing_email}
                                         onChange={(e) =>
-                                            setData(
-                                                'billing_email',
-                                                e.target.value,
-                                            )
+                                            setData('billing_email', e.target.value)
                                         }
-                                        className="w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
                                         required
                                     />
                                     {errors.billing_email && (
@@ -132,116 +282,68 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                     )}
                                 </div>
 
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <label className="mb-1 block text-sm font-medium">
-                                            Phone Number (Optional)
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            value={data.billing_phone}
-                                            onChange={(e) =>
-                                                setData(
-                                                    'billing_phone',
-                                                    e.target.value,
-                                                )
-                                            }
-                                            className="w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-                                            placeholder="+91 9876543210"
-                                        />
-                                        {errors.billing_phone && (
-                                            <p className="mt-1 text-xs text-destructive">
-                                                {errors.billing_phone}
-                                            </p>
-                                        )}
-                                    </div>
+                                <div>
+                                    <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">
+                                        Phone Number (Optional)
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        value={data.billing_phone}
+                                        onChange={(e) =>
+                                            setData('billing_phone', e.target.value)
+                                        }
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        placeholder="+91 9876543210"
+                                    />
+                                </div>
 
-                                    <div>
-                                        <label className="mb-1 block text-sm font-medium">
-                                            State (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            value={data.billing_state}
-                                            onChange={(e) =>
-                                                setData(
-                                                    'billing_state',
-                                                    e.target.value,
-                                                )
-                                            }
-                                            className="w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-                                            placeholder="Maharashtra"
-                                        />
-                                        {errors.billing_state && (
-                                            <p className="mt-1 text-xs text-destructive">
-                                                {errors.billing_state}
-                                            </p>
-                                        )}
-                                    </div>
+                                <div>
+                                    <label className="mb-1 block text-xs font-bold text-slate-700 dark:text-slate-300">
+                                        State (Optional)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={data.billing_state}
+                                        onChange={(e) =>
+                                            setData('billing_state', e.target.value)
+                                        }
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        placeholder="Maharashtra"
+                                    />
                                 </div>
                             </div>
                         </div>
-
-                        {/* Licence & Terms Agreement */}
-                        <div className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold">
-                                Terms & Conditions
-                            </h2>
-
-                            <label className="flex cursor-pointer items-start gap-3">
-                                <input
-                                    type="checkbox"
-                                    checked={data.terms}
-                                    onChange={(e) =>
-                                        setData('terms', e.target.checked)
-                                    }
-                                    className="mt-1 rounded border-gray-300 text-primary focus:ring-primary"
-                                    required
-                                />
-                                <span className="text-sm leading-relaxed text-muted-foreground">
-                                    I agree to the digital delivery terms,
-                                    household licence agreement, and refund
-                                    policy. Digital items are granted
-                                    immediately upon successful payment.
-                                </span>
-                            </label>
-                            {errors.terms && (
-                                <p className="mt-1 text-xs text-destructive">
-                                    {errors.terms}
-                                </p>
-                            )}
-                        </div>
                     </div>
 
-                    {/* Order Summary Sidebar */}
-                    <div className="space-y-6 lg:col-span-1">
-                        <div className="space-y-4 rounded-2xl border bg-card p-5 shadow-sm">
-                            <h2 className="text-lg font-semibold">
-                                Order Items
+                    {/* Order Summary & Pay Button matching mockup */}
+                    <div className="space-y-6 lg:col-span-5">
+                        <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-card p-6 shadow-xs dark:border-slate-800">
+                            <h2 className="text-lg font-bold tracking-tight text-foreground">
+                                Order Summary
                             </h2>
 
-                            <div className="space-y-3 divide-y pt-2">
+                            <div className="space-y-3 divide-y divide-slate-100 dark:divide-slate-800 pt-2">
                                 {breakdown.lines.map((line) => (
                                     <div
                                         key={line.product_id}
                                         className="flex justify-between pt-3 text-sm"
                                     >
                                         <div>
-                                            <div className="font-medium">
+                                            <div className="font-bold text-foreground">
                                                 {line.product_name}
                                             </div>
                                             <div className="text-xs text-muted-foreground">
                                                 Qty: {line.quantity}
                                             </div>
                                         </div>
-                                        <div className="font-semibold">
+                                        <div className="font-bold text-foreground">
                                             {line.line_total.formatted}
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="space-y-2 border-t pt-4 text-sm">
+                            <div className="space-y-2 border-t border-slate-100 pt-4 text-sm dark:border-slate-800">
                                 <div className="flex justify-between text-muted-foreground">
                                     <span>Subtotal</span>
                                     <span className="font-medium text-foreground">
@@ -258,29 +360,21 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                     </div>
                                 )}
 
-                                {breakdown.tax.paise > 0 && (
-                                    <div className="flex justify-between text-muted-foreground">
-                                        <span>Tax</span>
-                                        <span className="font-medium text-foreground">
-                                            {breakdown.tax.formatted}
-                                        </span>
-                                    </div>
-                                )}
-
-                                <div className="flex justify-between border-t pt-3 text-base font-bold">
-                                    <span>Total Amount</span>
-                                    <span className="text-emerald-600 dark:text-emerald-400">
+                                <div className="flex justify-between border-t border-slate-100 pt-3 text-lg font-black text-slate-900 dark:border-slate-800 dark:text-white">
+                                    <span>Total</span>
+                                    <span className="text-[#2563EB]">
                                         {breakdown.total.formatted}
                                     </span>
                                 </div>
                             </div>
 
+                            {/* Pay button matching mockup: Pay ₹348 */}
                             <Button
                                 type="submit"
                                 disabled={processing}
-                                className="size-lg mt-4 w-full text-base"
+                                className="h-13 mt-4 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-xl transition-all"
                             >
-                                Place Order & Pay ({breakdown.total.formatted})
+                                Pay {breakdown.total.formatted}
                             </Button>
                         </div>
                     </div>

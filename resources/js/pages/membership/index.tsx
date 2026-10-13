@@ -1,15 +1,16 @@
-import { Head, router } from '@inertiajs/react';
-import PublicLayout from '@/layouts/public-layout';
-import { Button } from '@/components/ui/button';
+import { Head, Link, router } from '@inertiajs/react';
 import {
-    CheckCircle2,
-    Sparkles,
-    ShieldCheck,
-    Clock,
-    BookOpen,
     ArrowRight,
+    BookOpen,
+    CheckCircle2,
+    Clock,
+    ShieldCheck,
+    Sparkles,
     XCircle,
 } from 'lucide-react';
+import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
+import { Button } from '@/components/ui/button';
+import PublicLayout from '@/layouts/public-layout';
 
 type PlanProp = {
     code: string;
@@ -47,333 +48,235 @@ export default function MembershipIndex({
         router.post('/cart/items', { product_id: product.id });
     };
 
+    const breadcrumbs = [
+        { label: 'Home', href: '/' },
+        { label: 'Membership' },
+    ];
+
+    const displayPrice = product?.price_formatted ?? '₹499';
+
     return (
         <PublicLayout>
-            <Head title="Weekly Learning Programme (90-Day Pilot) — BrightLearners">
+            <Head title="Weekly Learning Programme (90 Days) — BrightLearners">
                 <meta
                     name="description"
                     content="Structured weekly learning worksheets and guided practice across Maths, English, and EVS for Class 1–3. Screen-free, curriculum-aligned, and delivered on schedule."
                 />
             </Head>
 
-            {/* Hero Section */}
-            <section className="relative overflow-hidden border-b bg-gradient-to-b from-primary/5 via-background to-background py-16 sm:py-24">
-                <div className="mx-auto max-w-5xl space-y-6 px-4 text-center sm:px-6 lg:px-8">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
-                        <Sparkles className="h-3.5 w-3.5" />
-                        <span>Prepaid 90-Day Family Pilot</span>
+            <div className="mx-auto max-w-6xl space-y-12 px-4 py-8">
+                <PublicBreadcrumbs items={breadcrumbs} />
+
+                {/* Hero / Pricing Section matching mockup screen 5 */}
+                <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+                    {/* Left Column: Title, Subtitle & Checkmarks */}
+                    <div className="space-y-6 lg:col-span-7">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3.5 py-1 text-xs font-bold text-blue-600 dark:border-sky-900/50 dark:bg-sky-950/40 dark:text-sky-300">
+                            <Sparkles className="size-3.5" />
+                            <span>Prepaid 90-Day Programme</span>
+                        </div>
+
+                        <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl dark:text-white">
+                            Weekly Learning Programme (90 Days)
+                        </h1>
+
+                        <p className="text-lg font-medium text-slate-600 sm:text-xl dark:text-slate-300">
+                            Structured learning. Happy children. Confident parents.
+                        </p>
+
+                        {/* 6 Benefits Checklist matching mockup */}
+                        <div className="space-y-3.5 pt-2">
+                            {[
+                                'Weekly learning resources',
+                                'Worksheets, activities and guides',
+                                'Class 1 to 3 focus',
+                                'Builds concepts step-by-step',
+                                'Parent-friendly guidance',
+                                'Accessible anytime, anywhere',
+                            ].map((benefit, i) => (
+                                <div key={i} className="flex items-center gap-3 text-base font-semibold text-slate-700 dark:text-slate-200">
+                                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+                                        <CheckCircle2 className="size-4 fill-emerald-500 text-white" />
+                                    </span>
+                                    <span>{benefit}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
-                    <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-                        Weekly Learning Routine for Class 1–3
-                    </h1>
+                    {/* Right Column: Pricing Card matching mockup */}
+                    <div className="lg:col-span-5">
+                        <div className="relative mx-auto max-w-sm overflow-hidden rounded-[2.5rem] border-2 border-amber-300 bg-linear-to-b from-[#FFFDF7] via-[#FFF9ED] to-[#FFF4E0] p-6 text-center shadow-xl dark:border-amber-900/50 dark:bg-slate-900">
+                            {/* Artwork of boy and rocket on organic backdrop */}
+                            <div className="relative mx-auto mb-5 h-52 w-52 overflow-hidden rounded-[2.5rem] bg-gradient-to-tr from-amber-300 via-orange-300 to-amber-100 p-1.5 shadow-md">
+                                <div className="h-full w-full overflow-hidden rounded-[2.2rem]">
+                                    <img
+                                        src="/images/membership-boy.jpg"
+                                        alt="Learning Adventure"
+                                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                                    />
+                                </div>
+                            </div>
 
-                    <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                        Say goodbye to random internet worksheets. Get 4
-                        carefully structured packs every month, complete with
-                        parent teaching guidance and answer keys—designed for
-                        calm, consistent 20-minute daily practice.
-                    </p>
+                            <div className="space-y-1">
+                                <span className="text-4xl font-black text-slate-900 sm:text-5xl dark:text-white">
+                                    {displayPrice}
+                                </span>
+                                <p className="text-sm font-bold text-amber-900/80 dark:text-amber-200">
+                                    for 90 Days
+                                </p>
+                            </div>
 
-                    <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
-                        {is_active_member ? (
-                            <Button
-                                asChild
-                                size="lg"
-                                className="rounded-full px-8 text-base"
-                            >
-                                <a href="/account/weekly-learning">
-                                    Go to My Weekly Learning{' '}
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </a>
-                            </Button>
-                        ) : product ? (
-                            <Button
-                                size="lg"
-                                onClick={handleJoin}
-                                className="rounded-full px-8 text-base shadow-lg hover:shadow-primary/20"
-                            >
-                                Join 90-Day Pilot for {product.price_formatted}
-                            </Button>
-                        ) : null}
+                            <div className="mt-6">
+                                {is_active_member ? (
+                                    <Button
+                                        asChild
+                                        size="lg"
+                                        className="h-13 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg hover:bg-blue-700"
+                                    >
+                                        <Link href="/account/weekly-learning">
+                                            Access My Programme <ArrowRight className="ml-2 size-4" />
+                                        </Link>
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        size="lg"
+                                        onClick={handleJoin}
+                                        className="h-13 w-full rounded-full bg-[#EF4444] text-base font-bold text-white shadow-lg shadow-red-500/25 hover:bg-red-600 hover:shadow-xl transition-all"
+                                    >
+                                        Join Now
+                                    </Button>
+                                )}
+                            </div>
 
-                        <Button
-                            asChild
-                            variant="outline"
-                            size="lg"
-                            className="rounded-full px-6"
-                        >
-                            <a href="/membership/sample-month">
-                                View Sample Month{' '}
-                                <BookOpen className="ml-2 h-4 w-4" />
-                            </a>
-                        </Button>
-                    </div>
-
-                    <div className="flex items-center justify-center gap-6 pt-4 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1.5">
-                            <ShieldCheck className="h-4 w-4 text-emerald-600" />{' '}
-                            One-time payment (no auto-renew)
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                            <Clock className="h-4 w-4 text-emerald-600" /> 90
-                            days access
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                            <CheckCircle2 className="h-4 w-4 text-emerald-600" />{' '}
-                            15% storewide discount
-                        </span>
+                            <p className="mt-3 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                                One-time payment · No automatic renewal
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </section>
 
-            {/* How It Works (4 Steps from mockup) */}
-            <section className="border-b bg-card/30 py-16 sm:py-20">
-                <div className="mx-auto max-w-5xl space-y-12 px-4 sm:px-6 lg:px-8">
-                    <div className="space-y-2 text-center">
-                        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                            How the Weekly Programme Works
+                {/* "How It Works" Section (4 Steps matching mockup) */}
+                <section className="space-y-8 py-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="text-center">
+                        <h2 className="text-3xl font-extrabold tracking-tight text-foreground">
+                            How It Works
                         </h2>
-                        <p className="text-sm text-muted-foreground">
-                            A clear, stress-free rhythm for parents and
-                            children.
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            A clear, stress-free routine for parents and children.
                         </p>
                     </div>
 
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        <div className="relative space-y-3 rounded-2xl border bg-card p-6 shadow-sm">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <div className="flex flex-col items-center rounded-3xl border border-slate-200/80 bg-card p-6 text-center shadow-xs dark:border-slate-800">
+                            <span className="flex size-12 items-center justify-center rounded-full bg-[#FBBF24] text-lg font-black text-amber-950 shadow-xs">
                                 1
-                            </div>
-                            <h3 className="text-base font-semibold">
-                                Select Learning Profile
+                            </span>
+                            <h3 className="mt-4 text-base font-bold text-foreground">
+                                Enrol
                             </h3>
-                            <p className="text-xs leading-relaxed text-muted-foreground">
-                                Link your child's Class (Class 1, 2, or 3). The
-                                programme automatically releases appropriate
-                                packs.
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                Join the 90-day programme and choose your child's class.
                             </p>
                         </div>
 
-                        <div className="relative space-y-3 rounded-2xl border bg-card p-6 shadow-sm">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                        <div className="flex flex-col items-center rounded-3xl border border-slate-200/80 bg-card p-6 text-center shadow-xs dark:border-slate-800">
+                            <span className="flex size-12 items-center justify-center rounded-full bg-[#FBBF24] text-lg font-black text-amber-950 shadow-xs">
                                 2
-                            </div>
-                            <h3 className="text-base font-semibold">
-                                New Pack Every Friday
+                            </span>
+                            <h3 className="mt-4 text-base font-bold text-foreground">
+                                Get Weekly
                             </h3>
-                            <p className="text-xs leading-relaxed text-muted-foreground">
-                                Fresh printable PDFs arrive on schedule every
-                                week. Print for the weekend or upcoming week.
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                Receive structured printable resources every week.
                             </p>
                         </div>
 
-                        <div className="relative space-y-3 rounded-2xl border bg-card p-6 shadow-sm">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                        <div className="flex flex-col items-center rounded-3xl border border-slate-200/80 bg-card p-6 text-center shadow-xs dark:border-slate-800">
+                            <span className="flex size-12 items-center justify-center rounded-full bg-[#FBBF24] text-lg font-black text-amber-950 shadow-xs">
                                 3
-                            </div>
-                            <h3 className="text-base font-semibold">
-                                Follow Parent Notes
+                            </span>
+                            <h3 className="mt-4 text-base font-bold text-foreground">
+                                Learn Together
                             </h3>
-                            <p className="text-xs leading-relaxed text-muted-foreground">
-                                Clear 2-minute parent teaching guidance
-                                accompanies every sheet, showing exactly what
-                                skill is being practiced.
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                Fun and structured activities with 2-minute parent teaching tips.
                             </p>
                         </div>
 
-                        <div className="relative space-y-3 rounded-2xl border bg-card p-6 shadow-sm">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-lg font-bold text-primary">
+                        <div className="flex flex-col items-center rounded-3xl border border-slate-200/80 bg-card p-6 text-center shadow-xs dark:border-slate-800">
+                            <span className="flex size-12 items-center justify-center rounded-full bg-[#FBBF24] text-lg font-black text-amber-950 shadow-xs">
                                 4
-                            </div>
-                            <h3 className="text-base font-semibold">
-                                Track Consistency
+                            </span>
+                            <h3 className="mt-4 text-base font-bold text-foreground">
+                                See Progress
                             </h3>
-                            <p className="text-xs leading-relaxed text-muted-foreground">
-                                Complete sheets with answer keys and celebrate
-                                small, regular learning wins without screen
-                                pressure.
+                            <p className="mt-1 text-xs text-muted-foreground">
+                                Build real confidence day by day and celebrate weekly wins.
                             </p>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Inclusions & Exclusions */}
-            <section className="border-b py-16 sm:py-20">
-                <div className="mx-auto max-w-5xl space-y-12 px-4 sm:px-6 lg:px-8">
-                    <div className="space-y-2 text-center">
+                {/* Inclusions & Transparency Section */}
+                <section className="space-y-8 py-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="text-center">
                         <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                             What's Included in the 90-Day Pilot
                         </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Complete transparency about what membership covers.
-                        </p>
                     </div>
 
                     <div className="grid gap-8 md:grid-cols-2">
-                        {/* What's Included */}
-                        <div className="space-y-5 rounded-3xl border border-emerald-200 bg-emerald-50/30 p-8 dark:border-emerald-900/50 dark:bg-emerald-950/20">
-                            <div className="flex items-center gap-2 text-lg font-bold text-emerald-700 dark:text-emerald-400">
-                                <CheckCircle2 className="h-5 w-5" /> What You
-                                Get
+                        <div className="space-y-5 rounded-3xl border border-emerald-200 bg-emerald-50/40 p-8 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+                            <div className="flex items-center gap-2 text-lg font-bold text-emerald-800 dark:text-emerald-400">
+                                <CheckCircle2 className="size-5" /> What You Get
                             </div>
-                            <ul className="space-y-3 text-sm text-muted-foreground">
+                            <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                                 <li className="flex items-start gap-2.5">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                                    <span>
-                                        <strong>
-                                            12 Weekly Learning Packs:
-                                        </strong>{' '}
-                                        4 packs per month over 90 days for Class
-                                        1, 2, or 3.
-                                    </span>
+                                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                                    <span><strong>12 Weekly Learning Packs:</strong> 4 packs per month over 90 days for Class 1, 2, or 3.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                                    <span>
-                                        <strong>Core Subjects Covered:</strong>{' '}
-                                        Balanced mix of Mathematics, English
-                                        Phonics/Grammar, and Environmental
-                                        Studies (EVS).
-                                    </span>
+                                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                                    <span><strong>Core Subjects Covered:</strong> Balanced mix of Mathematics, English Phonics/Grammar, and EVS.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                                    <span>
-                                        <strong>
-                                            Print-Friendly Variants:
-                                        </strong>{' '}
-                                        Full colour, low-ink printer-friendly
-                                        copies, and answer keys.
-                                    </span>
+                                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                                    <span><strong>Print-Friendly Variants:</strong> Full colour, low-ink printer copies, and answer keys.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                                    <span>
-                                        <strong>15% Storewide Discount:</strong>{' '}
-                                        Active members automatically receive 15%
-                                        off all standalone topic packs and
-                                        workbooks.
-                                    </span>
+                                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                                    <span><strong>15% Storewide Discount:</strong> Active members automatically receive 15% off all standalone topic packs and workbooks.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                                    <span>
-                                        <strong>Permanent Ownership:</strong>{' '}
-                                        All PDFs you download during your 90
-                                        days remain yours forever.
-                                    </span>
+                                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
+                                    <span><strong>Permanent Ownership:</strong> All PDFs you download during your 90 days remain yours forever.</span>
                                 </li>
                             </ul>
                         </div>
 
-                        {/* What's Excluded & Policy */}
-                        <div className="space-y-5 rounded-3xl border border-muted bg-card p-8">
+                        <div className="space-y-5 rounded-3xl border border-slate-200 bg-card p-8 dark:border-slate-800">
                             <div className="flex items-center gap-2 text-lg font-bold text-foreground">
-                                <XCircle className="h-5 w-5 text-muted-foreground" />{' '}
-                                Exclusions & Expiry Policy
+                                <XCircle className="size-5 text-muted-foreground" /> Exclusions & Expiry Policy
                             </div>
                             <ul className="space-y-3 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2.5">
-                                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                                    <span>
-                                        <strong>Flagship E-books:</strong>{' '}
-                                        Standalone flagship revision and
-                                        activity ebooks are excluded from
-                                        membership.
-                                    </span>
+                                    <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                                    <span><strong>Flagship E-books:</strong> Standalone flagship revision and activity ebooks are excluded from membership.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                                    <span>
-                                        <strong>No Auto-Renewal:</strong> You
-                                        will never be automatically charged
-                                        again. When 90 days conclude, membership
-                                        gently expires.
-                                    </span>
+                                    <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                                    <span><strong>No Auto-Renewal:</strong> You will never be automatically charged again. When 90 days conclude, membership gently expires.</span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
-                                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                                    <span>
-                                        <strong>After Expiry:</strong> New
-                                        weekly releases cease after day 90.
-                                        Downloaded files stay on your computer
-                                        or device.
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-2.5">
-                                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                                    <span>
-                                        <strong>
-                                            One Membership per Family:
-                                        </strong>{' '}
-                                        Covers up to multiple child learning
-                                        profiles in your parent account.
-                                    </span>
+                                    <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                                    <span><strong>After Expiry:</strong> New weekly releases cease after day 90. Downloaded files stay on your computer or device.</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            {/* Pricing Card */}
-            <section className="bg-muted/20 py-16 sm:py-24">
-                <div className="mx-auto max-w-xl space-y-8 px-4 text-center">
-                    <div className="space-y-6 rounded-3xl border bg-card p-8 shadow-lg sm:p-10">
-                        <div className="space-y-2">
-                            <span className="inline-block text-xs font-bold tracking-wider text-primary uppercase">
-                                Launch Pilot Pricing
-                            </span>
-                            <h3 className="text-3xl font-extrabold">
-                                {plan?.name ?? '90-Day Family Pilot'}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                3 Full Months of Structured Weekly Learning
-                            </p>
-                        </div>
-
-                        <div className="py-4">
-                            <span className="text-5xl font-black text-foreground">
-                                {product?.price_formatted ?? '₹499'}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                                {' '}
-                                / one-time prepaid
-                            </span>
-                        </div>
-
-                        <div className="space-y-2 border-y py-4 text-xs text-muted-foreground">
-                            <div>✓ 12 Weekly Curriculum Packs</div>
-                            <div>✓ Class 1, Class 2, or Class 3 selection</div>
-                            <div>✓ 15% discount on all store items</div>
-                            <div>✓ No subscription recurring traps</div>
-                        </div>
-
-                        {is_active_member ? (
-                            <div className="space-y-2">
-                                <div className="rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                    You have an active membership!
-                                </div>
-                                <Button asChild className="w-full" size="lg">
-                                    <a href="/account/weekly-learning">
-                                        Access Weekly Learning
-                                    </a>
-                                </Button>
-                            </div>
-                        ) : product ? (
-                            <Button
-                                size="lg"
-                                className="w-full text-base"
-                                onClick={handleJoin}
-                            >
-                                Join Pilot Programme
-                            </Button>
-                        ) : null}
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </PublicLayout>
     );
 }

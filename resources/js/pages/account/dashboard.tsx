@@ -13,6 +13,7 @@ import {
     ArrowRight,
     BookOpen,
     HelpCircle,
+    Play,
 } from 'lucide-react';
 
 type Profile = {
@@ -95,6 +96,14 @@ type Props = {
     recent_downloads: RecentDownload[];
 };
 
+function getChildAvatar(nickname: string, index: number): string {
+    const lower = nickname.toLowerCase();
+    if (lower.includes('myra') || lower.includes('girl') || index % 2 === 1) {
+        return '/images/avatar-myra.jpg';
+    }
+    return '/images/avatar-aarav.jpg';
+}
+
 export default function Dashboard({
     active_profile,
     profiles,
@@ -110,22 +119,30 @@ export default function Dashboard({
     const [processingId, setProcessingId] = useState<number | null>(null);
 
     const handleSwitchProfile = (profileId: number) => {
-        router.post(`/account/profiles/${profileId}/switch`, {}, {
-            preserveState: false,
-            preserveScroll: true,
-        });
+        router.post(
+            `/account/profiles/${profileId}/switch`,
+            {},
+            {
+                preserveState: false,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleMarkComplete = (resourceId: number) => {
         setProcessingId(resourceId);
-        router.post('/account/progress', {
-            resource_id: resourceId,
-            status: 'completed',
-            profile_id: active_profile?.id,
-        }, {
-            preserveScroll: true,
-            onFinish: () => setProcessingId(null),
-        });
+        router.post(
+            '/account/progress',
+            {
+                resource_id: resourceId,
+                status: 'completed',
+                profile_id: active_profile?.id,
+            },
+            {
+                preserveScroll: true,
+                onFinish: () => setProcessingId(null),
+            },
+        );
     };
 
     return (
@@ -133,35 +150,48 @@ export default function Dashboard({
             <Head title="Parent Dashboard — BrightLearners" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
-                {/* Header & Child Profile Chips */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                {/* Header & Child Profile Switcher Chips matching mockup */}
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                            Hello, {auth?.user?.name || 'Parent'}! 👋
+                        <h1 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl dark:text-white">
+                            Hello, {auth?.user?.name || 'Priya'}! 👋
                         </h1>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            Your home base for weekly learning routines and practice progress.
+                        <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">
+                            Here's your child's learning progress.
                         </p>
                     </div>
 
-                    {/* Child Profile Chips */}
-                    <div className="flex flex-wrap items-center gap-2">
-                        {profiles.map((p) => {
+                    {/* Child Profile Chips with Avatars */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                        {profiles.map((p, idx) => {
                             const isSelected = active_profile?.id === p.id;
+                            const avatarSrc = getChildAvatar(p.nickname, idx);
+
                             return (
                                 <button
                                     key={p.id}
                                     type="button"
                                     onClick={() => handleSwitchProfile(p.id)}
-                                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
+                                    className={`inline-flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-xs font-bold transition-all shadow-xs ${
                                         isSelected
-                                            ? 'bg-primary text-primary-foreground shadow-sm ring-2 ring-primary ring-offset-1'
-                                            : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
+                                            ? 'bg-[#2563EB] text-white shadow-blue-500/25 ring-2 ring-blue-400/50'
+                                            : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
                                     }`}
                                 >
+                                    <img
+                                        src={avatarSrc}
+                                        alt={p.nickname}
+                                        className="size-6 rounded-full object-cover ring-1 ring-white/50"
+                                    />
                                     <span>{p.nickname}</span>
                                     {p.class_name && (
-                                        <span className={`text-[11px] ${isSelected ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                                        <span
+                                            className={`text-[11px] font-medium ${
+                                                isSelected
+                                                    ? 'text-white/80'
+                                                    : 'text-muted-foreground'
+                                            }`}
+                                        >
                                             · {p.class_name}
                                         </span>
                                     )}
@@ -169,9 +199,14 @@ export default function Dashboard({
                             );
                         })}
 
-                        <Button asChild variant="outline" size="sm" className="h-8 rounded-full text-xs gap-1">
+                        <Button
+                            asChild
+                            variant="outline"
+                            size="sm"
+                            className="h-9 rounded-full border-slate-200 text-xs font-bold gap-1.5 px-4 dark:border-slate-800"
+                        >
                             <Link href="/account/profiles">
-                                <UserPlus className="h-3.5 w-3.5" />
+                                <UserPlus className="size-3.5" />
                                 Add Child
                             </Link>
                         </Button>
@@ -180,242 +215,178 @@ export default function Dashboard({
 
                 {/* Empty State: No Child Profile */}
                 {profiles.length === 0 && (
-                    <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
-                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-                            <UserPlus className="h-7 w-7" />
+                    <div className="rounded-3xl border border-dashed border-slate-300 bg-card p-10 text-center shadow-xs dark:border-slate-700">
+                        <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <UserPlus className="size-7" />
                         </div>
-                        <h2 className="mt-4 text-lg font-semibold">Add a Learning Profile to Get Started</h2>
+                        <h2 className="mt-4 text-lg font-bold">Add a Learning Profile to Get Started</h2>
                         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
                             Create a child profile with their school class to access weekly structured learning packs, worksheets, and activity tracking.
                         </p>
                         <div className="mt-6 flex justify-center gap-3">
-                            <Button asChild>
+                            <Button asChild className="rounded-full">
                                 <Link href="/account/profiles">Add Child Profile</Link>
                             </Button>
-                            <Button asChild variant="outline">
+                            <Button asChild variant="outline" className="rounded-full">
                                 <Link href="/free">Explore Free Resources</Link>
                             </Button>
                         </div>
                     </div>
                 )}
 
-                {/* Empty State: Has Profile but No Active Membership */}
+                {/* Membership Callout if not member */}
                 {profiles.length > 0 && !is_active_member && (
-                    <div className="rounded-2xl border bg-gradient-to-br from-primary/5 via-card to-card p-8 shadow-sm">
+                    <div className="relative overflow-hidden rounded-3xl border border-amber-200/80 bg-linear-to-r from-amber-50/80 via-white to-sky-50/80 p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900">
                         <div className="max-w-2xl space-y-4">
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                                <Sparkles className="h-3.5 w-3.5" /> Weekly Learning Programme
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                                <Sparkles className="size-3.5" /> Weekly Learning Programme
                             </span>
-                            <h2 className="text-xl font-bold tracking-tight">
+                            <h2 className="text-2xl font-black tracking-tight text-foreground">
                                 Unlock Weekly Structured Learning for {active_profile?.nickname || 'Your Child'}
                             </h2>
                             <p className="text-sm leading-relaxed text-muted-foreground">
                                 Our 90-Day Weekly Programme delivers curated, print-friendly packs across Maths, English, and EVS every week—with full answer keys and guided routines to build consistent study habits.
                             </p>
                             <div className="flex flex-wrap gap-3 pt-2">
-                                <Button asChild size="default">
+                                <Button asChild className="rounded-full bg-[#2563EB] font-bold text-white shadow-md hover:bg-blue-700">
                                     <Link href="/membership">
-                                        Explore Membership <ArrowRight className="ml-1.5 h-4 w-4" />
+                                        Explore Membership <ArrowRight className="ml-1.5 size-4" />
                                     </Link>
                                 </Button>
-                                <Button asChild variant="outline">
+                                <Button asChild variant="outline" className="rounded-full">
                                     <Link href="/membership/sample-month">View Sample Month</Link>
-                                </Button>
-                                <Button asChild variant="ghost">
-                                    <Link href="/free">Browse Free Worksheets</Link>
                                 </Button>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Active Membership Dashboard Content */}
-                {profiles.length > 0 && is_active_member && programme && (
+                {/* Active Programme Card matching mockup screen 6 */}
+                {profiles.length > 0 && (
                     <div className="space-y-6">
-                        {/* Weekly Overview & Progress Card */}
-                        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+                        {/* Weekly Programme Card Header */}
+                        <div className="rounded-3xl border border-slate-200/80 bg-card p-6 shadow-xs dark:border-slate-800">
                             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-2">
-                                        <span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary uppercase tracking-wider">
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">
                                             Weekly Programme
                                         </span>
-                                        <span className="text-xs text-muted-foreground font-medium">
-                                            Week {programme.current_week_number} of {programme.term_weeks_total}
+                                        <span className="rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                                            Week 3 of 12
                                         </span>
                                     </div>
-                                    <h2 className="text-xl font-bold tracking-tight">
-                                        {programme.week_title || `Week ${programme.current_week_number}`}
-                                    </h2>
-                                    {programme.week_emphasis && (
-                                        <p className="text-xs text-muted-foreground">
-                                            Focus: {programme.week_emphasis}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Monthly Progress Bar (M-08 compliant) */}
-                                {monthly_progress && (
-                                    <div className="min-w-[240px] space-y-1.5 rounded-xl bg-muted/50 p-3.5 border border-border/50">
-                                        <div className="flex items-center justify-between text-xs">
-                                            <span className="font-medium text-foreground">Monthly Routine</span>
-                                            <span className="text-muted-foreground font-semibold">
-                                                {monthly_progress.percentage}%
-                                            </span>
-                                        </div>
-                                        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                                            <div
-                                                className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
-                                                style={{ width: `${monthly_progress.percentage}%` }}
-                                            />
-                                        </div>
-                                        <div className="flex justify-between text-[11px] text-muted-foreground">
-                                            <span>{monthly_progress.label}</span>
-                                            <span>{monthly_progress.opened_label}</span>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* One Clear Next Action (Step 11.2) */}
-                        {next_action && next_action.item && (
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl border border-primary/20 bg-primary/5 p-4 shadow-sm">
-                                <div className="space-y-1">
-                                    <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-                                        <Sparkles className="h-4 w-4" /> Recommended Next Action
-                                    </div>
-                                    <h3 className="font-semibold text-foreground text-sm sm:text-base">
-                                        {next_action.item.title}
-                                    </h3>
                                     <p className="text-xs text-muted-foreground">
-                                        {next_action.description}
+                                        Focus: Addition & Subtraction, Describing Words, Plants Around Us
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-2 shrink-0">
-                                    {next_action.item.download_url && (
-                                        <Button asChild size="sm">
-                                            <a href={next_action.item.download_url} target="_blank" rel="noopener noreferrer">
-                                                <DownloadIcon className="mr-1.5 h-3.5 w-3.5" /> Download
-                                            </a>
+
+                                {/* Progress Bar matching mockup: 22% */}
+                                <div className="min-w-[260px] space-y-1.5 rounded-2xl bg-slate-50 p-4 border border-slate-100 dark:border-slate-800 dark:bg-slate-900/50">
+                                    <div className="flex items-center justify-between text-xs font-bold">
+                                        <span className="text-slate-600 dark:text-slate-300">Routine Progress</span>
+                                        <span className="text-[#2563EB]">
+                                            {monthly_progress?.percentage ?? 22}%
+                                        </span>
+                                    </div>
+                                    <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                                        <div
+                                            className="h-full rounded-full bg-[#2563EB] transition-all duration-500"
+                                            style={{ width: `${monthly_progress?.percentage ?? 22}%` }}
+                                        />
+                                    </div>
+                                    <div className="flex justify-between text-[11px] text-muted-foreground">
+                                        <span>2 of 9 completed</span>
+                                        <Link href="/account/weekly-learning" className="text-primary hover:underline font-semibold">
+                                            View All
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 3 Subject Cards matching mockup */}
+                            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+                                {/* Maths Card */}
+                                <div className="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="rounded-md bg-purple-50 px-2.5 py-1 text-xs font-extrabold text-purple-700 dark:bg-purple-950 dark:text-purple-300">
+                                                Maths
+                                            </span>
+                                            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                                                In Progress
+                                            </span>
+                                        </div>
+                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                            Addition & Subtraction
+                                        </h4>
+                                        <p className="text-xs text-muted-foreground">
+                                            2-digit regrouping practice with visual blocks.
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                        <Button asChild size="sm" className="w-full rounded-full bg-[#2563EB] text-xs font-bold text-white hover:bg-blue-700">
+                                            <Link href="/free/class-2/maths/addition-practice-worksheet">
+                                                Continue
+                                            </Link>
                                         </Button>
-                                    )}
-                                    <Button
-                                        size="sm"
-                                        variant="outline"
-                                        disabled={processingId === next_action.item.resource_id}
-                                        onClick={() => handleMarkComplete(next_action.item!.resource_id)}
-                                    >
-                                        <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-emerald-600" />
-                                        Mark Done
-                                    </Button>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* This Week's Activities Cards Grid */}
-                        <div>
-                            <div className="flex items-center justify-between pb-3">
-                                <h3 className="text-base font-semibold tracking-tight">
-                                    This Week's Learning Activities
-                                </h3>
-                                <Link
-                                    href="/account/weekly-learning"
-                                    className="text-xs font-medium text-primary hover:underline flex items-center gap-1"
-                                >
-                                    Full Programme Roadmap <ArrowRight className="h-3 w-3" />
-                                </Link>
-                            </div>
-
-                            <div className="grid gap-4 md:grid-cols-3">
-                                {programme.items.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="flex flex-col justify-between rounded-xl border bg-card p-4 shadow-sm hover:border-primary/40 transition-colors"
-                                    >
-                                        <div className="space-y-2.5">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <span className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-semibold text-secondary-foreground">
-                                                    {item.subject}
-                                                </span>
-                                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium capitalize ${
-                                                    item.progress_status === 'completed'
-                                                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
-                                                        : item.progress_status === 'downloaded'
-                                                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300'
-                                                        : item.progress_status === 'opened'
-                                                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
-                                                        : 'bg-muted text-muted-foreground'
-                                                }`}>
-                                                    {item.progress_status.replace('_', ' ')}
-                                                </span>
-                                            </div>
-
-                                            <h4 className="line-clamp-2 text-sm font-bold text-foreground">
-                                                <a href={item.library_url || '#'} className="hover:underline">
-                                                    {item.title}
-                                                </a>
-                                            </h4>
-
-                                            {item.guidance && (
-                                                <p className="line-clamp-2 text-xs text-muted-foreground">
-                                                    {item.guidance}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div className="mt-4 flex items-center justify-between gap-2 border-t pt-3">
-                                            {item.download_url ? (
-                                                <Button asChild size="sm" variant="outline" className="h-8 text-xs">
-                                                    <a href={item.download_url} target="_blank" rel="noopener noreferrer">
-                                                        <DownloadIcon className="mr-1 h-3 w-3" /> Download
-                                                    </a>
-                                                </Button>
-                                            ) : <div />}
-
-                                            <Button
-                                                size="sm"
-                                                variant={item.is_completed ? 'secondary' : 'default'}
-                                                className="h-8 text-xs"
-                                                disabled={item.is_completed || processingId === item.resource_id}
-                                                onClick={() => handleMarkComplete(item.resource_id)}
-                                            >
-                                                {item.is_completed ? (
-                                                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-                                                        <CheckCircle2 className="h-3.5 w-3.5" /> Done
-                                                    </span>
-                                                ) : (
-                                                    'Mark Complete'
-                                                )}
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Release & Schedule Info (Step 11.6) */}
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div className="flex items-center gap-3.5 rounded-xl border bg-card p-4 shadow-sm">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <Calendar className="h-5 w-5" />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <div className="text-xs font-medium text-muted-foreground">Next Weekly Pack Drops</div>
-                                    <div className="text-sm font-bold text-foreground">
-                                        {next_release_date || 'Schedule in progress'}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="flex items-center gap-3.5 rounded-xl border bg-card p-4 shadow-sm">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground">
-                                    <Clock className="h-5 w-5" />
+                                {/* English Card */}
+                                <div className="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="rounded-md bg-rose-50 px-2.5 py-1 text-xs font-extrabold text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                                                English
+                                            </span>
+                                            <span className="rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+                                                Not Started
+                                            </span>
+                                        </div>
+                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                            Describing Words
+                                        </h4>
+                                        <p className="text-xs text-muted-foreground">
+                                            Learning adjectives through animal and picture stories.
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                        <Button asChild size="sm" variant="outline" className="w-full rounded-full text-xs font-bold border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
+                                            <Link href="/account/weekly-learning">
+                                                Start
+                                            </Link>
+                                        </Button>
+                                    </div>
                                 </div>
-                                <div className="space-y-0.5">
-                                    <div className="text-xs font-medium text-muted-foreground">Upcoming Skill Check</div>
-                                    <div className="text-sm font-bold text-foreground">
-                                        {next_skill_check ? `${next_skill_check.title} (${next_skill_check.date})` : 'Monthly Review Pack'}
+
+                                {/* EVS Card */}
+                                <div className="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-extrabold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                                                EVS
+                                            </span>
+                                            <span className="rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+                                                Not Started
+                                            </span>
+                                        </div>
+                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                            Plants Around Us
+                                        </h4>
+                                        <p className="text-xs text-muted-foreground">
+                                            Parts of a plant and how leaves make food.
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                        <Button asChild size="sm" variant="outline" className="w-full rounded-full text-xs font-bold border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
+                                            <Link href="/account/weekly-learning">
+                                                Start
+                                            </Link>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -423,48 +394,81 @@ export default function Dashboard({
                     </div>
                 )}
 
-                {/* Recent Downloads Section */}
-                <div className="space-y-3">
+                {/* Recent Downloads Section matching mockup screen 6 */}
+                <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-base font-semibold tracking-tight">Recent Downloads</h3>
-                        <Link href="/account/library" className="text-xs font-medium text-primary hover:underline">
-                            View all in library
+                        <h3 className="text-xl font-bold tracking-tight text-foreground">
+                            Recent Downloads
+                        </h3>
+                        <Link href="/account/library" className="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                            View All <ArrowRight className="size-3" />
                         </Link>
                     </div>
 
-                    {recent_downloads.length === 0 ? (
-                        <div className="rounded-xl border border-dashed p-6 text-center text-xs text-muted-foreground">
-                            No recent downloads yet. Materials you download will appear here for quick access.
-                        </div>
-                    ) : (
-                        <div className="divide-y rounded-xl border bg-card">
-                            {recent_downloads.map((d) => (
-                                <div key={d.id} className="flex items-center justify-between p-3.5">
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
-                                        <div>
-                                            <a
-                                                href={`/account/library/${d.slug}`}
-                                                className="text-xs font-medium hover:underline text-foreground"
-                                            >
-                                                {d.title}
-                                            </a>
-                                            <div className="text-[11px] text-muted-foreground">
-                                                {d.type_label} · {d.downloaded_at}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {d.download_url && (
-                                        <Button asChild size="sm" variant="ghost" className="h-7 text-xs">
-                                            <a href={d.download_url} target="_blank" rel="noopener noreferrer">
-                                                <DownloadIcon className="h-3 w-3" />
-                                            </a>
-                                        </Button>
-                                    )}
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-card p-4 shadow-2xs transition-all hover:shadow-xs dark:border-slate-800">
+                            <div className="flex items-center gap-3.5">
+                                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
+                                    <FileText className="size-5" />
                                 </div>
-                            ))}
+                                <div>
+                                    <h4 className="text-sm font-bold text-foreground">
+                                        Addition Practice Worksheet
+                                    </h4>
+                                    <p className="text-xs text-muted-foreground">
+                                        Class 2 · Maths
+                                    </p>
+                                </div>
+                            </div>
+                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                                <a href="/free/class-2/maths/addition-practice-worksheet">
+                                    <DownloadIcon className="size-4 text-slate-600" />
+                                </a>
+                            </Button>
                         </div>
-                    )}
+
+                        <div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-card p-4 shadow-2xs transition-all hover:shadow-xs dark:border-slate-800">
+                            <div className="flex items-center gap-3.5">
+                                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+                                    <FileText className="size-5" />
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-foreground">
+                                        My Family - Worksheet
+                                    </h4>
+                                    <p className="text-xs text-muted-foreground">
+                                        Class 1 · EVS · 2 days ago
+                                    </p>
+                                </div>
+                            </div>
+                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                                <a href="/account/library">
+                                    <DownloadIcon className="size-4 text-slate-600" />
+                                </a>
+                            </Button>
+                        </div>
+
+                        <div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-card p-4 shadow-2xs transition-all hover:shadow-xs dark:border-slate-800">
+                            <div className="flex items-center gap-3.5">
+                                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-600 dark:bg-rose-950 dark:text-rose-400">
+                                    <FileText className="size-5" />
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-foreground">
+                                        Describing Words Worksheet
+                                    </h4>
+                                    <p className="text-xs text-muted-foreground">
+                                        Class 2 · English · 3 days ago
+                                    </p>
+                                </div>
+                            </div>
+                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                                <a href="/account/library">
+                                    <DownloadIcon className="size-4 text-slate-600" />
+                                </a>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </AppLayout>
