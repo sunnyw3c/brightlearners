@@ -5,16 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
+        {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
             (function() {
-                const appearance = '{{ $appearance ?? "system" }}';
+                const urlParams = new URLSearchParams(window.location.search);
+                const queryAppearance = urlParams.get('appearance');
+                const serverAppearance = '{{ $appearance ?? "system" }}';
+                let localAppearance = null;
+                try {
+                    localAppearance = localStorage.getItem('appearance');
+                } catch (e) {}
 
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const effective = queryAppearance || (localAppearance && localAppearance !== 'system' ? localAppearance : serverAppearance);
+                const isDark = effective === 'dark' || (effective === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.style.colorScheme = 'light';
                 }
             })();
         </script>
@@ -57,7 +67,7 @@
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>
     </head>
-    <body class="font-sans antialiased">
+    <body class="bg-background text-foreground font-sans antialiased">
         <x-inertia::app />
     </body>
 </html>

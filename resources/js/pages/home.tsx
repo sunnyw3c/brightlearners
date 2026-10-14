@@ -90,19 +90,19 @@ export default function Home({ classes, featuredResources, seo }: Props) {
             </Head>
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-linear-to-b from-sky-50/70 via-background to-background pt-10 pb-14 sm:pt-14 sm:pb-18 lg:pt-18 lg:pb-22">
+            <section className="relative overflow-hidden bg-linear-to-b from-sky-50/70 via-background to-background pt-10 pb-14 sm:pt-14 sm:pb-18 lg:pt-18 lg:pb-22 dark:from-slate-900/60 dark:via-background dark:to-background">
                 {/* Ambient Soft Glow Accents */}
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-[480px] w-[800px] -translate-x-1/2 rounded-full bg-linear-to-tr from-sky-200/40 via-amber-100/35 to-purple-200/35 blur-3xl dark:from-sky-950/20 dark:via-purple-950/20 dark:to-background"
+                    className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-[480px] w-[800px] -translate-x-1/2 rounded-full bg-linear-to-tr from-sky-200/40 via-amber-100/35 to-purple-200/35 blur-3xl dark:from-sky-950/30 dark:via-purple-950/30 dark:to-background"
                 />
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute top-1/4 -right-16 -z-10 h-64 w-64 rounded-full bg-amber-200/30 blur-2xl dark:bg-amber-950/15"
+                    className="pointer-events-none absolute top-1/4 -right-16 -z-10 h-64 w-64 rounded-full bg-amber-200/30 blur-2xl dark:bg-amber-950/20"
                 />
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute bottom-10 -left-16 -z-10 h-64 w-64 rounded-full bg-blue-200/30 blur-2xl dark:bg-blue-950/15"
+                    className="pointer-events-none absolute bottom-10 -left-16 -z-10 h-64 w-64 rounded-full bg-blue-200/30 blur-2xl dark:bg-blue-950/20"
                 />
 
                 {/* Subtle Playful Educational Background Shapes */}
@@ -110,19 +110,19 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 -z-10 overflow-hidden select-none"
                 >
-                    <span className="absolute top-10 left-[8%] text-2xl font-black text-amber-400/50">
+                    <span className="absolute top-10 left-[8%] text-2xl font-black text-amber-400/50 dark:text-amber-400/30">
                         ★
                     </span>
-                    <span className="absolute top-24 right-[10%] text-xl font-bold text-sky-400/50">
+                    <span className="absolute top-24 right-[10%] text-xl font-bold text-sky-400/50 dark:text-sky-400/30">
                         ●
                     </span>
-                    <span className="absolute top-2/3 left-[4%] text-3xl font-black text-rose-300/40">
+                    <span className="absolute top-2/3 left-[4%] text-3xl font-black text-rose-300/40 dark:text-rose-400/25">
                         +
                     </span>
-                    <span className="absolute top-1/2 right-[5%] text-2xl font-black text-indigo-300/40">
+                    <span className="absolute top-1/2 right-[5%] text-2xl font-black text-indigo-300/40 dark:text-indigo-400/25">
                         ÷
                     </span>
-                    <span className="absolute right-[18%] bottom-12 text-lg font-black text-amber-400/40">
+                    <span className="absolute right-[18%] bottom-12 text-lg font-black text-amber-400/40 dark:text-amber-400/25">
                         ▲
                     </span>
                 </div>
@@ -131,7 +131,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                     {/* Left Column: Headlines, Trust, and Calls to Action */}
                     <div className="space-y-6 text-center lg:col-span-7 lg:text-left">
                         {/* Shimmering Trust Badge */}
-                        <div className="inline-flex items-center gap-2.5 rounded-full border border-sky-200/80 bg-white/95 px-4 py-1.5 text-xs font-bold text-blue-700 shadow-xs backdrop-blur-xs transition-all hover:bg-white dark:border-sky-800/60 dark:bg-sky-950/70 dark:text-sky-300">
+                        <div className="inline-flex items-center gap-2.5 rounded-full border border-sky-200/80 bg-white/95 px-4 py-1.5 text-xs font-bold text-blue-700 shadow-xs backdrop-blur-xs transition-all hover:bg-white dark:border-slate-700/80 dark:bg-slate-800/80 dark:text-sky-300">
                             <span className="relative flex size-2">
                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
                                 <span className="relative inline-flex size-2 rounded-full bg-blue-600" />
@@ -145,10 +145,10 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                         {/* Bold Playful Main Headline */}
                         <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-[3.75rem] lg:leading-[1.12] dark:text-white">
                             Make Learning{' '}
-                            <span className="relative inline-block text-[#EF4444]">
+                            <span className="relative inline-block text-[#EF4444] dark:text-rose-400">
                                 Simple,
                                 <svg
-                                    className="absolute -bottom-1.5 left-0 w-full text-[#EF4444]/30"
+                                    className="absolute -bottom-1.5 left-0 w-full text-[#EF4444]/30 dark:text-rose-400/40"
                                     viewBox="0 0 100 12"
                                     fill="none"
                                     preserveAspectRatio="none"
@@ -162,7 +162,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                                     />
                                 </svg>
                             </span>{' '}
-                            <span className="relative inline-block text-[#2563EB]">
+                            <span className="relative inline-block text-[#2563EB] dark:text-blue-400">
                                 Fun
                                 <span
                                     className="absolute -top-3.5 -right-3 text-lg font-bold text-[#FBBF24] select-none"
@@ -183,15 +183,15 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                         {/* Feature / Trust Badges */}
                         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-600 sm:text-sm lg:justify-start dark:text-slate-300">
                             <span className="inline-flex items-center gap-1.5">
-                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500" />
+                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500 dark:text-emerald-400" />
                                 CBSE & ICSE Aligned
                             </span>
                             <span className="inline-flex items-center gap-1.5">
-                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500" />
+                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500 dark:text-emerald-400" />
                                 Printable PDFs & Answer Keys
                             </span>
                             <span className="inline-flex items-center gap-1.5">
-                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500" />
+                                <CheckCircle2 className="size-4 shrink-0 text-emerald-500 dark:text-emerald-400" />
                                 100% Free to Start
                             </span>
                         </div>
@@ -284,12 +284,12 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                         {/* Decorative Background Aura */}
                         <div
                             aria-hidden="true"
-                            className="absolute -inset-4 -z-10 rounded-[3.5rem] bg-linear-to-tr from-amber-200/50 via-sky-200/50 to-purple-200/50 opacity-75 blur-xl dark:opacity-30"
+                            className="absolute -inset-4 -z-10 rounded-[3.5rem] bg-linear-to-tr from-amber-200/50 via-sky-200/50 to-purple-200/50 opacity-75 blur-xl dark:from-sky-900/40 dark:via-purple-900/40 dark:to-amber-900/40 dark:opacity-40"
                         />
 
                         {/* Main Image Card */}
-                        <div className="relative aspect-square overflow-hidden rounded-[3rem] border-4 border-white/90 bg-linear-to-tr from-amber-100/70 via-sky-100/70 to-purple-100/70 p-3 shadow-2xl backdrop-blur-xs transition-shadow duration-500 hover:shadow-blue-500/15 dark:border-slate-800 dark:from-slate-900/60 dark:to-slate-800/60">
-                            <div className="h-full w-full overflow-hidden rounded-[2.5rem] bg-amber-50/50">
+                        <div className="relative aspect-square overflow-hidden rounded-[3rem] border-4 border-white/90 bg-linear-to-tr from-amber-100/70 via-sky-100/70 to-purple-100/70 p-3 shadow-2xl backdrop-blur-xs transition-shadow duration-500 hover:shadow-blue-500/15 dark:border-slate-700/80 dark:from-slate-800/80 dark:via-slate-800/90 dark:to-slate-800">
+                            <div className="h-full w-full overflow-hidden rounded-[2.5rem] bg-amber-50/50 dark:bg-slate-900/50">
                                 <img
                                     src="/images/hero-girl.jpg"
                                     alt="BrightLearners student learning happily"
@@ -299,7 +299,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                             </div>
 
                             {/* Floating Micro-Card Top Left: Printable PDF */}
-                            <div className="absolute top-6 -left-2 rounded-2xl border border-white/80 bg-white/95 p-2.5 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-105 sm:-left-5 dark:border-slate-800 dark:bg-slate-900/95">
+                            <div className="absolute top-6 -left-2 rounded-2xl border border-white/80 bg-white/95 p-2.5 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-105 sm:-left-5 dark:border-slate-700/80 dark:bg-slate-900/95">
                                 <div className="flex items-center gap-2.5">
                                     <span className="flex size-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950/70 dark:text-emerald-400">
                                         <Download className="size-4.5 stroke-[2.5]" />
@@ -316,7 +316,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                             </div>
 
                             {/* Floating Micro-Pill Bottom Left: 500+ Worksheets */}
-                            <div className="absolute bottom-8 -left-1 rounded-full border border-white/80 bg-white/95 px-3 py-1.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 sm:-left-3 dark:border-slate-800 dark:bg-slate-900/95">
+                            <div className="absolute bottom-8 -left-1 rounded-full border border-white/80 bg-white/95 px-3 py-1.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 sm:-left-3 dark:border-slate-700/80 dark:bg-slate-900/95">
                                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-100">
                                     <Sparkles className="size-3.5 fill-amber-400 text-amber-500" />
                                     <span>500+ Free Worksheets</span>

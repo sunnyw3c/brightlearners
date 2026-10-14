@@ -75,6 +75,16 @@ export function initializeTheme(): void {
         return;
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryAppearance = urlParams.get('appearance') as Appearance | null;
+    if (
+        queryAppearance &&
+        ['light', 'dark', 'system'].includes(queryAppearance)
+    ) {
+        localStorage.setItem('appearance', queryAppearance);
+        setCookie('appearance', queryAppearance);
+    }
+
     if (!localStorage.getItem('appearance')) {
         localStorage.setItem('appearance', 'system');
         setCookie('appearance', 'system');

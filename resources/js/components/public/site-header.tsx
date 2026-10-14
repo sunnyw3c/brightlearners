@@ -1,14 +1,20 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Search, ShoppingBag, Sun } from 'lucide-react';
+import { Moon, Search, ShoppingBag, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useAppearance } from '@/hooks/use-appearance';
 import { home, login, register, search } from '@/routes';
 import { index as freeIndex } from '@/routes/free';
 import { index as shopIndex } from '@/routes/shop';
-import { Button } from '@/components/ui/button';
 
 export function SiteHeader() {
     const page = usePage();
     const { auth } = page.props;
     const url = page.url;
+    const { resolvedAppearance, updateAppearance } = useAppearance();
+
+    const toggleTheme = () => {
+        updateAppearance(resolvedAppearance === 'dark' ? 'light' : 'dark');
+    };
 
     const navItems = [
         { label: 'Home', href: home() },
@@ -75,6 +81,22 @@ export function SiteHeader() {
                     >
                         <ShoppingBag className="size-4.5" />
                     </Link>
+
+                    {/* Dark / Light Theme Toggle Button */}
+                    <button
+                        id="theme-toggle"
+                        type="button"
+                        onClick={toggleTheme}
+                        aria-label={`Switch to ${resolvedAppearance === 'dark' ? 'light' : 'dark'} mode`}
+                        title={`Switch to ${resolvedAppearance === 'dark' ? 'light' : 'dark'} mode`}
+                        className="flex size-9 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+                    >
+                        {resolvedAppearance === 'dark' ? (
+                            <Sun className="size-4.5 text-amber-400" />
+                        ) : (
+                            <Moon className="size-4.5 text-slate-600" />
+                        )}
+                    </button>
 
                     {auth.user ? (
                         <Button
