@@ -18,11 +18,7 @@ import { ProductCard } from '@/components/public/product-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
-import type {
-    BreadcrumbData,
-    ProductCardData,
-    SeoProps,
-} from '@/types/public';
+import type { BreadcrumbData, ProductCardData, SeoProps } from '@/types/public';
 
 type Inclusion = {
     title: string;
@@ -92,7 +88,9 @@ export default function ShopShow({
     seo,
 }: Props) {
     const [quantity, setQuantity] = useState(1);
-    const [activeTab, setActiveTab] = useState<'description' | 'whats_inside' | 'sample_pages' | 'reviews'>('whats_inside');
+    const [activeTab, setActiveTab] = useState<
+        'description' | 'whats_inside' | 'sample_pages' | 'reviews'
+    >('whats_inside');
     const [isAdding, setIsAdding] = useState(false);
 
     const handleAddToCart = () => {
@@ -153,7 +151,7 @@ export default function ShopShow({
                                 <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 dark:bg-amber-950 dark:text-amber-300">
                                     {product.class_name ?? 'Class 2'}
                                 </Badge>
-                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                                     Workbook
                                 </span>
                             </div>
@@ -163,7 +161,7 @@ export default function ShopShow({
                             </h1>
 
                             {/* Ratings Row */}
-                            <div className="mt-3 flex items-center gap-2 text-sm text-amber-500 font-bold">
+                            <div className="mt-3 flex items-center gap-2 text-sm font-bold text-amber-500">
                                 <div className="flex">
                                     {[...Array(5)].map((_, i) => (
                                         <Star
@@ -197,7 +195,7 @@ export default function ShopShow({
                         </div>
 
                         {/* Short Description */}
-                        <p className="text-base text-slate-600 leading-relaxed dark:text-slate-300">
+                        <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
                             {product.short_description ??
                                 'A complete practice workbook covering all key Class 2 maths concepts with step-by-step exercises and answers.'}
                         </p>
@@ -211,7 +209,10 @@ export default function ShopShow({
                                 'Printable PDF (High Quality)',
                                 'Aligned to School Curriculum',
                             ].map((bullet, idx) => (
-                                <div key={idx} className="flex items-center gap-2.5 text-sm font-medium text-slate-700 dark:text-slate-200">
+                                <div
+                                    key={idx}
+                                    className="flex items-center gap-2.5 text-sm font-medium text-slate-700 dark:text-slate-200"
+                                >
                                     <CheckCircle2 className="size-4.5 shrink-0 text-emerald-500" />
                                     <span>{bullet}</span>
                                 </div>
@@ -225,7 +226,11 @@ export default function ShopShow({
                                 <div className="flex items-center rounded-full border border-slate-200 bg-white px-2 py-1 shadow-xs dark:border-slate-800 dark:bg-slate-900">
                                     <button
                                         type="button"
-                                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                        onClick={() =>
+                                            setQuantity((q) =>
+                                                Math.max(1, q - 1),
+                                            )
+                                        }
                                         className="flex size-8 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
                                     >
                                         <Minus className="size-3.5" />
@@ -235,7 +240,9 @@ export default function ShopShow({
                                     </span>
                                     <button
                                         type="button"
-                                        onClick={() => setQuantity((q) => q + 1)}
+                                        onClick={() =>
+                                            setQuantity((q) => q + 1)
+                                        }
                                         className="flex size-8 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
                                     >
                                         <Plus className="size-3.5" />
@@ -256,7 +263,7 @@ export default function ShopShow({
                                     size="lg"
                                     variant="outline"
                                     onClick={handleBuyNow}
-                                    className="h-12 flex-1 rounded-full border-blue-200 bg-blue-50 text-base font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300 sm:flex-none"
+                                    className="h-12 flex-1 rounded-full border-blue-200 bg-blue-50 text-base font-bold text-blue-700 hover:bg-blue-100 sm:flex-none dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300"
                                 >
                                     <Zap className="mr-1.5 size-4" />
                                     Buy Now
@@ -265,7 +272,7 @@ export default function ShopShow({
                         </div>
 
                         {/* 4 Trust Badges matching mockup */}
-                        <div className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4 border-t border-slate-100 dark:border-slate-800">
+                        <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4 sm:grid-cols-4 dark:border-slate-800">
                             {trustItems.map((item, idx) => {
                                 const IconComponent = item.icon;
                                 return (
@@ -290,7 +297,7 @@ export default function ShopShow({
                 </div>
 
                 {/* Tabs Section matching mockup */}
-                <div className="space-y-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="space-y-6 border-t border-slate-200 pt-6 dark:border-slate-800">
                     <div className="flex items-center gap-3 border-b border-slate-200 pb-2 dark:border-slate-800">
                         <button
                             type="button"
@@ -342,21 +349,24 @@ export default function ShopShow({
                     {activeTab === 'whats_inside' && (
                         <div className="rounded-3xl border border-slate-200/80 bg-card p-8 shadow-xs dark:border-slate-800">
                             <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-                                <div className="space-y-4 flex-1">
+                                <div className="flex-1 space-y-4">
                                     <h3 className="text-xl font-bold tracking-tight text-foreground">
                                         What's Inside
                                     </h3>
                                     <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
                                         {whatsInsideTopics.map((topic, i) => (
-                                            <div key={i} className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                                <CheckCircle2 className="size-4.5 text-emerald-500 shrink-0" />
+                                            <div
+                                                key={i}
+                                                className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200"
+                                            >
+                                                <CheckCircle2 className="size-4.5 shrink-0 text-emerald-500" />
                                                 <span>{topic}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div className="shrink-0 flex justify-center">
+                                <div className="flex shrink-0 justify-center">
                                     <img
                                         src="/images/class-2-boy.png"
                                         alt="Happy learning"
@@ -368,11 +378,11 @@ export default function ShopShow({
                     )}
 
                     {activeTab === 'description' && (
-                        <div className="rounded-3xl border border-slate-200/80 bg-card p-8 space-y-4 shadow-xs dark:border-slate-800">
+                        <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-card p-8 shadow-xs dark:border-slate-800">
                             <h3 className="text-xl font-bold tracking-tight text-foreground">
                                 Detailed Curriculum Description
                             </h3>
-                            <p className="text-slate-600 leading-relaxed dark:text-slate-300">
+                            <p className="leading-relaxed text-slate-600 dark:text-slate-300">
                                 {productDetail.description ??
                                     'This comprehensive Class 2 Maths Workbook gives children the daily confidence they need. Every topic is laid out in a step-by-step format with clean visual examples and progressive challenges.'}
                             </p>
@@ -406,14 +416,17 @@ export default function ShopShow({
                     )}
 
                     {activeTab === 'reviews' && (
-                        <div className="rounded-3xl border border-slate-200/80 bg-card p-8 space-y-4 shadow-xs dark:border-slate-800">
+                        <div className="space-y-4 rounded-3xl border border-slate-200/80 bg-card p-8 shadow-xs dark:border-slate-800">
                             <div className="flex items-center gap-3">
                                 <span className="text-3xl font-extrabold text-foreground">
                                     4.8
                                 </span>
                                 <div className="flex text-amber-500">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="size-5 fill-amber-400 stroke-amber-500" />
+                                        <Star
+                                            key={i}
+                                            className="size-5 fill-amber-400 stroke-amber-500"
+                                        />
                                     ))}
                                 </div>
                                 <span className="text-sm text-muted-foreground">

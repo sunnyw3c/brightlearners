@@ -1,9 +1,21 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Compass, ArrowRight, Sparkles, FolderHeart } from 'lucide-react';
+import {
+    BookOpen,
+    Compass,
+    ArrowRight,
+    Sparkles,
+    FolderHeart,
+} from 'lucide-react';
 import { Seo, type SeoProps } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { PublicLayout } from '@/layouts/public-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface CategoryItem {
@@ -31,7 +43,12 @@ interface Props {
     seo: SeoProps;
 }
 
-export default function ParentHubIndex({ categories, featuredArticles, breadcrumbs, seo }: Props) {
+export default function ParentHubIndex({
+    categories,
+    featuredArticles,
+    breadcrumbs,
+    seo,
+}: Props) {
     return (
         <PublicLayout>
             <Seo seo={seo} />
@@ -40,9 +57,9 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                 <PublicBreadcrumbs items={breadcrumbs} />
 
                 {/* Hero section */}
-                <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-primary/10 via-background to-highlight/10 p-8 sm:p-12 border border-border/60">
+                <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-linear-to-br from-primary/10 via-background to-highlight/10 p-8 sm:p-12">
                     <div className="max-w-2xl space-y-4">
-                        <Badge className="bg-primary/20 text-primary border-primary/30 gap-1.5 px-3 py-1 text-xs">
+                        <Badge className="gap-1.5 border-primary/30 bg-primary/20 px-3 py-1 text-xs text-primary">
                             <Sparkles className="size-3.5" />
                             Parent Hub
                         </Badge>
@@ -50,7 +67,9 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                             Practical Learning Advice & Support for Parents
                         </h1>
                         <p className="text-base text-muted-foreground sm:text-lg">
-                            Simple routines, clear explanations for school topics, and evidence-based guidance to help your child thrive in Class 1 to 3.
+                            Simple routines, clear explanations for school
+                            topics, and evidence-based guidance to help your
+                            child thrive in Class 1 to 3.
                         </p>
                     </div>
                 </div>
@@ -59,8 +78,13 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                 <section className="space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-2xl font-bold tracking-tight">Explore by Topic</h2>
-                            <p className="text-sm text-muted-foreground">Browse guides and strategies organized by learning area</p>
+                            <h2 className="text-2xl font-bold tracking-tight">
+                                Explore by Topic
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Browse guides and strategies organized by
+                                learning area
+                            </p>
                         </div>
                     </div>
 
@@ -69,7 +93,7 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                             <Link
                                 key={cat.id}
                                 href={`/parents/${cat.slug}`}
-                                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl"
+                                className="group block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
                                 <Card className="h-full transition-all duration-200 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-md">
                                     <CardHeader className="pb-3">
@@ -77,18 +101,25 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                                             <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                                 <FolderHeart className="size-5" />
                                             </div>
-                                            {typeof cat.articles_count === 'number' && (
-                                                <Badge variant="secondary" className="text-xs">
-                                                    {cat.articles_count} {cat.articles_count === 1 ? 'guide' : 'guides'}
+                                            {typeof cat.articles_count ===
+                                                'number' && (
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="text-xs"
+                                                >
+                                                    {cat.articles_count}{' '}
+                                                    {cat.articles_count === 1
+                                                        ? 'guide'
+                                                        : 'guides'}
                                                 </Badge>
                                             )}
                                         </div>
-                                        <CardTitle className="pt-2 text-lg group-hover:text-primary transition-colors">
+                                        <CardTitle className="pt-2 text-lg transition-colors group-hover:text-primary">
                                             {cat.name}
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <CardDescription className="text-sm line-clamp-2">
+                                        <CardDescription className="line-clamp-2 text-sm">
                                             {cat.description}
                                         </CardDescription>
                                         <div className="mt-4 flex items-center text-xs font-semibold text-primary">
@@ -105,15 +136,25 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                 {/* Latest Guides */}
                 <section className="space-y-6">
                     <div>
-                        <h2 className="text-2xl font-bold tracking-tight">Featured Parent Guides</h2>
-                        <p className="text-sm text-muted-foreground">Actionable tips for common primary school learning moments</p>
+                        <h2 className="text-2xl font-bold tracking-tight">
+                            Featured Parent Guides
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                            Actionable tips for common primary school learning
+                            moments
+                        </p>
                     </div>
 
                     {featuredArticles.length === 0 ? (
                         <div className="rounded-2xl border border-dashed p-10 text-center text-muted-foreground">
-                            <BookOpen className="mx-auto size-10 opacity-40 mb-3" />
-                            <p className="font-medium">Guides are being prepared by our educators.</p>
-                            <p className="text-sm mt-1">Check back soon for new articles and home learning advice.</p>
+                            <BookOpen className="mx-auto mb-3 size-10 opacity-40" />
+                            <p className="font-medium">
+                                Guides are being prepared by our educators.
+                            </p>
+                            <p className="mt-1 text-sm">
+                                Check back soon for new articles and home
+                                learning advice.
+                            </p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -121,26 +162,32 @@ export default function ParentHubIndex({ categories, featuredArticles, breadcrum
                                 <Link
                                     key={article.id}
                                     href={`/blog/${article.slug}`}
-                                    className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl"
+                                    className="group block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
-                                    <Card className="h-full flex flex-col justify-between transition-all duration-200 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-md">
+                                    <Card className="flex h-full flex-col justify-between transition-all duration-200 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-md">
                                         <CardHeader>
-                                            <div className="flex items-center justify-between gap-2 mb-2">
-                                                <Badge variant="outline" className="text-xs font-normal">
+                                            <div className="mb-2 flex items-center justify-between gap-2">
+                                                <Badge
+                                                    variant="outline"
+                                                    className="text-xs font-normal"
+                                                >
                                                     {article.category.name}
                                                 </Badge>
                                             </div>
-                                            <CardTitle className="text-lg leading-snug group-hover:text-primary transition-colors">
+                                            <CardTitle className="text-lg leading-snug transition-colors group-hover:text-primary">
                                                 {article.title}
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-4">
-                                            <CardDescription className="text-sm line-clamp-3">
+                                            <CardDescription className="line-clamp-3 text-sm">
                                                 {article.excerpt}
                                             </CardDescription>
-                                            <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
-                                                <span>{article.author?.name ?? 'BrightLearners Team'}</span>
-                                                <div className="flex items-center text-primary font-medium group-hover:translate-x-1 transition-transform">
+                                            <div className="flex items-center justify-between border-t pt-2 text-xs text-muted-foreground">
+                                                <span>
+                                                    {article.author?.name ??
+                                                        'BrightLearners Team'}
+                                                </span>
+                                                <div className="flex items-center font-medium text-primary transition-transform group-hover:translate-x-1">
                                                     <span>Read guide</span>
                                                     <ArrowRight className="ml-1 size-3" />
                                                 </div>

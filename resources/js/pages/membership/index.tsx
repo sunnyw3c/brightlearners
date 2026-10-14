@@ -48,10 +48,7 @@ export default function MembershipIndex({
         router.post('/cart/items', { product_id: product.id });
     };
 
-    const breadcrumbs = [
-        { label: 'Home', href: '/' },
-        { label: 'Membership' },
-    ];
+    const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Membership' }];
 
     const displayPrice = product?.price_formatted ?? '₹499';
 
@@ -81,7 +78,8 @@ export default function MembershipIndex({
                         </h1>
 
                         <p className="text-lg font-medium text-slate-600 sm:text-xl dark:text-slate-300">
-                            Structured learning. Happy children. Confident parents.
+                            Structured learning. Happy children. Confident
+                            parents.
                         </p>
 
                         {/* 6 Benefits Checklist matching mockup */}
@@ -94,7 +92,10 @@ export default function MembershipIndex({
                                 'Parent-friendly guidance',
                                 'Accessible anytime, anywhere',
                             ].map((benefit, i) => (
-                                <div key={i} className="flex items-center gap-3 text-base font-semibold text-slate-700 dark:text-slate-200">
+                                <div
+                                    key={i}
+                                    className="flex items-center gap-3 text-base font-semibold text-slate-700 dark:text-slate-200"
+                                >
                                     <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
                                         <CheckCircle2 className="size-4 fill-emerald-500 text-white" />
                                     </span>
@@ -135,14 +136,15 @@ export default function MembershipIndex({
                                         className="h-13 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg hover:bg-blue-700"
                                     >
                                         <Link href="/account/weekly-learning">
-                                            Access My Programme <ArrowRight className="ml-2 size-4" />
+                                            Access My Programme{' '}
+                                            <ArrowRight className="ml-2 size-4" />
                                         </Link>
                                     </Button>
                                 ) : (
                                     <Button
                                         size="lg"
                                         onClick={handleJoin}
-                                        className="h-13 w-full rounded-full bg-[#EF4444] text-base font-bold text-white shadow-lg shadow-red-500/25 hover:bg-red-600 hover:shadow-xl transition-all"
+                                        className="h-13 w-full rounded-full bg-[#EF4444] text-base font-bold text-white shadow-lg shadow-red-500/25 transition-all hover:bg-red-600 hover:shadow-xl"
                                     >
                                         Join Now
                                     </Button>
@@ -157,13 +159,14 @@ export default function MembershipIndex({
                 </div>
 
                 {/* "How It Works" Section (4 Steps matching mockup) */}
-                <section className="space-y-8 py-8 border-t border-slate-200 dark:border-slate-800">
+                <section className="space-y-8 border-t border-slate-200 py-8 dark:border-slate-800">
                     <div className="text-center">
                         <h2 className="text-3xl font-extrabold tracking-tight text-foreground">
                             How It Works
                         </h2>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            A clear, stress-free routine for parents and children.
+                            A clear, stress-free routine for parents and
+                            children.
                         </p>
                     </div>
 
@@ -176,7 +179,8 @@ export default function MembershipIndex({
                                 Enrol
                             </h3>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Join the 90-day programme and choose your child's class.
+                                Join the 90-day programme and choose your
+                                child's class.
                             </p>
                         </div>
 
@@ -188,7 +192,8 @@ export default function MembershipIndex({
                                 Get Weekly
                             </h3>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Receive structured printable resources every week.
+                                Receive structured printable resources every
+                                week.
                             </p>
                         </div>
 
@@ -200,7 +205,8 @@ export default function MembershipIndex({
                                 Learn Together
                             </h3>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Fun and structured activities with 2-minute parent teaching tips.
+                                Fun and structured activities with 2-minute
+                                parent teaching tips.
                             </p>
                         </div>
 
@@ -212,14 +218,15 @@ export default function MembershipIndex({
                                 See Progress
                             </h3>
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Build real confidence day by day and celebrate weekly wins.
+                                Build real confidence day by day and celebrate
+                                weekly wins.
                             </p>
                         </div>
                     </div>
                 </section>
 
                 {/* Inclusions & Transparency Section */}
-                <section className="space-y-8 py-8 border-t border-slate-200 dark:border-slate-800">
+                <section className="space-y-8 border-t border-slate-200 py-8 dark:border-slate-800">
                     <div className="text-center">
                         <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
                             What's Included in the 90-Day Pilot
@@ -234,43 +241,84 @@ export default function MembershipIndex({
                             <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                                 <li className="flex items-start gap-2.5">
                                     <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
-                                    <span><strong>12 Weekly Learning Packs:</strong> 4 packs per month over 90 days for Class 1, 2, or 3.</span>
+                                    <span>
+                                        <strong>
+                                            12 Weekly Learning Packs:
+                                        </strong>{' '}
+                                        4 packs per month over 90 days for Class
+                                        1, 2, or 3.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
-                                    <span><strong>Core Subjects Covered:</strong> Balanced mix of Mathematics, English Phonics/Grammar, and EVS.</span>
+                                    <span>
+                                        <strong>Core Subjects Covered:</strong>{' '}
+                                        Balanced mix of Mathematics, English
+                                        Phonics/Grammar, and EVS.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
-                                    <span><strong>Print-Friendly Variants:</strong> Full colour, low-ink printer copies, and answer keys.</span>
+                                    <span>
+                                        <strong>
+                                            Print-Friendly Variants:
+                                        </strong>{' '}
+                                        Full colour, low-ink printer copies, and
+                                        answer keys.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
-                                    <span><strong>15% Storewide Discount:</strong> Active members automatically receive 15% off all standalone topic packs and workbooks.</span>
+                                    <span>
+                                        <strong>15% Storewide Discount:</strong>{' '}
+                                        Active members automatically receive 15%
+                                        off all standalone topic packs and
+                                        workbooks.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" />
-                                    <span><strong>Permanent Ownership:</strong> All PDFs you download during your 90 days remain yours forever.</span>
+                                    <span>
+                                        <strong>Permanent Ownership:</strong>{' '}
+                                        All PDFs you download during your 90
+                                        days remain yours forever.
+                                    </span>
                                 </li>
                             </ul>
                         </div>
 
                         <div className="space-y-5 rounded-3xl border border-slate-200 bg-card p-8 dark:border-slate-800">
                             <div className="flex items-center gap-2 text-lg font-bold text-foreground">
-                                <XCircle className="size-5 text-muted-foreground" /> Exclusions & Expiry Policy
+                                <XCircle className="size-5 text-muted-foreground" />{' '}
+                                Exclusions & Expiry Policy
                             </div>
                             <ul className="space-y-3 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2.5">
                                     <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-                                    <span><strong>Flagship E-books:</strong> Standalone flagship revision and activity ebooks are excluded from membership.</span>
+                                    <span>
+                                        <strong>Flagship E-books:</strong>{' '}
+                                        Standalone flagship revision and
+                                        activity ebooks are excluded from
+                                        membership.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-                                    <span><strong>No Auto-Renewal:</strong> You will never be automatically charged again. When 90 days conclude, membership gently expires.</span>
+                                    <span>
+                                        <strong>No Auto-Renewal:</strong> You
+                                        will never be automatically charged
+                                        again. When 90 days conclude, membership
+                                        gently expires.
+                                    </span>
                                 </li>
                                 <li className="flex items-start gap-2.5">
                                     <XCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-                                    <span><strong>After Expiry:</strong> New weekly releases cease after day 90. Downloaded files stay on your computer or device.</span>
+                                    <span>
+                                        <strong>After Expiry:</strong> New
+                                        weekly releases cease after day 90.
+                                        Downloaded files stay on your computer
+                                        or device.
+                                    </span>
                                 </li>
                             </ul>
                         </div>

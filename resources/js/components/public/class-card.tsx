@@ -87,7 +87,7 @@ export function ClassCard({
                     </div>
                 </div>
 
-                <div className="relative shrink-0 -mr-2 -mb-2 h-28 w-28 sm:h-32 sm:w-32 transition-transform duration-300 group-hover:scale-105">
+                <div className="relative -mr-2 -mb-2 h-28 w-28 shrink-0 transition-transform duration-300 group-hover:scale-105 sm:h-32 sm:w-32">
                     <img
                         src={theme.illustration}
                         alt={`${schoolClass.name} student`}

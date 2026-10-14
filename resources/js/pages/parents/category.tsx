@@ -3,7 +3,13 @@ import { ArrowRight, BookOpen } from 'lucide-react';
 import { Seo, type SeoProps } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { PublicLayout } from '@/layouts/public-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface CategoryItem {
@@ -40,7 +46,13 @@ interface Props {
     seo: SeoProps;
 }
 
-export default function ParentHubCategory({ category, articles, categories, breadcrumbs, seo }: Props) {
+export default function ParentHubCategory({
+    category,
+    articles,
+    categories,
+    breadcrumbs,
+    seo,
+}: Props) {
     return (
         <PublicLayout>
             <Seo seo={seo} />
@@ -51,7 +63,10 @@ export default function ParentHubCategory({ category, articles, categories, brea
                 {/* Category Header */}
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
-                        <Link href="/parents" className="text-xs text-muted-foreground hover:text-foreground">
+                        <Link
+                            href="/parents"
+                            className="text-xs text-muted-foreground hover:text-foreground"
+                        >
                             Parent Hub
                         </Link>
                         <span className="text-muted-foreground">/</span>
@@ -70,10 +85,10 @@ export default function ParentHubCategory({ category, articles, categories, brea
                 </div>
 
                 {/* Category Chips Bar */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b">
+                <div className="flex items-center gap-2 overflow-x-auto border-b pb-2">
                     <Link
                         href="/parents"
-                        className="rounded-full px-3.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors shrink-0"
+                        className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                     >
                         All Categories
                     </Link>
@@ -83,7 +98,7 @@ export default function ParentHubCategory({ category, articles, categories, brea
                             <Link
                                 key={cat.id}
                                 href={`/parents/${cat.slug}`}
-                                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors shrink-0 ${
+                                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                                     isActive
                                         ? 'bg-primary text-primary-foreground'
                                         : 'bg-muted/60 text-muted-foreground hover:bg-accent hover:text-foreground'
@@ -98,15 +113,19 @@ export default function ParentHubCategory({ category, articles, categories, brea
                 {/* Articles List */}
                 {articles.data.length === 0 ? (
                     <div className="rounded-2xl border border-dashed p-12 text-center text-muted-foreground">
-                        <BookOpen className="mx-auto size-12 opacity-40 mb-3" />
-                        <h3 className="text-lg font-semibold text-foreground">No guides in this category yet</h3>
-                        <p className="text-sm mt-1 max-w-md mx-auto">
-                            We are writing new guides for this area. In the meantime, browse our other categories or home learning worksheets.
+                        <BookOpen className="mx-auto mb-3 size-12 opacity-40" />
+                        <h3 className="text-lg font-semibold text-foreground">
+                            No guides in this category yet
+                        </h3>
+                        <p className="mx-auto mt-1 max-w-md text-sm">
+                            We are writing new guides for this area. In the
+                            meantime, browse our other categories or home
+                            learning worksheets.
                         </p>
                         <div className="mt-6">
                             <Link
                                 href="/parents"
-                                className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                                className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                             >
                                 Back to Parent Hub
                             </Link>
@@ -118,21 +137,24 @@ export default function ParentHubCategory({ category, articles, categories, brea
                             <Link
                                 key={article.id}
                                 href={`/blog/${article.slug}`}
-                                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl"
+                                className="group block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             >
-                                <Card className="h-full flex flex-col justify-between transition-all duration-200 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-md">
+                                <Card className="flex h-full flex-col justify-between transition-all duration-200 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-md">
                                     <CardHeader>
-                                        <CardTitle className="text-lg leading-snug group-hover:text-primary transition-colors">
+                                        <CardTitle className="text-lg leading-snug transition-colors group-hover:text-primary">
                                             {article.title}
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
-                                        <CardDescription className="text-sm line-clamp-3">
+                                        <CardDescription className="line-clamp-3 text-sm">
                                             {article.excerpt}
                                         </CardDescription>
-                                        <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t">
-                                            <span>{article.author?.name ?? 'BrightLearners Team'}</span>
-                                            <div className="flex items-center text-primary font-medium group-hover:translate-x-1 transition-transform">
+                                        <div className="flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
+                                            <span>
+                                                {article.author?.name ??
+                                                    'BrightLearners Team'}
+                                            </span>
+                                            <div className="flex items-center font-medium text-primary transition-transform group-hover:translate-x-1">
                                                 <span>Read guide</span>
                                                 <ArrowRight className="ml-1 size-3" />
                                             </div>

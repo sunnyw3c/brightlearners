@@ -77,15 +77,29 @@ export function SiteHeader() {
                     </Link>
 
                     {auth.user ? (
-                        <Button asChild size="sm" variant="outline" className="rounded-full border-slate-200 font-bold px-4 dark:border-slate-800">
+                        <Button
+                            asChild
+                            size="sm"
+                            variant="outline"
+                            className="rounded-full border-slate-200 px-4 font-bold dark:border-slate-800"
+                        >
                             <Link href="/account/dashboard">My Account</Link>
                         </Button>
                     ) : (
                         <div className="flex items-center gap-2">
-                            <Button asChild size="sm" variant="ghost" className="font-bold text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                            <Button
+                                asChild
+                                size="sm"
+                                variant="ghost"
+                                className="font-bold text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                            >
                                 <Link href={login()}>Login</Link>
                             </Button>
-                            <Button asChild size="sm" className="rounded-full bg-[#2563EB] px-5 font-bold text-white shadow-xs hover:bg-blue-700 transition-all">
+                            <Button
+                                asChild
+                                size="sm"
+                                className="rounded-full bg-[#2563EB] px-5 font-bold text-white shadow-xs transition-all hover:bg-blue-700"
+                            >
                                 <Link href={register()}>Sign Up</Link>
                             </Button>
                         </div>

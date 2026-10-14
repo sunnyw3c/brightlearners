@@ -13,10 +13,20 @@ function getFallbackImage(resource: ResourceCardData): string {
         (resource.subject_name || '')
     ).toLowerCase();
 
-    if (text.includes('place') || text.includes('value') || text.includes('number') || text.includes('1000')) {
+    if (
+        text.includes('place') ||
+        text.includes('value') ||
+        text.includes('number') ||
+        text.includes('1000')
+    ) {
         return '/images/worksheet-place-value.jpg';
     }
-    if (text.includes('time') || text.includes('calendar') || text.includes('clock') || text.includes('plant')) {
+    if (
+        text.includes('time') ||
+        text.includes('calendar') ||
+        text.includes('clock') ||
+        text.includes('plant')
+    ) {
         return '/images/worksheet-time-calendar.jpg';
     }
     if (
@@ -51,7 +61,8 @@ export function ResourceCard({
 }) {
     const [isSaved, setIsSaved] = useState(false);
     const resolvedUrl =
-        resource.preview_image_url && !resource.preview_image_url.includes('/storage/previews/')
+        resource.preview_image_url &&
+        !resource.preview_image_url.includes('/storage/previews/')
             ? resource.preview_image_url
             : getFallbackImage(resource);
 
@@ -67,7 +78,7 @@ export function ResourceCard({
     const cardContent = (
         <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-card p-4 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800">
             {/* Top Preview Frame */}
-            <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80">
+            <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 dark:border-slate-800/80 dark:bg-slate-900">
                 <img
                     src={imgSrc}
                     onError={handleImageError}
@@ -97,7 +108,9 @@ export function ResourceCard({
                     }}
                     aria-label="Save resource"
                     className={`absolute top-3 right-3 flex size-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-xs transition-colors hover:bg-white ${
-                        isSaved ? 'text-rose-500' : 'text-slate-500 hover:text-rose-500'
+                        isSaved
+                            ? 'text-rose-500'
+                            : 'text-slate-500 hover:text-rose-500'
                     }`}
                 >
                     <Heart
@@ -115,13 +128,13 @@ export function ResourceCard({
                             ? ` · ${resource.subject_name}`
                             : ' · Maths'}
                     </span>
-                    <div className="flex items-center gap-1 text-amber-500 font-semibold">
+                    <div className="flex items-center gap-1 font-semibold text-amber-500">
                         <Star className="size-3.5 fill-amber-400 stroke-amber-500" />
                         <span>4.8</span>
                     </div>
                 </div>
 
-                <h3 className="line-clamp-2 text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="line-clamp-2 text-base font-bold text-foreground transition-colors group-hover:text-primary">
                     {resource.title}
                 </h3>
 
@@ -132,9 +145,11 @@ export function ResourceCard({
                 )}
 
                 {/* Footer Action */}
-                <div className="mt-auto pt-4 flex items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
                     <span className="text-xs font-medium text-slate-500">
-                        {resource.page_count ? `${resource.page_count} Pages` : '4 Pages'}
+                        {resource.page_count
+                            ? `${resource.page_count} Pages`
+                            : '4 Pages'}
                     </span>
 
                     {showDownloadButton && (

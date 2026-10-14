@@ -19,7 +19,7 @@ export function AppSidebarHeader({
             <div className="flex items-center gap-2">
                 <Link
                     href="/account/notifications"
-                    className="relative rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                    className="relative rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     title="Notifications"
                 >
                     <Bell className="h-5 w-5" />

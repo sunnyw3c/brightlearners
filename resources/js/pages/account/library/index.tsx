@@ -27,7 +27,12 @@ type Props = {
     free: LibraryResourceProp[];
 };
 
-export default function LibraryIndex({ purchased, membership, completed = [], free }: Props) {
+export default function LibraryIndex({
+    purchased,
+    membership,
+    completed = [],
+    free,
+}: Props) {
     const [activeTab, setActiveTab] = useState<
         'purchased' | 'membership' | 'completed' | 'free'
     >('purchased');
@@ -42,7 +47,9 @@ export default function LibraryIndex({ purchased, membership, completed = [], fr
                 : free;
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Downloads', href: '/account/library' }]}>
+        <AppLayout
+            breadcrumbs={[{ title: 'Downloads', href: '/account/library' }]}
+        >
             <Head title="My Learning Library — BrightLearners" />
 
             <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
@@ -51,7 +58,8 @@ export default function LibraryIndex({ purchased, membership, completed = [], fr
                         My Learning Library
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                        Access and download all your purchased worksheets, weekly membership packs, and completed materials.
+                        Access and download all your purchased worksheets,
+                        weekly membership packs, and completed materials.
                     </p>
                 </header>
 
@@ -126,12 +134,16 @@ export default function LibraryIndex({ purchased, membership, completed = [], fr
                         )}
                         {activeTab === 'membership' && (
                             <Button asChild className="mt-2" size="sm">
-                                <Link href="/membership">Explore Membership</Link>
+                                <Link href="/membership">
+                                    Explore Membership
+                                </Link>
                             </Button>
                         )}
                         {activeTab === 'completed' && (
                             <Button asChild className="mt-2" size="sm">
-                                <Link href="/account/dashboard">Go to Dashboard</Link>
+                                <Link href="/account/dashboard">
+                                    Go to Dashboard
+                                </Link>
                             </Button>
                         )}
                     </div>
@@ -173,7 +185,8 @@ export default function LibraryIndex({ purchased, membership, completed = [], fr
                                         <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-xs text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-300">
                                             <AlertCircle className="h-4 w-4 shrink-0" />
                                             <span>
-                                                An updated version of this resource is available!
+                                                An updated version of this
+                                                resource is available!
                                             </span>
                                         </div>
                                     )}

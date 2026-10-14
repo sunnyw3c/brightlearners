@@ -79,7 +79,10 @@ export default function CartShow({ breakdown, notice }: Props) {
     };
 
     const hasItems = breakdown.lines.length > 0;
-    const totalItemCount = breakdown.lines.reduce((acc, l) => acc + l.quantity, 0);
+    const totalItemCount = breakdown.lines.reduce(
+        (acc, l) => acc + l.quantity,
+        0,
+    );
 
     return (
         <PublicLayout>
@@ -88,7 +91,8 @@ export default function CartShow({ breakdown, notice }: Props) {
             <div className="mx-auto max-w-5xl space-y-8 px-4 py-10">
                 <header className="space-y-1">
                     <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl dark:text-white">
-                        Your Cart ({hasItems ? `${totalItemCount} Items` : '0 Items'})
+                        Your Cart (
+                        {hasItems ? `${totalItemCount} Items` : '0 Items'})
                     </h1>
                     <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
                         Review your selected learning workbooks and resources.
@@ -136,7 +140,11 @@ export default function CartShow({ breakdown, notice }: Props) {
                                             <div className="flex items-center rounded-full border border-slate-200 bg-white px-2 py-1 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleRemoveItem(line.product_id)}
+                                                    onClick={() =>
+                                                        handleRemoveItem(
+                                                            line.product_id,
+                                                        )
+                                                    }
                                                     className="flex size-7 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
                                                     aria-label="Decrease quantity"
                                                 >
@@ -156,8 +164,12 @@ export default function CartShow({ breakdown, notice }: Props) {
 
                                             <button
                                                 type="button"
-                                                onClick={() => handleRemoveItem(line.product_id)}
-                                                className="flex size-8 items-center justify-center rounded-full text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-colors"
+                                                onClick={() =>
+                                                    handleRemoveItem(
+                                                        line.product_id,
+                                                    )
+                                                }
+                                                className="flex size-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-500"
                                                 aria-label="Remove item"
                                             >
                                                 <Trash2 className="size-4" />
@@ -172,7 +184,7 @@ export default function CartShow({ breakdown, notice }: Props) {
                         <div className="space-y-6 lg:col-span-5">
                             {/* Coupon Code Input */}
                             <div className="rounded-3xl border border-slate-200/80 bg-card p-5 shadow-xs dark:border-slate-800">
-                                <h3 className="text-sm font-bold text-foreground mb-3">
+                                <h3 className="mb-3 text-sm font-bold text-foreground">
                                     Have a coupon code?
                                 </h3>
 
@@ -191,17 +203,28 @@ export default function CartShow({ breakdown, notice }: Props) {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleApplyCoupon} className="flex gap-2">
+                                    <form
+                                        onSubmit={handleApplyCoupon}
+                                        className="flex gap-2"
+                                    >
                                         <input
                                             type="text"
                                             placeholder="Enter code"
                                             value={couponForm.data.code}
-                                            onChange={(e) => couponForm.setData('code', e.target.value)}
-                                            className="h-11 flex-1 rounded-full border border-slate-200 bg-white px-4 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                            onChange={(e) =>
+                                                couponForm.setData(
+                                                    'code',
+                                                    e.target.value,
+                                                )
+                                            }
+                                            className="h-11 flex-1 rounded-full border border-slate-200 bg-white px-4 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:outline-hidden dark:border-slate-800 dark:bg-slate-900"
                                         />
                                         <Button
                                             type="submit"
-                                            disabled={couponForm.processing || !couponForm.data.code}
+                                            disabled={
+                                                couponForm.processing ||
+                                                !couponForm.data.code
+                                            }
                                             className="h-11 rounded-full px-5 font-bold"
                                         >
                                             Apply
@@ -227,7 +250,10 @@ export default function CartShow({ breakdown, notice }: Props) {
                                     <div className="flex justify-between text-slate-600 dark:text-slate-400">
                                         <span>Discount</span>
                                         <span className="font-bold text-emerald-600">
-                                            - {breakdown.discount.paise > 0 ? breakdown.discount.formatted : '₹0'}
+                                            -{' '}
+                                            {breakdown.discount.paise > 0
+                                                ? breakdown.discount.formatted
+                                                : '₹0'}
                                         </span>
                                     </div>
 
@@ -242,7 +268,7 @@ export default function CartShow({ breakdown, notice }: Props) {
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="h-13 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-xl transition-all"
+                                    className="h-13 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 hover:shadow-xl"
                                 >
                                     <a href={checkoutShowRoute.url()}>
                                         Proceed to Checkout
@@ -259,11 +285,17 @@ export default function CartShow({ breakdown, notice }: Props) {
                             Your cart is empty
                         </h2>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Explore our curated curriculum workbooks for Classes 1 to 3.
+                            Explore our curated curriculum workbooks for Classes
+                            1 to 3.
                         </p>
                         <div className="mt-6">
-                            <Button asChild className="rounded-full bg-[#2563EB] font-bold text-white">
-                                <Link href={shopIndexRoute()}>Browse Workbooks</Link>
+                            <Button
+                                asChild
+                                className="rounded-full bg-[#2563EB] font-bold text-white"
+                            >
+                                <Link href={shopIndexRoute()}>
+                                    Browse Workbooks
+                                </Link>
                             </Button>
                         </div>
                     </div>

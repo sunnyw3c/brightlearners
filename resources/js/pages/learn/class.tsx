@@ -65,7 +65,7 @@ export default function ClassPage({
                 <PublicBreadcrumbs items={breadcrumbs} />
 
                 {/* Banner with Character Artwork matching mockup */}
-                <header className="relative flex flex-col items-center justify-between overflow-hidden rounded-3xl border border-sky-100 bg-linear-to-r from-sky-50 via-teal-50/40 to-blue-50/60 p-8 sm:flex-row sm:p-10 shadow-xs dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
+                <header className="relative flex flex-col items-center justify-between overflow-hidden rounded-3xl border border-sky-100 bg-linear-to-r from-sky-50 via-teal-50/40 to-blue-50/60 p-8 shadow-xs sm:flex-row sm:p-10 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
                     <div className="z-10 max-w-xl space-y-3 text-center sm:text-left">
                         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
                             {schoolClass.name} Learning Resources
@@ -77,7 +77,7 @@ export default function ClassPage({
                     </div>
 
                     <div className="relative mt-6 shrink-0 sm:mt-0">
-                        <div className="relative h-32 w-32 sm:h-40 sm:w-40 transition-transform duration-300 hover:scale-105">
+                        <div className="relative h-32 w-32 transition-transform duration-300 hover:scale-105 sm:h-40 sm:w-40">
                             <img
                                 src={characterIllustration}
                                 alt={`${schoolClass.name} cartoon character`}

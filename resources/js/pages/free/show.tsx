@@ -58,7 +58,11 @@ function getWorksheetImage(resource: ResourceCardData): string {
     if (text.includes('place') || text.includes('value')) {
         return '/images/worksheet-place-value.jpg';
     }
-    if (text.includes('time') || text.includes('calendar') || text.includes('clock')) {
+    if (
+        text.includes('time') ||
+        text.includes('calendar') ||
+        text.includes('clock')
+    ) {
         return '/images/worksheet-time-calendar.jpg';
     }
     if (
@@ -79,16 +83,20 @@ export default function FreeResourceShow({
     breadcrumbs,
     seo,
 }: Props) {
-    const [activeTab, setActiveTab] = useState<'preview' | 'answer_key' | 'related'>('preview');
+    const [activeTab, setActiveTab] = useState<
+        'preview' | 'answer_key' | 'related'
+    >('preview');
     const [isSaved, setIsSaved] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const handleShare = () => {
         if (navigator.share) {
-            navigator.share({
-                title: resource.title,
-                url: window.location.href,
-            }).catch(() => {});
+            navigator
+                .share({
+                    title: resource.title,
+                    url: window.location.href,
+                })
+                .catch(() => {});
         } else {
             navigator.clipboard.writeText(window.location.href);
             setCopied(true);
@@ -97,7 +105,8 @@ export default function FreeResourceShow({
     };
 
     const mainImageUrl =
-        resource.preview_image_url && !resource.preview_image_url.includes('/storage/previews/')
+        resource.preview_image_url &&
+        !resource.preview_image_url.includes('/storage/previews/')
             ? resource.preview_image_url
             : getWorksheetImage(resource);
 
@@ -127,7 +136,7 @@ export default function FreeResourceShow({
                             </h1>
 
                             <div className="mt-3 flex flex-wrap items-center gap-3">
-                                <div className="flex items-center gap-1.5 text-amber-500 font-bold text-sm">
+                                <div className="flex items-center gap-1.5 text-sm font-bold text-amber-500">
                                     <div className="flex">
                                         {[...Array(5)].map((_, i) => (
                                             <Star
@@ -160,13 +169,15 @@ export default function FreeResourceShow({
 
                         {/* Meta Specifications List matching mockup */}
                         <div className="rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 shadow-2xs dark:border-slate-800 dark:bg-slate-900/50">
-                            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 text-sm">
+                            <div className="grid grid-cols-1 gap-3.5 text-sm sm:grid-cols-2">
                                 <div className="flex items-center gap-3">
                                     <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
                                         <GraduationCap className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Class</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Class
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             {resource.class_name ?? 'Class 2'}
                                         </p>
@@ -178,7 +189,9 @@ export default function FreeResourceShow({
                                         <BookOpen className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Subject</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Subject
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             {resource.subject_name ?? 'Maths'}
                                         </p>
@@ -190,7 +203,9 @@ export default function FreeResourceShow({
                                         <Target className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Topic</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Topic
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             Addition & Subtraction
                                         </p>
@@ -202,7 +217,9 @@ export default function FreeResourceShow({
                                         <FileText className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Format</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Format
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             PDF (Printable)
                                         </p>
@@ -214,7 +231,9 @@ export default function FreeResourceShow({
                                         <Layers className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Pages</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Pages
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             {resourceDetail.page_count ?? 4}
                                         </p>
@@ -226,7 +245,9 @@ export default function FreeResourceShow({
                                         <CheckCircle2 className="size-4" />
                                     </span>
                                     <div>
-                                        <span className="text-xs text-muted-foreground">Includes</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Includes
+                                        </span>
                                         <p className="font-bold text-foreground">
                                             Worksheet + Answer Key
                                         </p>
@@ -240,7 +261,7 @@ export default function FreeResourceShow({
                             <Button
                                 asChild
                                 size="lg"
-                                className="h-13 rounded-full bg-[#2563EB] px-8 text-base font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all flex-1 sm:flex-none"
+                                className="h-13 flex-1 rounded-full bg-[#2563EB] px-8 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 sm:flex-none"
                             >
                                 <a href={resourceDetail.download_url}>
                                     <Download className="mr-2 size-5" />
@@ -253,12 +274,16 @@ export default function FreeResourceShow({
                                 onClick={() => setIsSaved(!isSaved)}
                                 aria-label="Save resource"
                                 className={`flex size-13 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 ${
-                                    isSaved ? 'text-rose-500 border-rose-200 bg-rose-50' : 'text-slate-600'
+                                    isSaved
+                                        ? 'border-rose-200 bg-rose-50 text-rose-500'
+                                        : 'text-slate-600'
                                 }`}
                             >
                                 <Heart
                                     className={`size-5 ${
-                                        isSaved ? 'fill-rose-500 text-rose-500' : ''
+                                        isSaved
+                                            ? 'fill-rose-500 text-rose-500'
+                                            : ''
                                     }`}
                                 />
                             </button>
@@ -283,7 +308,7 @@ export default function FreeResourceShow({
                 {/* Bottom Section: Tabs & You May Also Like matching mockup */}
                 <div className="space-y-6 pt-6">
                     {/* Tab Navigation */}
-                    <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-2">
+                    <div className="flex items-center gap-3 border-b border-slate-200 pb-2 dark:border-slate-800">
                         <button
                             type="button"
                             onClick={() => setActiveTab('preview')}
@@ -329,7 +354,8 @@ export default function FreeResourceShow({
                                         <img
                                             src={mainImageUrl}
                                             onError={(e) => {
-                                                e.currentTarget.src = getWorksheetImage(resource);
+                                                e.currentTarget.src =
+                                                    getWorksheetImage(resource);
                                             }}
                                             alt={`${resource.title} full sheet preview`}
                                             className="mx-auto max-h-[850px] w-auto rounded-xl object-contain shadow-xs"
@@ -345,7 +371,9 @@ export default function FreeResourceShow({
                                         Complete Answer Key Included
                                     </h3>
                                     <p className="mt-1 text-sm text-emerald-800 dark:text-emerald-400">
-                                        All questions come with step-by-step verified solutions on the final page of this printable download.
+                                        All questions come with step-by-step
+                                        verified solutions on the final page of
+                                        this printable download.
                                     </p>
                                 </div>
                             )}
@@ -353,7 +381,10 @@ export default function FreeResourceShow({
                             {activeTab === 'related' && (
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     {related.map((item) => (
-                                        <ResourceCard key={item.id} resource={item} />
+                                        <ResourceCard
+                                            key={item.id}
+                                            resource={item}
+                                        />
                                     ))}
                                 </div>
                             )}
@@ -373,13 +404,15 @@ export default function FreeResourceShow({
                                         >
                                             <div className="size-16 shrink-0 overflow-hidden rounded-xl bg-slate-100">
                                                 <img
-                                                    src={getWorksheetImage(item)}
+                                                    src={getWorksheetImage(
+                                                        item,
+                                                    )}
                                                     alt={item.title}
                                                     className="h-full w-full object-cover"
                                                 />
                                             </div>
-                                            <div className="flex-1 min-w-0">
-                                                <h4 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                                            <div className="min-w-0 flex-1">
+                                                <h4 className="line-clamp-1 text-sm font-bold text-foreground transition-colors group-hover:text-primary">
                                                     {item.title}
                                                 </h4>
                                                 <div className="mt-1 flex items-center gap-2 text-xs">
@@ -387,7 +420,9 @@ export default function FreeResourceShow({
                                                         <Star className="size-3 fill-amber-400 stroke-amber-500" />
                                                         4.7
                                                     </span>
-                                                    <span className="text-muted-foreground">·</span>
+                                                    <span className="text-muted-foreground">
+                                                        ·
+                                                    </span>
                                                     <span className="font-semibold text-emerald-600">
                                                         Free
                                                     </span>
@@ -405,16 +440,19 @@ export default function FreeResourceShow({
                                                     className="h-full w-full object-cover"
                                                 />
                                             </div>
-                                            <div className="flex-1 min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <h4 className="line-clamp-1 text-sm font-bold text-foreground">
-                                                    Subtraction Practice (Class 2)
+                                                    Subtraction Practice (Class
+                                                    2)
                                                 </h4>
                                                 <div className="mt-1 flex items-center gap-2 text-xs">
                                                     <span className="flex items-center gap-1 font-semibold text-amber-500">
                                                         <Star className="size-3 fill-amber-400 stroke-amber-500" />
                                                         4.7
                                                     </span>
-                                                    <span className="text-muted-foreground">·</span>
+                                                    <span className="text-muted-foreground">
+                                                        ·
+                                                    </span>
                                                     <span className="font-semibold text-emerald-600">
                                                         Free
                                                     </span>
@@ -430,7 +468,7 @@ export default function FreeResourceShow({
                                                     className="h-full w-full object-cover"
                                                 />
                                             </div>
-                                            <div className="flex-1 min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <h4 className="line-clamp-1 text-sm font-bold text-foreground">
                                                     Word Problems - Addition
                                                 </h4>
@@ -439,7 +477,9 @@ export default function FreeResourceShow({
                                                         <Star className="size-3 fill-amber-400 stroke-amber-500" />
                                                         4.8
                                                     </span>
-                                                    <span className="text-muted-foreground">·</span>
+                                                    <span className="text-muted-foreground">
+                                                        ·
+                                                    </span>
                                                     <span className="font-semibold text-emerald-600">
                                                         Free
                                                     </span>
@@ -455,7 +495,7 @@ export default function FreeResourceShow({
                                                     className="h-full w-full object-cover"
                                                 />
                                             </div>
-                                            <div className="flex-1 min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <h4 className="line-clamp-1 text-sm font-bold text-foreground">
                                                     Mixed Practice Worksheet
                                                 </h4>
@@ -464,7 +504,9 @@ export default function FreeResourceShow({
                                                         <Star className="size-3 fill-amber-400 stroke-amber-500" />
                                                         4.6
                                                     </span>
-                                                    <span className="text-muted-foreground">·</span>
+                                                    <span className="text-muted-foreground">
+                                                        ·
+                                                    </span>
                                                     <span className="font-semibold text-emerald-600">
                                                         Free
                                                     </span>

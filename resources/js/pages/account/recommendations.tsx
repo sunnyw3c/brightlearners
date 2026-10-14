@@ -39,15 +39,24 @@ type Props = {
     recommendations: RecommendationItem[];
 };
 
-export default function AccountRecommendations({ profiles, selected_profile_id, recommendations }: Props) {
-    const activeProfile = profiles.find((p) => p.is_active) ?? profiles[0] ?? null;
+export default function AccountRecommendations({
+    profiles,
+    selected_profile_id,
+    recommendations,
+}: Props) {
+    const activeProfile =
+        profiles.find((p) => p.is_active) ?? profiles[0] ?? null;
     const [actedMap, setActedMap] = useState<Record<number, boolean>>({});
 
     const handleSwitchProfile = (profileId: number) => {
-        router.get(`/account/recommendations`, { profile_id: profileId }, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `/account/recommendations`,
+            { profile_id: profileId },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     const handleTrackClick = (recId: number) => {
@@ -55,7 +64,12 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                'X-CSRF-TOKEN':
+                    (
+                        document.querySelector(
+                            'meta[name="csrf-token"]',
+                        ) as HTMLMetaElement
+                    )?.content || '',
             },
         });
     };
@@ -66,13 +80,22 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                'X-CSRF-TOKEN':
+                    (
+                        document.querySelector(
+                            'meta[name="csrf-token"]',
+                        ) as HTMLMetaElement
+                    )?.content || '',
             },
         });
     };
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Recommendations', href: '/account/recommendations' }]}>
+        <AppLayout
+            breadcrumbs={[
+                { title: 'Recommendations', href: '/account/recommendations' },
+            ]}
+        >
             <Head title="Learning Recommendations — BrightLearners" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
@@ -80,16 +103,21 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                            {activeProfile ? `${activeProfile.nickname}'s Learning Recommendations` : 'Learning Recommendations'}
+                            {activeProfile
+                                ? `${activeProfile.nickname}'s Learning Recommendations`
+                                : 'Learning Recommendations'}
                         </h1>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            Personalized worksheets and activities selected based on recent skill checks.
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Personalized worksheets and activities selected
+                            based on recent skill checks.
                         </p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
                         {profiles.map((p) => {
-                            const isSelected = p.id === (activeProfile?.id ?? selected_profile_id);
+                            const isSelected =
+                                p.id ===
+                                (activeProfile?.id ?? selected_profile_id);
                             return (
                                 <button
                                     key={p.id}
@@ -103,7 +131,9 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                                 >
                                     {p.nickname}
                                     {p.class_name && (
-                                        <span className="opacity-75">({p.class_name})</span>
+                                        <span className="opacity-75">
+                                            ({p.class_name})
+                                        </span>
                                     )}
                                 </button>
                             );
@@ -112,23 +142,33 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                 </div>
 
                 {/* Explanatory Banner */}
-                <div className="rounded-3xl border bg-gradient-to-r from-sky-50/60 via-indigo-50/40 to-emerald-50/40 p-6 dark:from-sky-950/20 dark:via-indigo-950/10 dark:to-emerald-950/10 flex items-start gap-4">
-                    <Lightbulb className="h-6 w-6 text-amber-500 shrink-0 mt-0.5" />
-                    <div className="text-xs sm:text-sm leading-relaxed space-y-1">
-                        <span className="font-semibold text-foreground">Explainable & Deterministic Recommendations:</span>
+                <div className="flex items-start gap-4 rounded-3xl border bg-gradient-to-r from-sky-50/60 via-indigo-50/40 to-emerald-50/40 p-6 dark:from-sky-950/20 dark:via-indigo-950/10 dark:to-emerald-950/10">
+                    <Lightbulb className="mt-0.5 h-6 w-6 shrink-0 text-amber-500" />
+                    <div className="space-y-1 text-xs leading-relaxed sm:text-sm">
+                        <span className="font-semibold text-foreground">
+                            Explainable & Deterministic Recommendations:
+                        </span>
                         <p className="text-muted-foreground">
-                            Every recommendation stores a transparent reason explaining why it was chosen for {activeProfile?.nickname ?? 'your child'}. We prioritize reinforcing topics that need extra practice before introducing extension challenges.
+                            Every recommendation stores a transparent reason
+                            explaining why it was chosen for{' '}
+                            {activeProfile?.nickname ?? 'your child'}. We
+                            prioritize reinforcing topics that need extra
+                            practice before introducing extension challenges.
                         </p>
                     </div>
                 </div>
 
                 {/* Recommendations Grid */}
                 {recommendations.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed p-12 text-center space-y-3">
+                    <div className="space-y-3 rounded-2xl border border-dashed p-12 text-center">
                         <Sparkles className="mx-auto h-10 w-10 text-muted-foreground/60" />
-                        <h3 className="font-semibold text-base">No active recommendations</h3>
-                        <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                            Take a short 10-minute skill check to unlock tailored learning activities for {activeProfile?.nickname ?? 'your child'}.
+                        <h3 className="text-base font-semibold">
+                            No active recommendations
+                        </h3>
+                        <p className="mx-auto max-w-md text-sm text-muted-foreground">
+                            Take a short 10-minute skill check to unlock
+                            tailored learning activities for{' '}
+                            {activeProfile?.nickname ?? 'your child'}.
                         </p>
                         <div className="pt-2">
                             <Link href="/account/assessments">
@@ -142,24 +182,25 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                 ) : (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {recommendations.map((rec) => {
-                            const isDone = actedMap[rec.id] || Boolean(rec.acted_at);
+                            const isDone =
+                                actedMap[rec.id] || Boolean(rec.acted_at);
 
                             return (
                                 <div
                                     key={rec.id}
-                                    className="flex flex-col justify-between rounded-3xl border bg-card p-6 shadow-sm hover:shadow-md transition-all space-y-5"
+                                    className="flex flex-col justify-between space-y-5 rounded-3xl border bg-card p-6 shadow-sm transition-all hover:shadow-md"
                                 >
                                     <div className="space-y-3">
-                                        <div className="rounded-xl bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary inline-flex items-center gap-1.5">
+                                        <div className="inline-flex items-center gap-1.5 rounded-xl bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
                                             <Sparkles className="h-3 w-3" />
                                             {rec.reason_sentence}
                                         </div>
 
-                                        <h3 className="font-bold text-lg text-foreground leading-snug">
+                                        <h3 className="text-lg leading-snug font-bold text-foreground">
                                             {rec.target_title}
                                         </h3>
 
-                                        <p className="text-xs text-muted-foreground line-clamp-2">
+                                        <p className="line-clamp-2 text-xs text-muted-foreground">
                                             {rec.target_summary}
                                         </p>
 
@@ -173,8 +214,10 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                                     <div className="space-y-2 border-t pt-4">
                                         <a
                                             href={rec.target_url}
-                                            onClick={() => handleTrackClick(rec.id)}
-                                            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                                            onClick={() =>
+                                                handleTrackClick(rec.id)
+                                            }
+                                            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
                                         >
                                             <span>Open Resource</span>
                                             <ExternalLink className="h-3.5 w-3.5" />
@@ -182,7 +225,9 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
 
                                         <button
                                             type="button"
-                                            onClick={() => handleMarkActed(rec.id)}
+                                            onClick={() =>
+                                                handleMarkActed(rec.id)
+                                            }
                                             disabled={isDone}
                                             className={`inline-flex w-full items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition-all ${
                                                 isDone
@@ -191,7 +236,9 @@ export default function AccountRecommendations({ profiles, selected_profile_id, 
                                             }`}
                                         >
                                             <CheckCircle2 className="h-3.5 w-3.5" />
-                                            {isDone ? 'Completed with Child' : 'Mark as Practiced'}
+                                            {isDone
+                                                ? 'Completed with Child'
+                                                : 'Mark as Practiced'}
                                         </button>
                                     </div>
                                 </div>

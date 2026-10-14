@@ -50,7 +50,9 @@ type Props = {
 };
 
 export default function CheckoutShow({ breakdown, user, notice }: Props) {
-    const [selectedMethod, setSelectedMethod] = useState<'razorpay' | 'card' | 'upi' | 'netbanking'>('razorpay');
+    const [selectedMethod, setSelectedMethod] = useState<
+        'razorpay' | 'card' | 'upi' | 'netbanking'
+    >('razorpay');
 
     const { data, setData, post, processing, errors } = useForm({
         billing_name: user.name ?? '',
@@ -104,7 +106,9 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                             <div className="space-y-3">
                                 {/* Razorpay Option */}
                                 <label
-                                    onClick={() => setSelectedMethod('razorpay')}
+                                    onClick={() =>
+                                        setSelectedMethod('razorpay')
+                                    }
                                     className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
                                         selectedMethod === 'razorpay'
                                             ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
@@ -115,8 +119,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         <input
                                             type="radio"
                                             name="payment_method"
-                                            checked={selectedMethod === 'razorpay'}
-                                            onChange={() => setSelectedMethod('razorpay')}
+                                            checked={
+                                                selectedMethod === 'razorpay'
+                                            }
+                                            onChange={() =>
+                                                setSelectedMethod('razorpay')
+                                            }
                                             className="size-4 text-primary focus:ring-primary"
                                         />
                                         <div>
@@ -128,7 +136,7 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                             </p>
                                         </div>
                                     </div>
-                                    <span className="font-bold text-blue-700 italic text-sm tracking-tight">
+                                    <span className="text-sm font-bold tracking-tight text-blue-700 italic">
                                         Razorpay
                                     </span>
                                 </label>
@@ -147,7 +155,9 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                             type="radio"
                                             name="payment_method"
                                             checked={selectedMethod === 'card'}
-                                            onChange={() => setSelectedMethod('card')}
+                                            onChange={() =>
+                                                setSelectedMethod('card')
+                                            }
                                             className="size-4 text-primary focus:ring-primary"
                                         />
                                         <div>
@@ -157,8 +167,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
-                                        <span className="rounded bg-blue-900 px-1.5 py-0.5 text-white text-[10px]">VISA</span>
-                                        <span className="rounded bg-amber-600 px-1.5 py-0.5 text-white text-[10px]">MC</span>
+                                        <span className="rounded bg-blue-900 px-1.5 py-0.5 text-[10px] text-white">
+                                            VISA
+                                        </span>
+                                        <span className="rounded bg-amber-600 px-1.5 py-0.5 text-[10px] text-white">
+                                            MC
+                                        </span>
                                     </div>
                                 </label>
 
@@ -176,7 +190,9 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                             type="radio"
                                             name="payment_method"
                                             checked={selectedMethod === 'upi'}
-                                            onChange={() => setSelectedMethod('upi')}
+                                            onChange={() =>
+                                                setSelectedMethod('upi')
+                                            }
                                             className="size-4 text-primary focus:ring-primary"
                                         />
                                         <div>
@@ -186,15 +202,23 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
-                                        <span className="rounded bg-sky-100 px-1.5 py-0.5 text-sky-800 text-[10px]">GPay</span>
-                                        <span className="rounded bg-purple-100 px-1.5 py-0.5 text-purple-800 text-[10px]">PhonePe</span>
-                                        <span className="rounded bg-blue-100 px-1.5 py-0.5 text-blue-800 text-[10px]">Paytm</span>
+                                        <span className="rounded bg-sky-100 px-1.5 py-0.5 text-[10px] text-sky-800">
+                                            GPay
+                                        </span>
+                                        <span className="rounded bg-purple-100 px-1.5 py-0.5 text-[10px] text-purple-800">
+                                            PhonePe
+                                        </span>
+                                        <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] text-blue-800">
+                                            Paytm
+                                        </span>
                                     </div>
                                 </label>
 
                                 {/* Net Banking Option */}
                                 <label
-                                    onClick={() => setSelectedMethod('netbanking')}
+                                    onClick={() =>
+                                        setSelectedMethod('netbanking')
+                                    }
                                     className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all ${
                                         selectedMethod === 'netbanking'
                                             ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
@@ -205,8 +229,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         <input
                                             type="radio"
                                             name="payment_method"
-                                            checked={selectedMethod === 'netbanking'}
-                                            onChange={() => setSelectedMethod('netbanking')}
+                                            checked={
+                                                selectedMethod === 'netbanking'
+                                            }
+                                            onChange={() =>
+                                                setSelectedMethod('netbanking')
+                                            }
                                             className="size-4 text-primary focus:ring-primary"
                                         />
                                         <div>
@@ -230,7 +258,8 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                     100% Secure Payment
                                 </h3>
                                 <p className="text-xs text-emerald-800 dark:text-emerald-400">
-                                    Your payment information is encrypted and safe with Razorpay.
+                                    Your payment information is encrypted and
+                                    safe with Razorpay.
                                 </p>
                             </div>
                         </div>
@@ -250,9 +279,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         type="text"
                                         value={data.billing_name}
                                         onChange={(e) =>
-                                            setData('billing_name', e.target.value)
+                                            setData(
+                                                'billing_name',
+                                                e.target.value,
+                                            )
                                         }
-                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:outline-hidden dark:border-slate-800 dark:bg-slate-900"
                                         required
                                     />
                                     {errors.billing_name && (
@@ -270,9 +302,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         type="email"
                                         value={data.billing_email}
                                         onChange={(e) =>
-                                            setData('billing_email', e.target.value)
+                                            setData(
+                                                'billing_email',
+                                                e.target.value,
+                                            )
                                         }
-                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:outline-hidden dark:border-slate-800 dark:bg-slate-900"
                                         required
                                     />
                                     {errors.billing_email && (
@@ -290,9 +325,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         type="tel"
                                         value={data.billing_phone}
                                         onChange={(e) =>
-                                            setData('billing_phone', e.target.value)
+                                            setData(
+                                                'billing_phone',
+                                                e.target.value,
+                                            )
                                         }
-                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:outline-hidden dark:border-slate-800 dark:bg-slate-900"
                                         placeholder="+91 9876543210"
                                     />
                                 </div>
@@ -305,9 +343,12 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                         type="text"
                                         value={data.billing_state}
                                         onChange={(e) =>
-                                            setData('billing_state', e.target.value)
+                                            setData(
+                                                'billing_state',
+                                                e.target.value,
+                                            )
                                         }
-                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-900"
+                                        className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:outline-hidden dark:border-slate-800 dark:bg-slate-900"
                                         placeholder="Maharashtra"
                                     />
                                 </div>
@@ -322,7 +363,7 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                                 Order Summary
                             </h2>
 
-                            <div className="space-y-3 divide-y divide-slate-100 dark:divide-slate-800 pt-2">
+                            <div className="space-y-3 divide-y divide-slate-100 pt-2 dark:divide-slate-800">
                                 {breakdown.lines.map((line) => (
                                     <div
                                         key={line.product_id}
@@ -372,7 +413,7 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
                             <Button
                                 type="submit"
                                 disabled={processing}
-                                className="h-13 mt-4 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-xl transition-all"
+                                className="mt-4 h-13 w-full rounded-full bg-[#2563EB] text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 hover:shadow-xl"
                             >
                                 Pay {breakdown.total.formatted}
                             </Button>

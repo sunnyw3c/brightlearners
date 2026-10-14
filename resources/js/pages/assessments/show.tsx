@@ -51,7 +51,7 @@ type Props = {
 
 export default function AssessmentShow({ assessment, profiles }: Props) {
     const [selectedProfileId, setSelectedProfileId] = useState<number | null>(
-        profiles.length > 0 ? profiles[0].id : null
+        profiles.length > 0 ? profiles[0].id : null,
     );
     const [attemptId, setAttemptId] = useState<number | null>(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -75,7 +75,7 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                 onSuccess: (page) => {
                     // Url may have redirected with query or attempt state
                 },
-            }
+            },
         );
     };
 
@@ -96,7 +96,7 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
             { answers },
             {
                 onFinish: () => setIsSubmitting(false),
-            }
+            },
         );
     };
 
@@ -104,7 +104,7 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
         <PublicLayout>
             <Head title={`${assessment.title} — BrightLearners`} />
 
-            <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 space-y-8">
+            <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
                 {/* Header Card */}
                 <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900 via-primary to-emerald-800 p-8 text-white shadow-xl">
                     <div className="relative z-10 space-y-3">
@@ -115,7 +115,7 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
                             {assessment.title}
                         </h1>
-                        <p className="max-w-2xl text-sm sm:text-base text-white/90 leading-relaxed">
+                        <p className="max-w-2xl text-sm leading-relaxed text-white/90 sm:text-base">
                             {assessment.description ||
                                 'A gentle informal check designed to identify learning confidence and tailor practice recommendations.'}
                         </p>
@@ -124,31 +124,42 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
 
                 {/* Friendly Disclaimer Banner */}
                 <div className="flex items-start gap-3.5 rounded-2xl border border-sky-200 bg-sky-50/70 p-4 text-sky-900 dark:border-sky-900/50 dark:bg-sky-950/30 dark:text-sky-200">
-                    <Info className="h-5 w-5 shrink-0 text-sky-600 dark:text-sky-400 mt-0.5" />
-                    <div className="text-xs sm:text-sm leading-relaxed">
-                        <span className="font-semibold">Informal Learning Check:</span> This is designed as a calm, diagnostic guide for parents to discover strengths and areas needing practice. It is not an exam or certification.
+                    <Info className="mt-0.5 h-5 w-5 shrink-0 text-sky-600 dark:text-sky-400" />
+                    <div className="text-xs leading-relaxed sm:text-sm">
+                        <span className="font-semibold">
+                            Informal Learning Check:
+                        </span>{' '}
+                        This is designed as a calm, diagnostic guide for parents
+                        to discover strengths and areas needing practice. It is
+                        not an exam or certification.
                     </div>
                 </div>
 
                 {/* Profile selection step if no attempt created yet */}
                 {!attemptId ? (
-                    <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm space-y-6">
+                    <div className="space-y-6 rounded-2xl border bg-card p-6 shadow-sm sm:p-8">
                         <div>
-                            <h2 className="text-xl font-bold">Select Learner Profile</h2>
-                            <p className="text-sm text-muted-foreground mt-1">
-                                Choose which child is taking this learning check so results map to their progress profile.
+                            <h2 className="text-xl font-bold">
+                                Select Learner Profile
+                            </h2>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Choose which child is taking this learning check
+                                so results map to their progress profile.
                             </p>
                         </div>
 
                         {profiles.length > 0 ? (
                             <div className="grid gap-3 sm:grid-cols-2">
                                 {profiles.map((p) => {
-                                    const isSelected = selectedProfileId === p.id;
+                                    const isSelected =
+                                        selectedProfileId === p.id;
                                     return (
                                         <button
                                             key={p.id}
                                             type="button"
-                                            onClick={() => setSelectedProfileId(p.id)}
+                                            onClick={() =>
+                                                setSelectedProfileId(p.id)
+                                            }
                                             className={`flex items-center justify-between rounded-xl border p-4 text-left transition-all ${
                                                 isSelected
                                                     ? 'border-primary bg-primary/5 shadow-sm ring-2 ring-primary'
@@ -156,8 +167,12 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                                             }`}
                                         >
                                             <div>
-                                                <div className="font-semibold text-base">{p.nickname}</div>
-                                                <div className="text-xs text-muted-foreground mt-0.5">Learner Profile</div>
+                                                <div className="text-base font-semibold">
+                                                    {p.nickname}
+                                                </div>
+                                                <div className="mt-0.5 text-xs text-muted-foreground">
+                                                    Learner Profile
+                                                </div>
                                             </div>
                                             {isSelected && (
                                                 <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -168,7 +183,8 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                             </div>
                         ) : (
                             <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
-                                Please sign in with your parent account to record results for your child.
+                                Please sign in with your parent account to
+                                record results for your child.
                             </div>
                         )}
 
@@ -188,13 +204,17 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                     /* Active Attempt Form */
                     <form onSubmit={handleSubmitAttempt} className="space-y-8">
                         {/* Progress Bar */}
-                        <div className="sticky top-20 z-20 rounded-2xl border bg-background/95 backdrop-blur p-4 shadow-sm flex items-center justify-between gap-4">
+                        <div className="sticky top-20 z-20 flex items-center justify-between gap-4 rounded-2xl border bg-background/95 p-4 shadow-sm backdrop-blur">
                             <div className="text-sm font-medium">
-                                Answered <span className="font-bold text-primary">{answeredCount}</span> of {allQuestions.length} questions
+                                Answered{' '}
+                                <span className="font-bold text-primary">
+                                    {answeredCount}
+                                </span>{' '}
+                                of {allQuestions.length} questions
                             </div>
-                            <div className="w-1/3 bg-muted rounded-full h-2 overflow-hidden">
+                            <div className="h-2 w-1/3 overflow-hidden rounded-full bg-muted">
                                 <div
-                                    className="bg-primary h-full transition-all duration-300"
+                                    className="h-full bg-primary transition-all duration-300"
                                     style={{
                                         width: `${allQuestions.length > 0 ? (answeredCount / allQuestions.length) * 100 : 0}%`,
                                     }}
@@ -211,55 +231,78 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                                 </div>
 
                                 <div className="space-y-6">
-                                    {section.questions.map((question, qIndex) => {
-                                        const selectedAnswer = answers[question.id];
+                                    {section.questions.map(
+                                        (question, qIndex) => {
+                                            const selectedAnswer =
+                                                answers[question.id];
 
-                                        return (
-                                            <div
-                                                key={question.id}
-                                                className="rounded-2xl border bg-card p-6 shadow-sm space-y-4"
-                                            >
-                                                <div className="flex items-start justify-between gap-3">
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                                                            {qIndex + 1}
-                                                        </span>
-                                                        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                                            {question.difficulty}
-                                                        </span>
+                                            return (
+                                                <div
+                                                    key={question.id}
+                                                    className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm"
+                                                >
+                                                    <div className="flex items-start justify-between gap-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                                                                {qIndex + 1}
+                                                            </span>
+                                                            <span className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                                                                {
+                                                                    question.difficulty
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <p className="text-base leading-relaxed font-medium text-foreground sm:text-lg">
+                                                        {question.prompt}
+                                                    </p>
+
+                                                    {/* Options */}
+                                                    <div className="grid gap-2.5 pt-2 sm:grid-cols-2">
+                                                        {question.options.map(
+                                                            (
+                                                                option,
+                                                                optIdx,
+                                                            ) => {
+                                                                const isSelected =
+                                                                    selectedAnswer ===
+                                                                    option;
+                                                                return (
+                                                                    <button
+                                                                        key={
+                                                                            optIdx
+                                                                        }
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                            handleSelectOption(
+                                                                                question.id,
+                                                                                option,
+                                                                            )
+                                                                        }
+                                                                        className={`flex items-center justify-between rounded-xl border p-4 text-left transition-all ${
+                                                                            isSelected
+                                                                                ? 'border-primary bg-primary/10 font-semibold text-primary ring-2 ring-primary'
+                                                                                : 'hover:border-foreground/20 hover:bg-muted/50'
+                                                                        }`}
+                                                                    >
+                                                                        <span>
+                                                                            {
+                                                                                option
+                                                                            }
+                                                                        </span>
+                                                                        {isSelected && (
+                                                                            <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                                                                        )}
+                                                                    </button>
+                                                                );
+                                                            },
+                                                        )}
                                                     </div>
                                                 </div>
-
-                                                <p className="text-base sm:text-lg font-medium text-foreground leading-relaxed">
-                                                    {question.prompt}
-                                                </p>
-
-                                                {/* Options */}
-                                                <div className="grid gap-2.5 sm:grid-cols-2 pt-2">
-                                                    {question.options.map((option, optIdx) => {
-                                                        const isSelected = selectedAnswer === option;
-                                                        return (
-                                                            <button
-                                                                key={optIdx}
-                                                                type="button"
-                                                                onClick={() => handleSelectOption(question.id, option)}
-                                                                className={`flex items-center justify-between rounded-xl border p-4 text-left transition-all ${
-                                                                    isSelected
-                                                                        ? 'border-primary bg-primary/10 font-semibold text-primary ring-2 ring-primary'
-                                                                        : 'hover:bg-muted/50 hover:border-foreground/20'
-                                                                }`}
-                                                            >
-                                                                <span>{option}</span>
-                                                                {isSelected && (
-                                                                    <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
-                                                                )}
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        },
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -271,7 +314,9 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
                                 disabled={isSubmitting || answeredCount === 0}
                                 className="gap-2 px-8"
                             >
-                                {isSubmitting ? 'Calculating Results...' : 'Complete & See Skill Results'}
+                                {isSubmitting
+                                    ? 'Calculating Results...'
+                                    : 'Complete & See Skill Results'}
                                 <ArrowRight className="h-4 w-4" />
                             </Button>
                         </div>

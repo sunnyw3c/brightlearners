@@ -1,9 +1,23 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRight, BookOpen, Calendar, CheckCircle2, ChevronRight, Sparkles, User } from 'lucide-react';
+import {
+    ArrowRight,
+    BookOpen,
+    Calendar,
+    CheckCircle2,
+    ChevronRight,
+    Sparkles,
+    User,
+} from 'lucide-react';
 import { Seo, type SeoProps } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { PublicLayout } from '@/layouts/public-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface ArticleData {
@@ -46,7 +60,13 @@ interface Props {
     seo: SeoProps;
 }
 
-export default function ArticleShow({ article, tryThis, relatedArticles, breadcrumbs, seo }: Props) {
+export default function ArticleShow({
+    article,
+    tryThis,
+    relatedArticles,
+    breadcrumbs,
+    seo,
+}: Props) {
     return (
         <PublicLayout>
             <Seo seo={seo} />
@@ -59,23 +79,23 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
                     <div className="flex items-center gap-2">
                         <Link
                             href={article.category.url}
-                            className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
+                            className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
                         >
                             {article.category.name}
                         </Link>
                     </div>
 
-                    <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl leading-tight">
+                    <h1 className="text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
                         {article.title}
                     </h1>
 
                     {article.excerpt && (
-                        <p className="text-lg text-muted-foreground leading-relaxed">
+                        <p className="text-lg leading-relaxed text-muted-foreground">
                             {article.excerpt}
                         </p>
                     )}
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground pt-4 border-t">
+                    <div className="flex flex-wrap items-center gap-4 border-t pt-4 text-xs text-muted-foreground">
                         {article.author && (
                             <div className="flex items-center gap-1.5">
                                 <User className="size-3.5 text-foreground/70" />
@@ -95,20 +115,25 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
 
                 {/* Main Article Body (Rich Text sanitized HTML) */}
                 <div
-                    className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:underline hover:prose-a:text-primary/80 prose-img:rounded-2xl"
+                    className="prose prose-slate dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:underline hover:prose-a:text-primary/80 prose-img:rounded-2xl max-w-none"
                     dangerouslySetInnerHTML={{ __html: article.body }}
                 />
 
                 {/* "Try This" Internal Linking Section (step 12.14) */}
                 {tryThis.length > 0 && (
-                    <section className="mt-12 rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-card to-highlight/5 p-6 sm:p-8 space-y-6">
+                    <section className="mt-12 space-y-6 rounded-2xl border border-primary/20 bg-linear-to-br from-primary/5 via-card to-highlight/5 p-6 sm:p-8">
                         <div className="flex items-center gap-2.5">
                             <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                                 <Sparkles className="size-4" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold tracking-tight">Try This at Home</h2>
-                                <p className="text-xs text-muted-foreground">Resources and practice packs aligned with this guide</p>
+                                <h2 className="text-xl font-bold tracking-tight">
+                                    Try This at Home
+                                </h2>
+                                <p className="text-xs text-muted-foreground">
+                                    Resources and practice packs aligned with
+                                    this guide
+                                </p>
                             </div>
                         </div>
 
@@ -119,17 +144,20 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
                                     href={item.url}
                                     className="group block rounded-xl border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-sm"
                                 >
-                                    <div className="flex items-center justify-between gap-2 mb-2">
-                                        <Badge variant="secondary" className="text-xs font-medium">
+                                    <div className="mb-2 flex items-center justify-between gap-2">
+                                        <Badge
+                                            variant="secondary"
+                                            className="text-xs font-medium"
+                                        >
                                             {item.badge}
                                         </Badge>
-                                        <ArrowRight className="size-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                                        <ArrowRight className="size-3.5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-primary" />
                                     </div>
-                                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">
+                                    <h3 className="text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
                                         {item.title}
                                     </h3>
                                     {item.summary && (
-                                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                        <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
                                             {item.summary}
                                         </p>
                                     )}
@@ -141,10 +169,14 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
 
                 {/* Related Articles */}
                 {relatedArticles.length > 0 && (
-                    <section className="space-y-6 pt-10 border-t">
+                    <section className="space-y-6 border-t pt-10">
                         <div>
-                            <h2 className="text-2xl font-bold tracking-tight">More in {article.category.name}</h2>
-                            <p className="text-sm text-muted-foreground">Continue reading related learning advice</p>
+                            <h2 className="text-2xl font-bold tracking-tight">
+                                More in {article.category.name}
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Continue reading related learning advice
+                            </p>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -154,10 +186,10 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
                                     href={`/blog/${rel.slug}`}
                                     className="group block rounded-xl border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-sm"
                                 >
-                                    <h3 className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">
+                                    <h3 className="line-clamp-2 text-sm font-semibold transition-colors group-hover:text-primary">
                                         {rel.title}
                                     </h3>
-                                    <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+                                    <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
                                         {rel.excerpt}
                                     </p>
                                     <div className="mt-3 flex items-center text-xs font-medium text-primary">
@@ -174,7 +206,7 @@ export default function ArticleShow({ article, tryThis, relatedArticles, breadcr
                 <div className="pt-6">
                     <Link
                         href={article.category.url}
-                        className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        className="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                     >
                         ← Back to {article.category.name}
                     </Link>

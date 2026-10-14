@@ -8,8 +8,8 @@ import path from 'path';
  */
 async function makeTransparent(inputPath, outputPath, options = {}) {
     const {
-        threshold = 240,     // brightness above this starts becoming transparent
-        feather = 25,        // smooth gradient transition
+        threshold = 240, // brightness above this starts becoming transparent
+        feather = 25, // smooth gradient transition
         crop = null,
     } = options;
 
@@ -48,7 +48,7 @@ async function makeTransparent(inputPath, outputPath, options = {}) {
             const diff = brightness - threshold;
             const factor = Math.min(1, diff / feather);
             data[i + 3] = Math.round(data[i + 3] * (1 - factor));
-        } else if (brightness >= (threshold - 10) && saturation < 0.10) {
+        } else if (brightness >= threshold - 10 && saturation < 0.1) {
             const factor = (brightness - (threshold - 10)) / 10;
             data[i + 3] = Math.round(data[i + 3] * (1 - factor * 0.7));
         }
@@ -68,43 +68,69 @@ async function makeTransparent(inputPath, outputPath, options = {}) {
 }
 
 async function run() {
-    const brainDir = 'C:\\Users\\Developer-2\\.gemini\\antigravity-ide\\brain\\78581f0f-c909-438a-9e47-4ef4255de577';
+    const brainDir =
+        'C:\\Users\\Developer-2\\.gemini\\antigravity-ide\\brain\\78581f0f-c909-438a-9e47-4ef4255de577';
     const publicImages = 'd:\\test\\brightlearners\\public\\images';
 
     // 1. Class 1 girl
-    const class1Source = path.join(brainDir, 'class_1_mascot_1791888104864.jpg');
+    const class1Source = path.join(
+        brainDir,
+        'class_1_mascot_1791888104864.jpg',
+    );
     if (fs.existsSync(class1Source)) {
-        await makeTransparent(class1Source, path.join(publicImages, 'class-1-girl.png'), {
-            threshold: 235,
-            feather: 20,
-        });
+        await makeTransparent(
+            class1Source,
+            path.join(publicImages, 'class-1-girl.png'),
+            {
+                threshold: 235,
+                feather: 20,
+            },
+        );
     }
 
     // 2. Class 2 boy
     const class2Source = path.join(brainDir, 'class_2_boy_1791885920138.jpg');
     if (fs.existsSync(class2Source)) {
-        await makeTransparent(class2Source, path.join(publicImages, 'class-2-boy.png'), {
-            threshold: 220,
-            feather: 20,
-        });
+        await makeTransparent(
+            class2Source,
+            path.join(publicImages, 'class-2-boy.png'),
+            {
+                threshold: 220,
+                feather: 20,
+            },
+        );
     }
 
     // 3. Class 3 student
-    const class3Source = path.join(brainDir, 'class_3_student_1791885960471.jpg');
+    const class3Source = path.join(
+        brainDir,
+        'class_3_student_1791885960471.jpg',
+    );
     if (fs.existsSync(class3Source)) {
-        await makeTransparent(class3Source, path.join(publicImages, 'class-3-student.png'), {
-            threshold: 235,
-            feather: 20,
-        });
+        await makeTransparent(
+            class3Source,
+            path.join(publicImages, 'class-3-student.png'),
+            {
+                threshold: 235,
+                feather: 20,
+            },
+        );
     }
 
     // 4. Membership boy
-    const membershipSource = path.join(brainDir, 'membership_boy_1791885986576.jpg');
+    const membershipSource = path.join(
+        brainDir,
+        'membership_boy_1791885986576.jpg',
+    );
     if (fs.existsSync(membershipSource)) {
-        await makeTransparent(membershipSource, path.join(publicImages, 'membership-boy.png'), {
-            threshold: 235,
-            feather: 20,
-        });
+        await makeTransparent(
+            membershipSource,
+            path.join(publicImages, 'membership-boy.png'),
+            {
+                threshold: 235,
+                feather: 20,
+            },
+        );
     }
 
     console.log('All transparent images generated successfully!');

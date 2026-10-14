@@ -51,13 +51,15 @@ export function TopicCard({
                     <TopicIcon className="size-6 stroke-[2.2]" />
                 </span>
                 <div>
-                    <p className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                    <p className="text-sm font-bold text-foreground transition-colors group-hover:text-primary">
                         {topic.name}
                     </p>
                     {typeof topic.resource_count === 'number' && (
                         <p className="mt-0.5 text-xs font-medium text-muted-foreground">
                             {topic.resource_count}{' '}
-                            {topic.resource_count === 1 ? 'Resource' : 'Resources'}
+                            {topic.resource_count === 1
+                                ? 'Resource'
+                                : 'Resources'}
                         </p>
                     )}
                 </div>

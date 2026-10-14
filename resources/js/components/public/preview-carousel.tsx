@@ -61,10 +61,15 @@ export function PreviewCarousel({
         <div className="space-y-4">
             {/* Main Preview Container */}
             <div className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-3 shadow-md dark:border-slate-800 dark:bg-slate-900">
-                <div className="relative aspect-3/4 w-full overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
+                <div className="relative flex aspect-3/4 w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-950">
                     <img
                         src={activeUrl}
-                        onError={() => setBrokenUrls((prev) => ({ ...prev, [active.url]: true }))}
+                        onError={() =>
+                            setBrokenUrls((prev) => ({
+                                ...prev,
+                                [active.url]: true,
+                            }))
+                        }
                         alt={`${title} — page ${activeIndex + 1}`}
                         className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     />
@@ -92,13 +97,18 @@ export function PreviewCarousel({
                             className={cn(
                                 'h-14 w-11 overflow-hidden rounded-xl border-2 transition-all',
                                 index === activeIndex
-                                    ? 'border-primary ring-2 ring-primary/20 scale-105 shadow-sm'
-                                    : 'border-slate-200 opacity-70 hover:opacity-100 hover:border-slate-300 dark:border-slate-800',
+                                    ? 'scale-105 border-primary shadow-sm ring-2 ring-primary/20'
+                                    : 'border-slate-200 opacity-70 hover:border-slate-300 hover:opacity-100 dark:border-slate-800',
                             )}
                         >
                             <img
                                 src={getSafeUrl(item.url, index)}
-                                onError={() => setBrokenUrls((prev) => ({ ...prev, [item.url]: true }))}
+                                onError={() =>
+                                    setBrokenUrls((prev) => ({
+                                        ...prev,
+                                        [item.url]: true,
+                                    }))
+                                }
                                 alt={`Thumbnail ${index + 1}`}
                                 className="h-full w-full object-cover"
                             />

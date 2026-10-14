@@ -46,7 +46,10 @@ export function Seo({ seo }: { seo: SeoProps }) {
 
             {/* Search Console verification (step 12.13) */}
             {seo.google_site_verification && (
-                <meta name="google-site-verification" content={seo.google_site_verification} />
+                <meta
+                    name="google-site-verification"
+                    content={seo.google_site_verification}
+                />
             )}
 
             {/* Structured Data JSON-LD (steps 12.7, 12.8, 12.9) */}

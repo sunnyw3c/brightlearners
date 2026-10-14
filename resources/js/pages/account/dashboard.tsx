@@ -146,7 +146,9 @@ export default function Dashboard({
     };
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Dashboard', href: '/account/dashboard' }]}>
+        <AppLayout
+            breadcrumbs={[{ title: 'Dashboard', href: '/account/dashboard' }]}
+        >
             <Head title="Parent Dashboard — BrightLearners" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
@@ -172,9 +174,9 @@ export default function Dashboard({
                                     key={p.id}
                                     type="button"
                                     onClick={() => handleSwitchProfile(p.id)}
-                                    className={`inline-flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-xs font-bold transition-all shadow-xs ${
+                                    className={`inline-flex items-center gap-2 rounded-full py-1.5 pr-4 pl-1.5 text-xs font-bold shadow-xs transition-all ${
                                         isSelected
-                                            ? 'bg-[#2563EB] text-white shadow-blue-500/25 ring-2 ring-blue-400/50'
+                                            ? 'bg-[#2563EB] text-white ring-2 shadow-blue-500/25 ring-blue-400/50'
                                             : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200'
                                     }`}
                                 >
@@ -203,7 +205,7 @@ export default function Dashboard({
                             asChild
                             variant="outline"
                             size="sm"
-                            className="h-9 rounded-full border-slate-200 text-xs font-bold gap-1.5 px-4 dark:border-slate-800"
+                            className="h-9 gap-1.5 rounded-full border-slate-200 px-4 text-xs font-bold dark:border-slate-800"
                         >
                             <Link href="/account/profiles">
                                 <UserPlus className="size-3.5" />
@@ -219,15 +221,25 @@ export default function Dashboard({
                         <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
                             <UserPlus className="size-7" />
                         </div>
-                        <h2 className="mt-4 text-lg font-bold">Add a Learning Profile to Get Started</h2>
+                        <h2 className="mt-4 text-lg font-bold">
+                            Add a Learning Profile to Get Started
+                        </h2>
                         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                            Create a child profile with their school class to access weekly structured learning packs, worksheets, and activity tracking.
+                            Create a child profile with their school class to
+                            access weekly structured learning packs, worksheets,
+                            and activity tracking.
                         </p>
                         <div className="mt-6 flex justify-center gap-3">
                             <Button asChild className="rounded-full">
-                                <Link href="/account/profiles">Add Child Profile</Link>
+                                <Link href="/account/profiles">
+                                    Add Child Profile
+                                </Link>
                             </Button>
-                            <Button asChild variant="outline" className="rounded-full">
+                            <Button
+                                asChild
+                                variant="outline"
+                                className="rounded-full"
+                            >
                                 <Link href="/free">Explore Free Resources</Link>
                             </Button>
                         </div>
@@ -239,22 +251,37 @@ export default function Dashboard({
                     <div className="relative overflow-hidden rounded-3xl border border-amber-200/80 bg-linear-to-r from-amber-50/80 via-white to-sky-50/80 p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900">
                         <div className="max-w-2xl space-y-4">
                             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                                <Sparkles className="size-3.5" /> Weekly Learning Programme
+                                <Sparkles className="size-3.5" /> Weekly
+                                Learning Programme
                             </span>
                             <h2 className="text-2xl font-black tracking-tight text-foreground">
-                                Unlock Weekly Structured Learning for {active_profile?.nickname || 'Your Child'}
+                                Unlock Weekly Structured Learning for{' '}
+                                {active_profile?.nickname || 'Your Child'}
                             </h2>
                             <p className="text-sm leading-relaxed text-muted-foreground">
-                                Our 90-Day Weekly Programme delivers curated, print-friendly packs across Maths, English, and EVS every week—with full answer keys and guided routines to build consistent study habits.
+                                Our 90-Day Weekly Programme delivers curated,
+                                print-friendly packs across Maths, English, and
+                                EVS every week—with full answer keys and guided
+                                routines to build consistent study habits.
                             </p>
                             <div className="flex flex-wrap gap-3 pt-2">
-                                <Button asChild className="rounded-full bg-[#2563EB] font-bold text-white shadow-md hover:bg-blue-700">
+                                <Button
+                                    asChild
+                                    className="rounded-full bg-[#2563EB] font-bold text-white shadow-md hover:bg-blue-700"
+                                >
                                     <Link href="/membership">
-                                        Explore Membership <ArrowRight className="ml-1.5 size-4" />
+                                        Explore Membership{' '}
+                                        <ArrowRight className="ml-1.5 size-4" />
                                     </Link>
                                 </Button>
-                                <Button asChild variant="outline" className="rounded-full">
-                                    <Link href="/membership/sample-month">View Sample Month</Link>
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    className="rounded-full"
+                                >
+                                    <Link href="/membership/sample-month">
+                                        View Sample Month
+                                    </Link>
                                 </Button>
                             </div>
                         </div>
@@ -277,27 +304,36 @@ export default function Dashboard({
                                         </span>
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        Focus: Addition & Subtraction, Describing Words, Plants Around Us
+                                        Focus: Addition & Subtraction,
+                                        Describing Words, Plants Around Us
                                     </p>
                                 </div>
 
                                 {/* Progress Bar matching mockup: 22% */}
-                                <div className="min-w-[260px] space-y-1.5 rounded-2xl bg-slate-50 p-4 border border-slate-100 dark:border-slate-800 dark:bg-slate-900/50">
+                                <div className="min-w-[260px] space-y-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/50">
                                     <div className="flex items-center justify-between text-xs font-bold">
-                                        <span className="text-slate-600 dark:text-slate-300">Routine Progress</span>
+                                        <span className="text-slate-600 dark:text-slate-300">
+                                            Routine Progress
+                                        </span>
                                         <span className="text-[#2563EB]">
-                                            {monthly_progress?.percentage ?? 22}%
+                                            {monthly_progress?.percentage ?? 22}
+                                            %
                                         </span>
                                     </div>
                                     <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                                         <div
                                             className="h-full rounded-full bg-[#2563EB] transition-all duration-500"
-                                            style={{ width: `${monthly_progress?.percentage ?? 22}%` }}
+                                            style={{
+                                                width: `${monthly_progress?.percentage ?? 22}%`,
+                                            }}
                                         />
                                     </div>
                                     <div className="flex justify-between text-[11px] text-muted-foreground">
                                         <span>2 of 9 completed</span>
-                                        <Link href="/account/weekly-learning" className="text-primary hover:underline font-semibold">
+                                        <Link
+                                            href="/account/weekly-learning"
+                                            className="font-semibold text-primary hover:underline"
+                                        >
                                             View All
                                         </Link>
                                     </div>
@@ -317,16 +353,21 @@ export default function Dashboard({
                                                 In Progress
                                             </span>
                                         </div>
-                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                        <h4 className="pt-1 text-base font-bold text-foreground">
                                             Addition & Subtraction
                                         </h4>
                                         <p className="text-xs text-muted-foreground">
-                                            2-digit regrouping practice with visual blocks.
+                                            2-digit regrouping practice with
+                                            visual blocks.
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                                        <Button asChild size="sm" className="w-full rounded-full bg-[#2563EB] text-xs font-bold text-white hover:bg-blue-700">
+                                    <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-800">
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            className="w-full rounded-full bg-[#2563EB] text-xs font-bold text-white hover:bg-blue-700"
+                                        >
                                             <Link href="/free/class-2/maths/addition-practice-worksheet">
                                                 Continue
                                             </Link>
@@ -345,16 +386,22 @@ export default function Dashboard({
                                                 Not Started
                                             </span>
                                         </div>
-                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                        <h4 className="pt-1 text-base font-bold text-foreground">
                                             Describing Words
                                         </h4>
                                         <p className="text-xs text-muted-foreground">
-                                            Learning adjectives through animal and picture stories.
+                                            Learning adjectives through animal
+                                            and picture stories.
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                                        <Button asChild size="sm" variant="outline" className="w-full rounded-full text-xs font-bold border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
+                                    <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-800">
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            variant="outline"
+                                            className="w-full rounded-full border-blue-200 bg-blue-50 text-xs font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300"
+                                        >
                                             <Link href="/account/weekly-learning">
                                                 Start
                                             </Link>
@@ -373,16 +420,22 @@ export default function Dashboard({
                                                 Not Started
                                             </span>
                                         </div>
-                                        <h4 className="text-base font-bold text-foreground pt-1">
+                                        <h4 className="pt-1 text-base font-bold text-foreground">
                                             Plants Around Us
                                         </h4>
                                         <p className="text-xs text-muted-foreground">
-                                            Parts of a plant and how leaves make food.
+                                            Parts of a plant and how leaves make
+                                            food.
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-                                        <Button asChild size="sm" variant="outline" className="w-full rounded-full text-xs font-bold border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
+                                    <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-800">
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            variant="outline"
+                                            className="w-full rounded-full border-blue-200 bg-blue-50 text-xs font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300"
+                                        >
                                             <Link href="/account/weekly-learning">
                                                 Start
                                             </Link>
@@ -400,7 +453,10 @@ export default function Dashboard({
                         <h3 className="text-xl font-bold tracking-tight text-foreground">
                             Recent Downloads
                         </h3>
-                        <Link href="/account/library" className="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                        <Link
+                            href="/account/library"
+                            className="flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+                        >
                             View All <ArrowRight className="size-3" />
                         </Link>
                     </div>
@@ -420,7 +476,12 @@ export default function Dashboard({
                                     </p>
                                 </div>
                             </div>
-                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                            <Button
+                                asChild
+                                size="sm"
+                                variant="outline"
+                                className="size-9 rounded-full p-0"
+                            >
                                 <a href="/free/class-2/maths/addition-practice-worksheet">
                                     <DownloadIcon className="size-4 text-slate-600" />
                                 </a>
@@ -441,7 +502,12 @@ export default function Dashboard({
                                     </p>
                                 </div>
                             </div>
-                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                            <Button
+                                asChild
+                                size="sm"
+                                variant="outline"
+                                className="size-9 rounded-full p-0"
+                            >
                                 <a href="/account/library">
                                     <DownloadIcon className="size-4 text-slate-600" />
                                 </a>
@@ -462,7 +528,12 @@ export default function Dashboard({
                                     </p>
                                 </div>
                             </div>
-                            <Button asChild size="sm" variant="outline" className="size-9 rounded-full p-0">
+                            <Button
+                                asChild
+                                size="sm"
+                                variant="outline"
+                                className="size-9 rounded-full p-0"
+                            >
                                 <a href="/account/library">
                                     <DownloadIcon className="size-4 text-slate-600" />
                                 </a>
