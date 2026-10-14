@@ -1,4 +1,4 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import {
     ArrowRight,
     BookOpen,
@@ -8,6 +8,7 @@ import {
     Sparkles,
     XCircle,
 } from 'lucide-react';
+import { Seo, type SeoProps } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/public-layout';
@@ -36,12 +37,14 @@ type Props = {
     plan: PlanProp | null;
     product: ProductProp | null;
     is_active_member: boolean;
+    seo: SeoProps;
 };
 
 export default function MembershipIndex({
     plan,
     product,
     is_active_member,
+    seo,
 }: Props) {
     const handleJoin = () => {
         if (!product) return;
@@ -54,12 +57,7 @@ export default function MembershipIndex({
 
     return (
         <PublicLayout>
-            <Head title="Weekly Learning Programme (90 Days) — BrightLearners">
-                <meta
-                    name="description"
-                    content="Structured weekly learning worksheets and guided practice across Maths, English, and EVS for Class 1–3. Screen-free, curriculum-aligned, and delivered on schedule."
-                />
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-12 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />

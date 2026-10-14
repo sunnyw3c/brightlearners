@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Learn;
 
 use App\Domains\Curriculum\Queries\SubjectLandingQuery;
+use App\Domains\Growth\Services\StructuredData;
 use App\Http\Controllers\Controller;
 use App\Support\Data\Seo;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class SubjectController extends Controller
         $resources = $query->resources($schoolClass, $subjectModel, (int) $request->integer('page', 1));
         $intro = $query->intro($schoolClass, $subjectModel);
         $hasContent = filled($intro) || $resources->total() > 0;
+        $breadcrumbs = $query->breadcrumbs($schoolClass, $subjectModel);
 
         return Inertia::render('learn/subject', [
             'schoolClass' => $schoolClass,
@@ -34,12 +36,13 @@ class SubjectController extends Controller
             'intro' => $intro,
             'topics' => $query->topics($schoolClass, $subjectModel),
             'resources' => $resources,
-            'breadcrumbs' => $query->breadcrumbs($schoolClass, $subjectModel),
+            'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: "{$subjectModel->name} — {$schoolClass->name}",
-                description: $intro,
+                title: "{$subjectModel->name} for {$schoolClass->name} | BrightLearners",
+                description: $intro ?? "Learn {$subjectModel->name} concepts, topics, and worksheets for {$schoolClass->name}.",
                 canonical: route('learn.subject', ['class' => $schoolClass->slug, 'subject' => $subjectModel->slug]),
                 noindex: ! $hasContent,
+                jsonLd: StructuredData::breadcrumbList($breadcrumbs),
             ),
         ]);
     }

@@ -1,4 +1,5 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import { Seo } from '@/components/seo';
 import {
     ArrowRight,
     BookOpen,
@@ -83,11 +84,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
 
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-                {seo.noindex && <meta name="robots" content="noindex" />}
-            </Head>
+            <Seo seo={seo} />
 
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-linear-to-b from-sky-50/70 via-background to-background pt-10 pb-14 sm:pt-14 sm:pb-18 lg:pt-18 lg:pb-22 dark:from-slate-900/60 dark:via-background dark:to-background">

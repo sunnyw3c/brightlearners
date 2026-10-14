@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Seo } from '@/components/seo';
 import { Shapes } from 'lucide-react';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { EmptyState } from '@/components/public/empty-state';
@@ -41,11 +41,7 @@ export default function TopicPage({
 }: Props) {
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-                {seo.noindex && <meta name="robots" content="noindex" />}
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />

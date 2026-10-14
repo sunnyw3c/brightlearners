@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Learn;
 
 use App\Domains\Curriculum\Queries\TopicLandingQuery;
+use App\Domains\Growth\Services\StructuredData;
 use App\Http\Controllers\Controller;
 use App\Support\Data\Seo;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class TopicController extends Controller
         $resources = $query->resources($schoolClass, $topicModel, (int) $request->integer('page', 1));
         $intro = $query->intro($schoolClass, $topicModel);
         $hasContent = filled($intro) || $resources->total() > 0;
+        $breadcrumbs = $query->breadcrumbs($schoolClass, $subjectModel, $topicModel);
 
         return Inertia::render('learn/topic', [
             'schoolClass' => $schoolClass,
@@ -39,16 +41,17 @@ class TopicController extends Controller
             'intro' => $intro,
             'skills' => $query->skills($schoolClass, $topicModel),
             'resources' => $resources,
-            'breadcrumbs' => $query->breadcrumbs($schoolClass, $subjectModel, $topicModel),
+            'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: "{$topicModel->name} — {$schoolClass->name} {$subjectModel->name}",
-                description: $intro,
+                title: "{$topicModel->name} — {$schoolClass->name} {$subjectModel->name} | BrightLearners",
+                description: $intro ?? "Practice {$topicModel->name} with worksheets and activities for {$schoolClass->name} {$subjectModel->name}.",
                 canonical: route('learn.topic', [
                     'class' => $schoolClass->slug,
                     'subject' => $subjectModel->slug,
                     'topic' => $topicModel->slug,
                 ]),
                 noindex: ! $hasContent,
+                jsonLd: StructuredData::breadcrumbList($breadcrumbs),
             ),
         ]);
     }

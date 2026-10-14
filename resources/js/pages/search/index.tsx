@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { Search as SearchIcon } from 'lucide-react';
+import { Seo } from '@/components/seo';
 import { EmptyState } from '@/components/public/empty-state';
 import { Pagination } from '@/components/public/pagination';
 import { Badge } from '@/components/ui/badge';
@@ -17,9 +18,7 @@ type Props = {
 export default function SearchIndex({ q, results, seo }: Props) {
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="robots" content="noindex" />
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
                 <h1 className="text-2xl font-bold">Search</h1>

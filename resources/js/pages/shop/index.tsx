@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Seo } from '@/components/seo';
 import { EmptyState } from '@/components/public/empty-state';
 import { Pagination } from '@/components/public/pagination';
 import { ProductCard } from '@/components/public/product-card';
@@ -47,11 +47,7 @@ export default function ShopIndex({
 
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-                {seo.noindex && <meta name="robots" content="noindex" />}
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
                 <header className="space-y-1">

@@ -1,5 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
+import { Seo } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { EmptyState } from '@/components/public/empty-state';
 import { ResourceCard } from '@/components/public/resource-card';
@@ -55,11 +56,7 @@ export default function ClassPage({
 
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-                {seo.noindex && <meta name="robots" content="noindex" />}
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-10 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />

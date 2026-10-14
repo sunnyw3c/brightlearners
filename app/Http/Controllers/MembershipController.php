@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domains\Catalog\Models\Product;
 use App\Domains\Membership\Contracts\MembershipChecker;
 use App\Domains\Membership\Models\SubscriptionPlan;
+use App\Support\Data\Seo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -35,6 +36,11 @@ class MembershipController extends Controller
                 'price_formatted' => '₹'.number_format($product->regular_price / 100),
             ] : null,
             'is_active_member' => $isActiveMember,
+            'seo' => new Seo(
+                title: 'Weekly Learning Programme (90 Days) — Structured Home Learning | BrightLearners',
+                description: 'A 90-day structured home learning programme for primary school children. Weekly printable packs, parent answer keys, and progressive mastery.',
+                canonical: route('membership.index'),
+            ),
         ]);
     }
 
@@ -87,6 +93,11 @@ class MembershipController extends Controller
                     ],
                 ],
             ],
+            'seo' => new Seo(
+                title: 'Sample Learning Month: Class 2 Core Foundations | BrightLearners',
+                description: 'Explore a representative 4-week sample of our structured home learning routine with worksheet previews and parent guidance notes.',
+                canonical: route('membership.sample'),
+            ),
         ]);
     }
 }

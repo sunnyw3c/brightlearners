@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Learn;
 
 use App\Domains\Curriculum\Queries\ClassLandingQuery;
+use App\Domains\Growth\Services\StructuredData;
 use App\Http\Controllers\Controller;
 use App\Support\Data\ResourceCard;
 use App\Support\Data\Seo;
@@ -21,6 +22,10 @@ class ClassController extends Controller
         abort_if($schoolClass === null, 404);
 
         $hasContent = filled($schoolClass->intro) || $query->hasPublishedResource($schoolClass);
+        $breadcrumbs = $query->breadcrumbs($schoolClass);
+
+        $title = $schoolClass->seo_title
+            ?: "{$schoolClass->name} Learning Resources & Worksheets | BrightLearners";
 
         return Inertia::render('learn/class', [
             'schoolClass' => $schoolClass,
@@ -29,12 +34,13 @@ class ClassController extends Controller
             'featuredResources' => $query->featuredFreeResources($schoolClass)
                 ->map(ResourceCard::fromLearningResource(...))
                 ->all(),
-            'breadcrumbs' => $query->breadcrumbs($schoolClass),
+            'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: "{$schoolClass->name} learning resources",
+                title: $title,
                 description: $schoolClass->seo_description ?? $schoolClass->intro,
                 canonical: route('learn.class', ['class' => $schoolClass->slug]),
                 noindex: ! $hasContent,
+                jsonLd: StructuredData::breadcrumbList($breadcrumbs),
             ),
         ]);
     }

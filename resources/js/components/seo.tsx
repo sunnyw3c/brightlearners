@@ -1,17 +1,7 @@
 import { Head } from '@inertiajs/react';
+import type { SeoProps } from '@/types/public';
 
-export interface SeoProps {
-    title: string;
-    description?: string | null;
-    canonical?: string | null;
-    noindex?: boolean;
-    og_title?: string | null;
-    og_description?: string | null;
-    og_image?: string | null;
-    og_type?: string | null;
-    json_ld?: Record<string, unknown> | Array<Record<string, unknown>> | null;
-    google_site_verification?: string | null;
-}
+export type { SeoProps };
 
 export function Seo({ seo }: { seo: SeoProps }) {
     const siteTitle = 'BrightLearners';

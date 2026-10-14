@@ -35,8 +35,8 @@ class ShopController extends Controller
             'filters' => $filters,
             'filterOptions' => $query->filterOptions(),
             'seo' => new Seo(
-                title: 'Shop — workbooks, topic packs and bundles',
-                description: 'Printable workbooks, topic packs, ebooks and bundles for Class 1 to Class 3.',
+                title: 'Primary School Workbooks, Topic Packs & Bundles | BrightLearners',
+                description: 'Download printable workbooks, topic packs, e-books, and bundles for Class 1 to Class 3 to boost academic mastery.',
                 canonical: route('shop.index'),
                 noindex: $hasActiveFilters,
             ),
@@ -58,6 +58,16 @@ class ShopController extends Controller
 
         $products = $query->handle($filters, $page);
 
+        $typeName = match ($type) {
+            'topic-packs' => 'Topic Packs',
+            'workbooks' => 'Practice Workbooks',
+            'ebooks' => 'Educational E-books',
+            'holiday-packs' => 'Holiday Activity Packs',
+            'revision-packs' => 'Revision & Exam Packs',
+            'bundles' => 'Value Learning Bundles',
+            default => ucwords(str_replace('-', ' ', $type)),
+        };
+
         return Inertia::render('shop/type', [
             'type' => $productType->value,
             'typeSegment' => $type,
@@ -65,8 +75,8 @@ class ShopController extends Controller
             'filters' => $filters,
             'filterOptions' => $query->filterOptions(),
             'seo' => new Seo(
-                title: ucwords(str_replace('-', ' ', $type)),
-                description: null,
+                title: "{$typeName} for Primary School | BrightLearners",
+                description: "Explore printable {$typeName} for Class 1 to Class 3. Comprehensive, curriculum-aligned learning materials.",
                 canonical: route('shop.type', ['type' => $type]),
             ),
         ]);

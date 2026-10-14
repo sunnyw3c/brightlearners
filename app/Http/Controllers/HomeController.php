@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domains\Content\Queries\HomeContentQuery;
+use App\Domains\Growth\Services\StructuredData;
 use App\Support\Data\ResourceCard;
 use App\Support\Data\Seo;
 use Inertia\Inertia;
@@ -26,6 +27,7 @@ class HomeController extends Controller
                 title: config('app.name').' — Make Learning Simple, Fun and Meaningful',
                 description: 'Free worksheets and activities for Class 1 to Class 3, plus workbooks and a weekly learning programme to go further.',
                 canonical: route('home'),
+                jsonLd: StructuredData::organization(),
             ),
         ]);
     }

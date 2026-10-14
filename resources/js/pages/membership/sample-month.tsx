@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Seo, type SeoProps } from '@/components/seo';
 import PublicLayout from '@/layouts/public-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, FileText, Sparkles } from 'lucide-react';
@@ -22,17 +22,13 @@ type Props = {
         description: string;
         weeks: SampleWeek[];
     };
+    seo: SeoProps;
 };
 
-export default function SampleMonth({ sample }: Props) {
+export default function SampleMonth({ sample, seo }: Props) {
     return (
         <PublicLayout>
-            <Head title="Sample Learning Month — BrightLearners">
-                <meta
-                    name="description"
-                    content="Preview a full 4-week representative learning month with structured worksheets, learning emphasis, and parent guidance."
-                />
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-5xl space-y-8 px-4 py-12 sm:px-6 lg:px-8">
                 <div>

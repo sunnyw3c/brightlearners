@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Seo } from '@/components/seo';
 import {
     BookMarked,
     BookOpen,
@@ -67,11 +67,7 @@ export default function ShopType({
 
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-                {seo.noindex && <meta name="robots" content="noindex" />}
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
                 <header className="flex items-center gap-6 rounded-3xl bg-linear-to-br from-violet-500/10 via-primary/10 to-highlight/10 p-8">

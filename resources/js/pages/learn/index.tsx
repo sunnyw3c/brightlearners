@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Seo } from '@/components/seo';
 import { PublicBreadcrumbs } from '@/components/public/breadcrumbs';
 import { classHref, subjectHref, topicHref } from '@/lib/public-urls';
 import PublicLayout from '@/layouts/public-layout';
@@ -42,10 +42,7 @@ type Props = {
 export default function LearnIndex({ classes, breadcrumbs, seo }: Props) {
     return (
         <PublicLayout>
-            <Head title={seo.title}>
-                <meta name="description" content={seo.description ?? ''} />
-                <link rel="canonical" href={seo.canonical} />
-            </Head>
+            <Seo seo={seo} />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 <PublicBreadcrumbs items={breadcrumbs} />

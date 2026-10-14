@@ -3,6 +3,12 @@ export type SeoProps = {
     description: string | null;
     canonical: string;
     noindex: boolean;
+    og_title?: string | null;
+    og_description?: string | null;
+    og_image?: string | null;
+    og_type?: string | null;
+    json_ld?: Record<string, unknown> | Array<Record<string, unknown>> | null;
+    google_site_verification?: string | null;
 };
 
 export type BreadcrumbData = {
