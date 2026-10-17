@@ -25,10 +25,14 @@ export default defineConfig({
             presets: [reactCompilerPreset()],
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-            command: 'php85 artisan wayfinder:generate',
-        }),
+        ...(process.env.SKIP_WAYFINDER
+            ? []
+            : [
+                  wayfinder({
+                      formVariants: true,
+                      command: 'php85 artisan wayfinder:generate',
+                  }),
+              ]),
     ]),
     server: {
         watch: {
