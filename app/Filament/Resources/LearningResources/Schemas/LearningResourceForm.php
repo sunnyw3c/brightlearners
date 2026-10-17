@@ -75,6 +75,17 @@ class LearningResourceForm
                             ->label('AI-assisted')
                             ->helperText('Staff only. Never shown publicly. The same review gates still apply.'),
                     ]),
+                Section::make('SEO')
+                    ->description('Optional. Leave empty to use the generated title and description (step 12.3).')
+                    ->collapsed()
+                    ->components([
+                        TextInput::make('seo_title')
+                            ->label('SEO title')
+                            ->maxLength(70),
+                        Textarea::make('seo_description')
+                            ->label('SEO description')
+                            ->maxLength(160),
+                    ]),
             ]);
     }
 }

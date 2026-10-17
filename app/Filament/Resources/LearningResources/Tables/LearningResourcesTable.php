@@ -10,6 +10,7 @@ use App\Domains\Curriculum\Models\Subject;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -74,6 +75,7 @@ class LearningResourcesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                RestoreAction::make(),
                 Action::make('submitForReview')
                     ->label('Submit for review')
                     ->icon('heroicon-o-paper-airplane')

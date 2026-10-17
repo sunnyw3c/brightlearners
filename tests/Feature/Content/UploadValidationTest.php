@@ -31,4 +31,5 @@ test('accepts a real PDF file', function () {
     $version = app(UploadResourceVersion::class)->handle($resource, $pdf, $uploader);
 
     Storage::disk('resources')->assertExists($version->file_path);
+    expect(Storage::disk('resources')->fileExists($version->file_path))->toBeTrue();
 });

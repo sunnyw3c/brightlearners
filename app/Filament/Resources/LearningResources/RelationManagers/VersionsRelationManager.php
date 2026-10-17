@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LearningResources\RelationManagers;
 use App\Domains\Content\Actions\CreateResourceCorrection;
 use App\Domains\Content\Actions\PublishResourceVersion;
 use App\Domains\Content\Actions\RecordResourceReview;
+use App\Domains\Content\Actions\ReplaceResourceVersionFiles;
 use App\Domains\Content\Actions\ScheduleResourcePublish;
 use App\Domains\Content\Actions\UploadResourceVersion;
 use App\Domains\Content\Enums\CorrectionSeverity;
@@ -20,6 +21,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -63,6 +65,7 @@ class VersionsRelationManager extends RelationManager
             ])
             ->recordActions([
                 $this->openFileAction(),
+                $this->replaceFilesAction(),
                 $this->recordReviewAction(),
                 $this->scheduleAction(),
                 $this->publishAction(),
@@ -117,6 +120,14 @@ class VersionsRelationManager extends RelationManager
                     ->acceptedFileTypes(['application/pdf'])
                     ->maxSize((int) config('content.max_upload_mb') * 1024)
                     ->required(),
+                FileUpload::make('answer_file')
+                    ->label('Answer key (optional)')
+                    ->storeFiles(false)
+                    ->acceptedFileTypes(['application/pdf']),
+                FileUpload::make('low_ink_file')
+                    ->label('Low-ink variant (optional)')
+                    ->storeFiles(false)
+                    ->acceptedFileTypes(['application/pdf']),
                 Select::make('severity')
                     ->options(CorrectionSeverity::class)
                     ->required(),
@@ -138,7 +149,46 @@ class VersionsRelationManager extends RelationManager
                     (bool) $data['customer_notice_required'],
                     $data['change_notes'],
                     (bool) $data['rewrite'],
+                    $data['answer_file'] ?? null,
+                    $data['low_ink_file'] ?? null,
                 );
+            });
+    }
+
+    private function replaceFilesAction(): Action
+    {
+        return Action::make('replaceFiles')
+            ->label('Replace files')
+            ->icon('heroicon-o-arrow-path')
+            ->visible(fn (ResourceVersion $record): bool => $record->published_at === null
+                && $record->resource->status === ResourceStatus::Draft
+                && Auth::user()->can('update', $record->resource))
+            ->schema([
+                FileUpload::make('file')
+                    ->label('New PDF file')
+                    ->helperText('Leave empty to keep the current file.')
+                    ->storeFiles(false)
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->maxSize((int) config('content.max_upload_mb') * 1024),
+                FileUpload::make('answer_file')
+                    ->label('New answer key')
+                    ->storeFiles(false)
+                    ->acceptedFileTypes(['application/pdf']),
+                FileUpload::make('low_ink_file')
+                    ->label('New low-ink variant')
+                    ->storeFiles(false)
+                    ->acceptedFileTypes(['application/pdf']),
+            ])
+            ->action(function (ResourceVersion $record, array $data): void {
+                app(ReplaceResourceVersionFiles::class)->handle(
+                    $record,
+                    Auth::user(),
+                    $data['file'] ?? null,
+                    $data['answer_file'] ?? null,
+                    $data['low_ink_file'] ?? null,
+                );
+
+                Notification::make()->title('Files replaced')->success()->send();
             });
     }
 

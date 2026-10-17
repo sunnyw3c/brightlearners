@@ -24,9 +24,13 @@ class ResourceFileStorage
         $this->assertPdf($file);
 
         $name = Str::uuid().($suffix !== '' ? "-{$suffix}" : '').'.pdf';
-        $path = "{$resource->id}/v{$version}/{$name}";
+        $directory = "{$resource->id}/v{$version}";
 
-        Storage::disk('resources')->put($path, $file);
+        $path = Storage::disk('resources')->putFileAs($directory, $file, $name);
+
+        if ($path === false) {
+            throw new RuntimeException('Could not store the uploaded file.');
+        }
 
         return $path;
     }

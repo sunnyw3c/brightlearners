@@ -21,7 +21,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`. For a bloc
 | P3-02 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Seed Class 1–3 | 3.3, 3.4, 3.5 | Done (placeholder data, not the teacher-approved map) |
 | P3-03 | [3 Taxonomy](../plan/phase-03-curriculum-taxonomy.md) | Admin taxonomy governance | 3.9, 3.10 | Done |
 | P4-01 | [4 Resources](../plan/phase-04-resource-engine.md) | Resource CRUD | 4.1, 4.2, 4.8, 4.11 | Done |
-| P4-02 | [4 Resources](../plan/phase-04-resource-engine.md) | Versioning / files | 4.3, 4.4, 4.10, 4.12 | Done (4.10 deferred to Phase 9 — no `downloads` table yet) |
+| P4-02 | [4 Resources](../plan/phase-04-resource-engine.md) | Versioning / files | 4.3, 4.4, 4.10, 4.12 | Done (4.10 deferred to Phase 9 — no `downloads` table yet). 2026-10-17: fixed `ResourceFileStorage` saving each PDF one folder deeper than the stored path; added "Replace files" for unpublished draft versions |
 | P4-03 | [4 Resources](../plan/phase-04-resource-engine.md) | Review workflow | 4.6, 4.7 | Done |
 | P4-04 | [4 Resources](../plan/phase-04-resource-engine.md) | Preview generation | 4.5 | Done |
 | P4-05 | [4 Resources](../plan/phase-04-resource-engine.md) | Correction log | 4.9 | Done |
