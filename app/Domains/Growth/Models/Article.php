@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
 #[Table('articles')]
@@ -97,6 +98,24 @@ class Article extends Model
         return $this->status === ArticleStatus::Published
             && $this->published_at !== null
             && $this->published_at->isPast();
+    }
+
+    /**
+     * The share image, uploaded to the `public` disk from admin. A value
+     * that starts with `/` or `http` is an older hand-typed path or URL
+     * and is used as it is.
+     */
+    public function ogImageUrl(): ?string
+    {
+        if (blank($this->og_image_path)) {
+            return null;
+        }
+
+        if (str_starts_with($this->og_image_path, '/') || str_starts_with($this->og_image_path, 'http')) {
+            return url($this->og_image_path);
+        }
+
+        return Storage::disk('public')->url($this->og_image_path);
     }
 
     /**

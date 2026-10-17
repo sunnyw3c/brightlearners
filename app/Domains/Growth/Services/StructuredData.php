@@ -89,7 +89,7 @@ class StructuredData
                     'url' => url('/images/logo.png'),
                 ],
             ],
-            'image' => $article->og_image_path ? url($article->og_image_path) : url('/images/og-default.png'),
+            'image' => $article->ogImageUrl() ?? url('/images/og-default.png'),
         ];
     }
 
@@ -107,7 +107,7 @@ class StructuredData
             'name' => $product->name,
             'description' => $product->short_description ?? strip_tags((string) $product->description),
             'sku' => $product->sku,
-            'image' => $product->cover_path ? url($product->cover_path) : url('/images/og-default.png'),
+            'image' => $product->coverImageUrl() ?? url('/images/og-default.png'),
             'offers' => [
                 '@type' => 'Offer',
                 'price' => number_format(ProductPrice::for($product) / 100, 2, '.', ''),

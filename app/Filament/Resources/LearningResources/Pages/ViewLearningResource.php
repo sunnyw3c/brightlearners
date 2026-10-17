@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LearningResources\Pages;
 
+use App\Domains\Content\Actions\UnarchiveResource;
 use App\Domains\Content\Enums\ResourceStatus;
 use App\Domains\Content\Models\LearningResource;
 use App\Filament\Resources\LearningResources\LearningResourceResource;
@@ -27,6 +28,17 @@ class ViewLearningResource extends ViewRecord
                 ->action(function (LearningResource $record): void {
                     $record->update(['status' => ResourceStatus::Archived]);
                     Notification::make()->title('Resource archived')->success()->send();
+                }),
+            Action::make('unarchive')
+                ->label('Unarchive')
+                ->icon('heroicon-o-arrow-uturn-left')
+                ->requiresConfirmation()
+                ->modalDescription('A resource with a published version goes live again straight away. One without returns to Draft.')
+                ->visible(fn (LearningResource $record): bool => $record->status === ResourceStatus::Archived
+                    && auth()->user()?->can('publish', $record))
+                ->action(function (LearningResource $record): void {
+                    app(UnarchiveResource::class)->handle($record);
+                    Notification::make()->title("Resource restored as {$record->status->value}")->success()->send();
                 }),
         ];
     }

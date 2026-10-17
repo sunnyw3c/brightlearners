@@ -14,6 +14,7 @@ use App\Filament\Resources\Articles\Pages\ListArticles;
 use BackedEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -125,8 +126,13 @@ class ArticleResource extends Resource
                         Textarea::make('seo_description')
                             ->helperText('Leave empty to use the article excerpt')
                             ->columnSpanFull(),
-                        TextInput::make('og_image_path')
-                            ->label('OG Image Path')
+                        FileUpload::make('og_image_path')
+                            ->label('Share image')
+                            ->helperText('Shown when the article is shared on social media. 1200 × 630 works best.')
+                            ->disk('public')
+                            ->directory('og-images')
+                            ->image()
+                            ->maxSize(2048)
                             ->columnSpanFull(),
                     ]),
             ]);

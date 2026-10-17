@@ -5,7 +5,6 @@ namespace App\Support\Data;
 use App\Domains\Catalog\Models\Product;
 use App\Domains\Catalog\Services\ProductPrice;
 use App\Support\Money;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * The common product-card shape used on the shop index, type landing and
@@ -42,7 +41,7 @@ final class ProductCard
             type: $product->type->value,
             class_name: $product->primaryClass?->name,
             url: route('shop.show', ['class' => $product->classSlug(), 'slug' => $product->slug]),
-            cover_image_url: $product->cover_path !== null ? Storage::disk('previews')->url($product->cover_path) : null,
+            cover_image_url: $product->coverImageUrl(),
             regular_price: Money::toProp($product->regular_price, $product->currency),
             price: Money::toProp($effectivePrice, $product->currency),
             on_sale: $onSale,

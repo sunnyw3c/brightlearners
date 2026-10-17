@@ -68,7 +68,7 @@ class SeoBuilder
             noindex: $noindex,
             ogTitle: $title,
             ogDescription: $description,
-            ogImage: $product->cover_path ? url($product->cover_path) : url('/images/og-default.png'),
+            ogImage: $product->coverImageUrl() ?? url('/images/og-default.png'),
             ogType: 'product',
             jsonLd: $jsonLd,
         );
@@ -94,7 +94,7 @@ class SeoBuilder
             noindex: $noindex,
             ogTitle: $title,
             ogDescription: $description,
-            ogImage: $article->og_image_path ? url($article->og_image_path) : url('/images/og-default.png'),
+            ogImage: $article->ogImageUrl() ?? url('/images/og-default.png'),
             ogType: 'article',
             jsonLd: $jsonLd,
         );

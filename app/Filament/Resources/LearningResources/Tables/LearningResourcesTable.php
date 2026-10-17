@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\LearningResources\Tables;
 
 use App\Domains\Content\Actions\SubmitResourceForReview;
+use App\Domains\Content\Actions\UnarchiveResource;
 use App\Domains\Content\Enums\ResourceStatus;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Curriculum\Models\SchoolClass;
@@ -90,6 +91,14 @@ class LearningResourcesTable
                     ->visible(fn (LearningResource $record): bool => $record->status === ResourceStatus::Published
                         && auth()->user()->can('publish', $record))
                     ->action(fn (LearningResource $record) => $record->update(['status' => ResourceStatus::Archived])),
+                Action::make('unarchive')
+                    ->label('Unarchive')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->requiresConfirmation()
+                    ->modalDescription('A resource with a published version goes live again straight away. One without returns to Draft.')
+                    ->visible(fn (LearningResource $record): bool => $record->status === ResourceStatus::Archived
+                        && auth()->user()->can('publish', $record))
+                    ->action(fn (LearningResource $record) => app(UnarchiveResource::class)->handle($record)),
             ])
             ->toolbarActions([
                 //

@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Laravel\Scout\Builder as ScoutBuilder;
 use Laravel\Scout\Searchable;
@@ -236,6 +237,14 @@ class Product extends Model
     public function classSlug(): string
     {
         return $this->primaryClass?->slug ?? 'all-classes';
+    }
+
+    /**
+     * The cover image, stored on the `previews` disk by the admin upload.
+     */
+    public function coverImageUrl(): ?string
+    {
+        return $this->cover_path !== null ? Storage::disk('previews')->url($this->cover_path) : null;
     }
 
     /**
