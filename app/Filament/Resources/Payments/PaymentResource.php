@@ -6,6 +6,7 @@ use App\Domains\Payments\Actions\IssueRefund;
 use App\Domains\Payments\Models\Payment;
 use App\Filament\Resources\Payments\Pages\ListPayments;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -67,7 +68,7 @@ class PaymentResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                Tables\Actions\Action::make('refund')
+                Action::make('refund')
                     ->label('Issue Refund')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')

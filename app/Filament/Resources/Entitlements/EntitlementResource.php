@@ -11,6 +11,7 @@ use App\Filament\Resources\Entitlements\Pages\ListEntitlements;
 use App\Models\User;
 use BackedEnum;
 use Carbon\Carbon;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -64,7 +65,7 @@ class EntitlementResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->headerActions([
-                Tables\Actions\Action::make('grant')
+                Action::make('grant')
                     ->label('Grant Admin Access')
                     ->icon('heroicon-o-plus')
                     ->form([
@@ -102,7 +103,7 @@ class EntitlementResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\Action::make('checkAccess')
+                Action::make('checkAccess')
                     ->label('Check Access (Why?)')
                     ->icon('heroicon-o-question-mark-circle')
                     ->color('gray')
@@ -140,7 +141,7 @@ class EntitlementResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\Action::make('revoke')
+                Action::make('revoke')
                     ->label('Revoke')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

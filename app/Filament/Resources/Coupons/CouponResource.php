@@ -8,6 +8,7 @@ use App\Filament\Resources\Coupons\Pages\CreateCoupon;
 use App\Filament\Resources\Coupons\Pages\EditCoupon;
 use App\Filament\Resources\Coupons\Pages\ListCoupons;
 use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -97,7 +98,7 @@ class CouponResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ]);
     }
 

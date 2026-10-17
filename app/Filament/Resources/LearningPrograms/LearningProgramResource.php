@@ -9,6 +9,7 @@ use App\Filament\Resources\LearningPrograms\Pages\CreateLearningProgram;
 use App\Filament\Resources\LearningPrograms\Pages\EditLearningProgram;
 use App\Filament\Resources\LearningPrograms\Pages\ListLearningPrograms;
 use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -95,7 +96,7 @@ class LearningProgramResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ]);
     }
 

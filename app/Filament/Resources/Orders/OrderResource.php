@@ -6,6 +6,7 @@ use App\Domains\Commerce\Models\Order;
 use App\Filament\Resources\Orders\Pages\ListOrders;
 use App\Filament\Resources\Orders\Pages\ViewOrder;
 use BackedEnum;
+use Filament\Actions\ViewAction;
 use Filament\Infolists;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -65,7 +66,7 @@ class OrderResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                ViewAction::make(),
             ]);
     }
 
