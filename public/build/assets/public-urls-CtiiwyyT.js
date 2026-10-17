@@ -1,0 +1,1 @@
+function e(e){return`/${e}`}function t(e,t){return`/${e}/${t}`}function n(e,t,n){return`/${e}/${t}/${n}`}export{t as n,n as r,e as t};
