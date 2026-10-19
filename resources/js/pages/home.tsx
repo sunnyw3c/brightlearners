@@ -194,15 +194,15 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex flex-wrap items-center justify-center gap-4 pt-1 lg:justify-start">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1 sm:gap-4 lg:justify-start">
                             <Button
                                 asChild
                                 size="lg"
-                                className="group h-13 rounded-full bg-linear-to-r from-[#2563EB] to-blue-700 px-8 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/35"
+                                className="group h-13 w-full sm:w-auto rounded-full bg-linear-to-r from-[#2563EB] to-blue-700 px-8 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/35"
                             >
                                 <Link
                                     href={freeIndex()}
-                                    className="inline-flex items-center gap-2"
+                                    className="inline-flex items-center justify-center gap-2"
                                 >
                                     <span>Explore Free Resources</span>
                                     <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -212,11 +212,11 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                                 asChild
                                 size="lg"
                                 variant="outline"
-                                className="h-13 rounded-full border-slate-200 bg-white/90 px-8 text-base font-bold text-slate-800 shadow-xs backdrop-blur-xs transition-all duration-300 hover:scale-[1.02] hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800"
+                                className="h-13 w-full sm:w-auto rounded-full border-slate-200 bg-white/90 px-8 text-base font-bold text-slate-800 shadow-xs backdrop-blur-xs transition-all duration-300 hover:scale-[1.02] hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800"
                             >
                                 <Link
                                     href={shopIndex()}
-                                    className="inline-flex items-center gap-2"
+                                    className="inline-flex items-center justify-center gap-2"
                                 >
                                     <BookOpen className="size-4 text-purple-600 dark:text-purple-400" />
                                     <span>Browse Workbooks</span>
@@ -329,7 +329,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                                     </span>
                                 </div>
                                 <span className="block text-sm font-black text-amber-950">
-                                    Big Learners
+                                    KidDozen
                                 </span>
                             </div>
                         </div>
@@ -423,7 +423,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
             {/* Featured Free Resources section */}
             {featuredResources.length > 0 && (
                 <section className="mx-auto max-w-6xl px-4 py-10 pb-20">
-                    <div className="mb-6 flex items-center justify-between">
+                    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
                                 Featured Free Resources
@@ -435,7 +435,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                         </div>
                         <Link
                             href={freeIndex()}
-                            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline"
+                            className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-primary hover:underline"
                         >
                             View All Free Resources
                             <ArrowRight className="size-4" />

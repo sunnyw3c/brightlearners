@@ -105,9 +105,9 @@ export default function MembershipIndex({
 
                     {/* Right Column: Pricing Card matching mockup */}
                     <div className="lg:col-span-5">
-                        <div className="relative mx-auto max-w-sm overflow-hidden rounded-[2.5rem] border-2 border-amber-300 bg-linear-to-b from-[#FFFDF7] via-[#FFF9ED] to-[#FFF4E0] p-6 text-center shadow-xl dark:border-amber-900/50 dark:bg-slate-900">
+                        <div className="relative mx-auto max-w-sm overflow-hidden rounded-[2.5rem] border-2 border-amber-300 bg-linear-to-b from-[#FFFDF7] via-[#FFF9ED] to-[#FFF4E0] p-6 text-center shadow-xl dark:border-amber-800/60 dark:from-slate-900 dark:via-slate-900/95 dark:to-slate-800">
                             {/* Artwork of boy and rocket on organic backdrop */}
-                            <div className="relative mx-auto mb-5 h-52 w-52 overflow-hidden rounded-[2.5rem] bg-gradient-to-tr from-amber-300 via-orange-300 to-amber-100 p-1.5 shadow-md">
+                            <div className="relative mx-auto mb-5 h-52 w-52 overflow-hidden rounded-[2.5rem] bg-gradient-to-tr from-amber-300 via-orange-300 to-amber-100 p-1.5 shadow-md dark:from-amber-600 dark:via-orange-600 dark:to-amber-500">
                                 <div className="h-full w-full overflow-hidden rounded-[2.2rem]">
                                     <img
                                         src="/images/membership-boy.jpg"

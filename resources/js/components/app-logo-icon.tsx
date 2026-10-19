@@ -2,12 +2,95 @@ import type { SVGAttributes } from 'react';
 
 export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
     return (
-        <svg {...props} viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M17.2 5.63325L8.6 0.855469L0 5.63325V32.1434L16.2 41.1434L32.4 32.1434V23.699L40 19.4767V9.85547L31.4 5.07769L22.8 9.85547V18.2999L17.2 21.411V5.63325ZM38 18.2999L32.4 21.411V15.2545L38 12.1434V18.2999ZM36.9409 10.4439L31.4 13.5221L25.8591 10.4439L31.4 7.36561L36.9409 10.4439ZM24.8 18.2999V12.1434L30.4 15.2545V21.411L24.8 18.2999ZM23.8 20.0323L29.3409 23.1105L16.2 30.411L10.6591 27.3328L23.8 20.0323ZM7.6 27.9212L15.2 32.1434V38.2999L2 30.9666V7.92116L7.6 11.0323V27.9212ZM8.6 9.29991L3.05913 6.22165L8.6 3.14339L14.1409 6.22165L8.6 9.29991ZM30.4 24.8101L17.2 32.1434V38.2999L30.4 30.9666V24.8101ZM9.6 11.0323L15.2 7.92117V22.5221L9.6 25.6333V11.0323Z"
+        <svg
+            {...props}
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <defs>
+                <radialGradient
+                    id="kdIconGrad"
+                    cx="42%"
+                    cy="38%"
+                    r="60%"
+                    fx="40%"
+                    fy="35%"
+                >
+                    <stop offset="0%" stopColor="#FFF275" />
+                    <stop offset="65%" stopColor="#FFB800" />
+                    <stop offset="100%" stopColor="#FF9500" />
+                </radialGradient>
+                <linearGradient id="kdIconCap" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3B82F6" />
+                    <stop offset="100%" stopColor="#1D4ED8" />
+                </linearGradient>
+            </defs>
+
+            {/* Orbiting Dozen Dots */}
+            <circle cx="50" cy="5" r="2.2" fill="#3B82F6" />
+            <circle cx="73" cy="12" r="2.2" fill="#EC4899" />
+            <circle cx="89" cy="28" r="2.2" fill="#10B981" />
+            <circle cx="95" cy="50" r="2.2" fill="#8B5CF6" />
+            <circle cx="89" cy="72" r="2.2" fill="#F59E0B" />
+            <circle cx="73" cy="88" r="2.2" fill="#06B6D4" />
+            <circle cx="50" cy="95" r="2.2" fill="#EF4444" />
+            <circle cx="27" cy="88" r="2.2" fill="#10B981" />
+            <circle cx="11" cy="72" r="2.2" fill="#3B82F6" />
+            <circle cx="5" cy="50" r="2.2" fill="#F59E0B" />
+            <circle cx="11" cy="28" r="2.2" fill="#8B5CF6" />
+            <circle cx="27" cy="12" r="2.2" fill="#EC4899" />
+
+            {/* Mascot Head */}
+            <circle
+                cx="50"
+                cy="52"
+                r="40"
+                fill="url(#kdIconGrad)"
+                stroke="#F59E0B"
+                strokeWidth="2.5"
             />
+
+            {/* Rosy Cheeks */}
+            <ellipse cx="28" cy="58" rx="6" ry="4" fill="#FF6B8B" opacity="0.65" />
+            <ellipse cx="72" cy="58" rx="6" ry="4" fill="#FF6B8B" opacity="0.65" />
+
+            {/* Big Friendly Eyes with Twinkles */}
+            <ellipse cx="36" cy="48" rx="6.5" ry="8.5" fill="#0F172A" />
+            <circle cx="38.5" cy="45" r="2.8" fill="#FFFFFF" />
+            <circle cx="34" cy="51" r="1.3" fill="#FFFFFF" />
+
+            <ellipse cx="64" cy="48" rx="6.5" ry="8.5" fill="#0F172A" />
+            <circle cx="66.5" cy="45" r="2.8" fill="#FFFFFF" />
+            <circle cx="62" cy="51" r="1.3" fill="#FFFFFF" />
+
+            {/* Cheerful Smile */}
+            <path
+                d="M 40 58 Q 50 72 60 58"
+                stroke="#0F172A"
+                strokeWidth="3"
+                strokeLinecap="round"
+                fill="#C2410C"
+            />
+            <path d="M 45 64 Q 50 71 55 64" fill="#FF85A2" />
+
+            {/* Scholar / Explorer Cap */}
+            <polygon
+                points="50,15 76,24 50,33 24,24"
+                fill="url(#kdIconCap)"
+                stroke="#1E40AF"
+                strokeWidth="1.5"
+            />
+            <path d="M 37 28 C 37 36 63 36 63 28 Z" fill="#1D4ED8" />
+            <circle cx="50" cy="24" r="2.5" fill="#FBBF24" />
+            <path
+                d="M 50 24 Q 66 26 70 36"
+                stroke="#FBBF24"
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+            />
+            <circle cx="70" cy="36" r="2" fill="#F59E0B" />
         </svg>
     );
 }

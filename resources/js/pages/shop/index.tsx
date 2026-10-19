@@ -61,89 +61,98 @@ export default function ShopIndex({
                 <form
                     method="get"
                     action={shopIndexRoute().url}
-                    className="flex flex-wrap items-end gap-3 rounded-2xl border bg-card p-5 shadow-sm"
+                    className="rounded-3xl border border-slate-200/80 bg-card p-4 sm:p-5 shadow-xs dark:border-slate-800"
                 >
-                    <label className="flex flex-col gap-1 text-sm">
-                        Class
-                        <select
-                            name="class"
-                            defaultValue={filters.class ?? ''}
-                            className="rounded-md border px-2 py-1.5"
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-5">
+                        <label className="flex flex-col gap-1.5 text-xs font-bold text-foreground">
+                            <span>Class</span>
+                            <select
+                                name="class"
+                                defaultValue={filters.class ?? ''}
+                                className="w-full rounded-xl border border-slate-200 bg-background px-3 py-2 text-sm text-foreground shadow-2xs focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900"
+                            >
+                                <option value="">All classes</option>
+                                {filterOptions.classes.map((option) => (
+                                    <option key={option.id} value={option.slug}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="flex flex-col gap-1.5 text-xs font-bold text-foreground">
+                            <span>Subject</span>
+                            <select
+                                name="subject"
+                                defaultValue={filters.subject ?? ''}
+                                className="w-full rounded-xl border border-slate-200 bg-background px-3 py-2 text-sm text-foreground shadow-2xs focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900"
+                            >
+                                <option value="">All subjects</option>
+                                {filterOptions.subjects.map((option) => (
+                                    <option key={option.id} value={option.slug}>
+                                        {option.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="flex flex-col gap-1.5 text-xs font-bold text-foreground">
+                            <span>Type</span>
+                            <select
+                                name="type"
+                                defaultValue={filters.type ?? ''}
+                                className="w-full rounded-xl border border-slate-200 bg-background px-3 py-2 text-sm text-foreground shadow-2xs focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900"
+                            >
+                                <option value="">All types</option>
+                                {filterOptions.types.map((type) => (
+                                    <option key={type.segment} value={type.segment}>
+                                        {type.value.replace('_', ' ')}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="flex flex-col gap-1.5 text-xs font-bold text-foreground">
+                            <span>Price</span>
+                            <select
+                                name="price_band"
+                                defaultValue={filters.price_band ?? ''}
+                                className="w-full rounded-xl border border-slate-200 bg-background px-3 py-2 text-sm text-foreground shadow-2xs focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900"
+                            >
+                                <option value="">Any price</option>
+                                {filterOptions.price_bands.map((band) => (
+                                    <option key={band} value={band}>
+                                        {PRICE_BAND_LABELS[band] ?? band}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="flex flex-col gap-1.5 text-xs font-bold text-foreground">
+                            <span>Search</span>
+                            <input
+                                type="text"
+                                name="q"
+                                defaultValue={filters.q ?? ''}
+                                placeholder="Title or description"
+                                className="w-full rounded-xl border border-slate-200 bg-background px-3 py-2 text-sm text-foreground shadow-2xs placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-900"
+                            />
+                        </label>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <Button
+                            type="submit"
+                            className="rounded-full bg-[#2563EB] px-5 font-bold text-white shadow-xs hover:bg-blue-700"
                         >
-                            <option value="">All classes</option>
-                            {filterOptions.classes.map((option) => (
-                                <option key={option.id} value={option.slug}>
-                                    {option.name}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-
-                    <label className="flex flex-col gap-1 text-sm">
-                        Subject
-                        <select
-                            name="subject"
-                            defaultValue={filters.subject ?? ''}
-                            className="rounded-md border px-2 py-1.5"
-                        >
-                            <option value="">All subjects</option>
-                            {filterOptions.subjects.map((option) => (
-                                <option key={option.id} value={option.slug}>
-                                    {option.name}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-
-                    <label className="flex flex-col gap-1 text-sm">
-                        Type
-                        <select
-                            name="type"
-                            defaultValue={filters.type ?? ''}
-                            className="rounded-md border px-2 py-1.5"
-                        >
-                            <option value="">All types</option>
-                            {filterOptions.types.map((type) => (
-                                <option key={type.segment} value={type.segment}>
-                                    {type.value.replace('_', ' ')}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-
-                    <label className="flex flex-col gap-1 text-sm">
-                        Price
-                        <select
-                            name="price_band"
-                            defaultValue={filters.price_band ?? ''}
-                            className="rounded-md border px-2 py-1.5"
-                        >
-                            <option value="">Any price</option>
-                            {filterOptions.price_bands.map((band) => (
-                                <option key={band} value={band}>
-                                    {PRICE_BAND_LABELS[band] ?? band}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
-
-                    <label className="flex flex-col gap-1 text-sm">
-                        Search
-                        <input
-                            type="text"
-                            name="q"
-                            defaultValue={filters.q ?? ''}
-                            placeholder="Title or description"
-                            className="rounded-md border px-2 py-1.5"
-                        />
-                    </label>
-
-                    <Button type="submit">Apply filters</Button>
-                    {hasActiveFilters && (
-                        <Button asChild variant="ghost" type="button">
-                            <a href={shopIndexRoute.url()}>Clear filters</a>
+                            Apply filters
                         </Button>
-                    )}
+                        {hasActiveFilters && (
+                            <Button asChild variant="ghost" type="button" className="rounded-full">
+                                <a href={shopIndexRoute.url()}>Clear filters</a>
+                            </Button>
+                        )}
+                    </div>
                 </form>
 
                 {products.data.length > 0 ? (

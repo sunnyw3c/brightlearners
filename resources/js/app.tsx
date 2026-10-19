@@ -12,20 +12,16 @@ void createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     layout: (name) => {
         switch (true) {
-            // Public pages (docs/plan/phase-05-public-library-ssr-search.md)
-            // wrap themselves in `PublicLayout`, which is not the
-            // authenticated account shell `AppLayout` provides below.
-            case name === 'home':
-            case name.startsWith('learn/'):
-            case name.startsWith('free/'):
-            case name.startsWith('search/'):
-                return null;
             case name.startsWith('auth/'):
                 return AuthLayout;
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
             default:
-                return AppLayout;
+                // All other pages (public pages like home, learn, free, search, shop,
+                // membership, parents, articles, cart, checkout, assessments, as well
+                // as account/orders pages) manage and render their own layout
+                // (PublicLayout or AppLayout) directly.
+                return null;
         }
     },
     strictMode: true,

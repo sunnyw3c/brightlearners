@@ -13,7 +13,8 @@ export type SeoProps = {
 
 export type BreadcrumbData = {
     label: string;
-    url: string | null;
+    url?: string | null;
+    href?: string | null;
 };
 
 export type ResourceCardData = {

@@ -20,17 +20,18 @@ export function PublicBreadcrumbs({ items }: { items: BreadcrumbData[] }) {
             <BreadcrumbList>
                 {items.map((item, index) => {
                     const isLast = index === items.length - 1;
+                    const linkTarget = item.url ?? item.href ?? null;
 
                     return (
                         <Fragment key={`${item.label}-${index}`}>
                             <BreadcrumbItem>
-                                {isLast || item.url === null ? (
+                                {isLast || linkTarget === null ? (
                                     <BreadcrumbPage>
                                         {item.label}
                                     </BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLink asChild>
-                                        <Link href={item.url}>
+                                        <Link href={linkTarget}>
                                             {item.label}
                                         </Link>
                                     </BreadcrumbLink>

@@ -113,11 +113,11 @@ export default function CartShow({ breakdown, notice }: Props) {
                                 {breakdown.lines.map((line) => (
                                     <div
                                         key={line.product_id}
-                                        className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200/80 bg-card p-4 shadow-2xs transition-all hover:shadow-xs dark:border-slate-800"
+                                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl border border-slate-200/80 bg-card p-4 shadow-2xs transition-all hover:shadow-xs dark:border-slate-800"
                                     >
                                         <div className="flex items-center gap-4">
                                             {/* Thumbnail Cover */}
-                                            <div className="size-18 shrink-0 overflow-hidden rounded-2xl border border-slate-100 bg-amber-50/50 p-1 dark:border-slate-800">
+                                            <div className="size-16 sm:size-18 shrink-0 overflow-hidden rounded-2xl border border-slate-100 bg-amber-50/50 p-1 dark:border-slate-800">
                                                 <img
                                                     src="/images/maths-workbook-3d.jpg"
                                                     alt={line.product_name}
@@ -135,7 +135,7 @@ export default function CartShow({ breakdown, notice }: Props) {
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t border-slate-100 dark:border-slate-800/80 sm:border-0">
                                             {/* Quantity Stepper matching mockup (- 1 +) */}
                                             <div className="flex items-center rounded-full border border-slate-200 bg-white px-2 py-1 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
                                                 <button
