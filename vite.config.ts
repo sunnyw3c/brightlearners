@@ -1,3 +1,7 @@
+// Limit thread pool sizes for Rust (Rayon) and libuv to stay within shared-hosting process/thread limits (e.g. Hostinger/CloudLinux)
+process.env.RAYON_NUM_THREADS ??= '2';
+process.env.UV_THREADPOOL_SIZE ??= '2';
+
 import { execSync } from 'node:child_process';
 import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';

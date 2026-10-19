@@ -3,8 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vp build",
-        "build:ssr": "vp build && vp build --ssr",
+        "build": "cross-env RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 vp build",
+        "build:ssr": "cross-env RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 vp build && cross-env RAYON_NUM_THREADS=2 UV_THREADPOOL_SIZE=2 vp build --ssr",
         "dev": "vp dev",
         "check": "vp check",
         "check:fix": "vp check --fix",
@@ -37,6 +37,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "concurrently": "^10.0.3",
+        "cross-env": "^10.1.0",
         "input-otp": "^1.4.2",
         "laravel-vite-plugin": "^3.0.0",
         "lucide-react": "^0.475.0",
