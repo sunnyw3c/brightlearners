@@ -48,8 +48,8 @@ export function SiteHeader() {
     return (
         <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
             <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4">
-                {/* KidDozen Brand Logo with interactive kid mascot */}
-                <KidDozenLogo size="md" showDomainBadge />
+                {/* KiddoZen Brand Logo with interactive kid mascot */}
+                <KidDozenLogo size="md" />
 
                 {/* Desktop Nav Links */}
                 <nav className="hidden items-center gap-6 text-sm font-bold md:flex lg:gap-7">

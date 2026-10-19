@@ -8,10 +8,10 @@ export default function AppLogo() {
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
                 <span className="mb-0.5 truncate leading-tight font-black text-slate-900 dark:text-white">
-                    Kid<span className="text-[#2563EB]">Dozen</span>
+                    Kiddo<span className="text-[#2563EB]">Zen</span>
                 </span>
                 <span className="text-[10px] font-semibold text-muted-foreground">
-                    kiddozen.com
+                    Smart Learning
                 </span>
             </div>
         </>

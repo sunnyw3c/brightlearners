@@ -9,10 +9,10 @@ export function SiteFooter() {
         <footer className="mt-16 border-t bg-muted/40">
             <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-3">
-                    <KidDozenLogo size="md" showTagline showDomainBadge />
+                    <KidDozenLogo size="md" showTagline />
                     <p className="max-w-xs text-sm text-muted-foreground">
                         Free worksheets, playful activities and curated workbooks for Class 1 to
-                        Class 3 — making everyday learning joyful at kiddozen.com.
+                        Class 3 — making everyday learning joyful with KiddoZen.
                     </p>
                 </div>
 
@@ -103,7 +103,7 @@ export function SiteFooter() {
 
             <div className="border-t">
                 <p className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted-foreground">
-                    &copy; {new Date().getFullYear()} KidDozen (kiddozen.com). All rights
+                    &copy; {new Date().getFullYear()} KiddoZen. All rights
                     reserved.
                 </p>
             </div>

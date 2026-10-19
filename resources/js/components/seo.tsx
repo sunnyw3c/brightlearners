@@ -4,7 +4,7 @@ import type { SeoProps } from '@/types/public';
 export type { SeoProps };
 
 export function Seo({ seo }: { seo: SeoProps }) {
-    const siteTitle = 'KidDozen';
+    const siteTitle = 'KiddoZen';
     const title = seo.title;
     const description = seo.description ?? '';
     const canonical = seo.canonical ?? '';

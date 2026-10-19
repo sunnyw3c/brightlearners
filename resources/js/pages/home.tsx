@@ -329,7 +329,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                                     </span>
                                 </div>
                                 <span className="block text-sm font-black text-amber-950">
-                                    KidDozen
+                                    KiddoZen
                                 </span>
                             </div>
                         </div>

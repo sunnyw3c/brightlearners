@@ -85,7 +85,7 @@ export function KidDozenMascot({
                     </filter>
                 </defs>
 
-                {/* 12 Playful Orbiting Dozen Sparks (Representing KidDozen's 12 learning delights) */}
+                {/* Playful Orbiting Sparks (Representing KiddoZen's learning delights) */}
                 <circle cx="50" cy="5" r="2.2" fill="#3B82F6" className="animate-pulse" />
                 <circle cx="73" cy="12" r="2.2" fill="#EC4899" />
                 <circle cx="89" cy="28" r="2.2" fill="#10B981" />
@@ -192,17 +192,16 @@ export function KidDozenMascot({
 }
 
 /**
- * KidDozenLogo: Complete Brand Wordmark + Interactive Mascot
- * Tailored for kiddozen.com — energetic, friendly, and visually stunning.
+ * KiddoZenLogo: Complete Brand Wordmark + Interactive Mascot
+ * Energetic, friendly, and visually stunning brand identity for KiddoZen.
  */
-export function KidDozenLogo({
+export function KiddoZenLogo({
     className = '',
     iconClassName = '',
     textClassName = '',
     size = 'md',
     showText = true,
     showTagline = false,
-    showDomainBadge = false,
     asLink = true,
     href = home().url,
     onClick,
@@ -246,9 +245,9 @@ export function KidDozenLogo({
                         <span
                             className={`font-black tracking-tight text-slate-900 transition-colors dark:text-white ${textSizes[size]} ${textClassName}`}
                         >
-                            Kid
+                            Kiddo
                             <span className="bg-linear-to-r from-[#2563EB] via-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-sky-400 dark:via-blue-400 dark:to-indigo-300">
-                                Dozen
+                                Zen
                             </span>
                         </span>
 
@@ -259,12 +258,6 @@ export function KidDozenLogo({
                         >
                             ✦
                         </span>
-
-                        {showDomainBadge && (
-                            <span className="hidden rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-extrabold tracking-wide text-blue-700 uppercase sm:inline-block dark:bg-blue-950/70 dark:text-blue-300">
-                                .com
-                            </span>
-                        )}
                     </div>
 
                     {showTagline && (
@@ -282,7 +275,7 @@ export function KidDozenLogo({
             <Link
                 href={href}
                 className="inline-flex shrink-0 items-center focus:outline-hidden"
-                aria-label="KidDozen Home"
+                aria-label="KiddoZen Home"
             >
                 {logoContent}
             </Link>
@@ -292,4 +285,6 @@ export function KidDozenLogo({
     return logoContent;
 }
 
-export default KidDozenLogo;
+export const KidDozenLogo = KiddoZenLogo;
+export const KiddoZenMascot = KidDozenMascot;
+export default KiddoZenLogo;
