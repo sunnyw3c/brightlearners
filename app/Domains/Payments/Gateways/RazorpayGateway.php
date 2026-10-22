@@ -27,7 +27,7 @@ class RazorpayGateway implements PaymentGateway
             'key' => $keyId,
             'amount' => $order->total,
             'currency' => $order->currency,
-            'name' => config('app.name', 'BrightLearners'),
+            'name' => config('app.name', 'KiddoZen'),
             'description' => "Order #{$order->order_number}",
             'order_id' => $payment->provider_order_id,
             'prefill' => [

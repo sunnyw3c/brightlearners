@@ -19,7 +19,7 @@ test('organization structured data produces valid schema', function () {
     expect($schema)->toBeArray()
         ->and($schema['@context'])->toBe('https://schema.org')
         ->and($schema['@type'])->toBe('Organization')
-        ->and($schema['name'])->toBe('BrightLearners')
+        ->and($schema['name'])->toBe(config('app.name', 'KiddoZen'))
         ->and($schema['url'])->toBe(url('/'))
         ->and($schema['logo'])->toBe(url('/images/logo.png'));
 
@@ -93,7 +93,7 @@ test('article structured data produces valid schema with correct author and publ
         ->and($schema['description'])->toBe('A guide to early addition techniques.')
         ->and($schema['url'])->toBe($article->canonicalUrl())
         ->and($schema['author']['name'])->toBe('Jane Educator')
-        ->and($schema['publisher']['name'])->toBe('BrightLearners');
+        ->and($schema['publisher']['name'])->toBe(config('app.name', 'KiddoZen'));
 
     $json = json_encode($schema);
     expect($json)->not->toBeFalse();

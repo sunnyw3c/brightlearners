@@ -59,7 +59,7 @@ export default function MembershipManage({ subscription }: Props) {
                 { title: 'Manage Membership', href: '/membership/manage' },
             ]}
         >
-            <Head title="Manage Membership — BrightLearners" />
+            <Head title="Manage Membership" />
 
             <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
                 {/* Header */}
@@ -244,7 +244,7 @@ export default function MembershipManage({ subscription }: Props) {
                                             setCancelReason(e.target.value)
                                         }
                                         rows={3}
-                                        placeholder="Help us understand how we can improve BrightLearners..."
+                                        placeholder="Help us understand how we can improve KiddoZen..."
                                         className="w-full rounded-xl border bg-background p-3 text-xs focus:ring-2 focus:ring-primary focus:outline-none sm:text-sm"
                                     />
                                 </div>

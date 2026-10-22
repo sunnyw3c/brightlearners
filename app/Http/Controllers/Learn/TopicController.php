@@ -43,8 +43,8 @@ class TopicController extends Controller
             'resources' => $resources,
             'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: "{$topicModel->name} — {$schoolClass->name} {$subjectModel->name} | BrightLearners",
-                description: $intro ?? "Practice {$topicModel->name} with worksheets and activities for {$schoolClass->name} {$subjectModel->name}.",
+                title: "{$topicModel->name} — {$schoolClass->name} {$subjectModel->name} | ".config('app.name', 'KiddoZen'),
+                description: $intro ?? "Practice {$topicModel->name} with printable worksheets and learning activities for {$schoolClass->name} {$subjectModel->name}. Download instantly with answers.",
                 canonical: route('learn.topic', [
                     'class' => $schoolClass->slug,
                     'subject' => $subjectModel->slug,

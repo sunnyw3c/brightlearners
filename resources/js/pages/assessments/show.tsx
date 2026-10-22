@@ -102,7 +102,7 @@ export default function AssessmentShow({ assessment, profiles }: Props) {
 
     return (
         <PublicLayout>
-            <Head title={`${assessment.title} — BrightLearners`} />
+            <Head title={assessment.title} />
 
             <div className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
                 {/* Header Card */}

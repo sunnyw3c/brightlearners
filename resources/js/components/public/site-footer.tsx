@@ -30,6 +30,14 @@ export function SiteFooter() {
                             </li>
                             <li>
                                 <Link
+                                    href="/coloring"
+                                    className="transition-colors hover:text-foreground"
+                                >
+                                    Coloring pages & books
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
                                     href={shopIndex()}
                                     className="transition-colors hover:text-foreground"
                                 >

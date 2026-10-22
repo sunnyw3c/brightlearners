@@ -52,7 +52,7 @@ export default function OrderSuccess({ order }: Props) {
 
     return (
         <AppLayout>
-            <Head title={`Order ${order.order_number} — BrightLearners`} />
+            <Head title={`Order ${order.order_number}`} />
 
             <div className="mx-auto max-w-3xl px-4 py-12">
                 <div className="space-y-6 rounded-3xl border bg-card p-8 text-center shadow-sm">

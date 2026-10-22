@@ -6,6 +6,7 @@ import {
     Home as HomeIcon,
     Menu,
     Moon,
+    Palette,
     Search,
     ShoppingBag,
     Sparkles,
@@ -40,6 +41,7 @@ export function SiteHeader() {
     const navItems = [
         { label: 'Home', href: home().url, icon: HomeIcon },
         { label: 'Resources', href: freeIndex().url, icon: BookOpen },
+        { label: 'Coloring', href: '/coloring', icon: Palette },
         { label: 'Workbooks', href: shopIndex().url, icon: ShoppingBag },
         { label: 'Membership', href: '/membership', icon: Sparkles },
         { label: 'Parent Hub', href: '/parents', icon: Compass },

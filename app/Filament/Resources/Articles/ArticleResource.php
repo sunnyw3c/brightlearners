@@ -121,7 +121,7 @@ class ArticleResource extends Resource
                     ->columns(2)
                     ->components([
                         TextInput::make('seo_title')
-                            ->helperText('Leave empty to use automatic template: {title} | BrightLearners Parent Hub')
+                            ->helperText('Leave empty to use automatic template: {title} | KiddoZen Parent Hub')
                             ->columnSpanFull(),
                         Textarea::make('seo_description')
                             ->helperText('Leave empty to use the article excerpt')

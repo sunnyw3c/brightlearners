@@ -26,8 +26,8 @@ class LearnController extends Controller
             'classes' => $tree->get(),
             'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: 'Browse What Every Class Learns — Primary Curriculum | BrightLearners',
-                description: 'See the subjects, topics and skills covered in Class 1 to Class 3.',
+                title: 'Primary Curriculum & Topics (Class 1-3) | '.config('app.name', 'KiddoZen'),
+                description: 'Explore the complete curriculum, subjects, topics, and foundational skills covered for Class 1 to Class 3. Concept-driven worksheets and activities.',
                 canonical: route('learn.index'),
                 jsonLd: StructuredData::breadcrumbList($breadcrumbs),
             ),

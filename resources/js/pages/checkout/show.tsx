@@ -69,7 +69,7 @@ export default function CheckoutShow({ breakdown, user, notice }: Props) {
 
     return (
         <PublicLayout>
-            <Head title="Secure Payment — BrightLearners" />
+            <Head title="Secure Payment" />
 
             <div className="mx-auto max-w-4xl space-y-8 px-4 py-10">
                 <header className="flex items-center gap-3">

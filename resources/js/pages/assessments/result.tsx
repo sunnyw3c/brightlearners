@@ -92,7 +92,7 @@ export default function AssessmentResult({ attempt, recommendations }: Props) {
     return (
         <PublicLayout>
             <Head
-                title={`Results: ${attempt.assessment_title} — BrightLearners`}
+                title={`Results: ${attempt.assessment_title}`}
             />
 
             <div className="mx-auto max-w-4xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">

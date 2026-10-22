@@ -45,7 +45,7 @@ class LearningResourceInfolist
                         TextEntry::make('latestVersion.reviewed_at')->label('Last reviewed at')->dateTime()->placeholder('—'),
                     ]),
                 Section::make('Previews')
-                    ->visible(fn ($record): bool => $record->latestVersion?->previews->isNotEmpty())
+                    ->visible(fn ($record): bool => (bool) ($record->latestVersion?->previews->isNotEmpty() ?? false))
                     ->components([
                         RepeatableEntry::make('latestVersion.previews')
                             ->label('')
@@ -56,7 +56,7 @@ class LearningResourceInfolist
                             ]),
                     ]),
                 Section::make('Review trail')
-                    ->visible(fn ($record): bool => $record->latestVersion?->reviews->isNotEmpty())
+                    ->visible(fn ($record): bool => (bool) ($record->latestVersion?->reviews->isNotEmpty() ?? false))
                     ->components([
                         RepeatableEntry::make('latestVersion.reviews')
                             ->label('')

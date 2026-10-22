@@ -86,7 +86,7 @@ export default function CartShow({ breakdown, notice }: Props) {
 
     return (
         <PublicLayout>
-            <Head title="Your Cart — BrightLearners" />
+            <Head title="Your Cart" />
 
             <div className="mx-auto max-w-5xl space-y-8 px-4 py-10">
                 <header className="space-y-1">

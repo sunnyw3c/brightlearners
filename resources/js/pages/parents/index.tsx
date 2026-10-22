@@ -185,7 +185,7 @@ export default function ParentHubIndex({
                                             <div className="flex items-center justify-between border-t pt-2 text-xs text-muted-foreground">
                                                 <span>
                                                     {article.author?.name ??
-                                                        'BrightLearners Team'}
+                                                        'KiddoZen Team'}
                                                 </span>
                                                 <div className="flex items-center font-medium text-primary transition-transform group-hover:translate-x-1">
                                                     <span>Read guide</span>

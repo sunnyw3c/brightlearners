@@ -10,6 +10,7 @@ enum ResourceType: string
     case Reading = 'reading';
     case ParentGuide = 'parent_guide';
     case StarterCheck = 'starter_check';
+    case Coloring = 'coloring';
     case Other = 'other';
 
     public function label(): string
@@ -21,6 +22,7 @@ enum ResourceType: string
             self::Reading => 'Reading',
             self::ParentGuide => 'Parent Guide',
             self::StarterCheck => 'Starter Check',
+            self::Coloring => 'Coloring',
             self::Other => 'Other',
         };
     }

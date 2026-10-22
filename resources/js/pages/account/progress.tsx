@@ -82,7 +82,7 @@ export default function Progress({
         <AppLayout
             breadcrumbs={[{ title: 'Progress', href: '/account/progress' }]}
         >
-            <Head title="Learning Progress — BrightLearners" />
+            <Head title="Learning Progress" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 {/* Header & Profile Switcher */}

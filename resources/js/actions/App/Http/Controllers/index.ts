@@ -2,6 +2,7 @@ import HomeController from './HomeController'
 import HealthController from './HealthController'
 import Learn from './Learn'
 import Free from './Free'
+import Coloring from './Coloring'
 import SearchController from './SearchController'
 import DownloadController from './DownloadController'
 import Shop from './Shop'
@@ -23,6 +24,7 @@ const Controllers = {
 HealthController: Object.assign(HealthController, HealthController),
 Learn: Object.assign(Learn, Learn),
 Free: Object.assign(Free, Free),
+Coloring: Object.assign(Coloring, Coloring),
 SearchController: Object.assign(SearchController, SearchController),
 DownloadController: Object.assign(DownloadController, DownloadController),
 Shop: Object.assign(Shop, Shop),

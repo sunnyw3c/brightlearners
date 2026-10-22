@@ -42,6 +42,6 @@ class FeedbackController extends Controller
             source: 'server',
         );
 
-        return back()->with('success', 'Thank you for your feedback! It helps us improve BrightLearners.');
+        return back()->with('success', 'Thank you for your feedback! It helps us improve '.config('app.name', 'KiddoZen').'.');
     }
 }

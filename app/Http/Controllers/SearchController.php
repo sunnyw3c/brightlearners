@@ -61,8 +61,8 @@ class SearchController extends Controller
             'q' => $term,
             'results' => $results,
             'seo' => new Seo(
-                title: $term === '' ? 'Search' : "Search: {$term}",
-                description: null,
+                title: $term === '' ? 'Search Resources & Workbooks | '.config('app.name', 'KiddoZen') : "Search: {$term} | ".config('app.name', 'KiddoZen'),
+                description: 'Search printable worksheets, practice workbooks, and learning guides on '.config('app.name', 'KiddoZen').'.',
                 canonical: route('search'),
                 noindex: true,
             ),

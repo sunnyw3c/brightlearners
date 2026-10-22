@@ -177,6 +177,10 @@ class LearningResource extends Model
      */
     public function canonicalUrl(): ?string
     {
+        if ($this->type === ResourceType::Coloring) {
+            return route('coloring.show', ['slug' => $this->slug]);
+        }
+
         $class = $this->primaryClassSlug();
         $subject = $this->primarySubjectSlug();
 

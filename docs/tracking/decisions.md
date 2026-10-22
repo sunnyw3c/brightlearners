@@ -36,6 +36,9 @@ D-01 to D-12 are the gates from Appendix N of the source plan. D-13 to D-17 are 
 | D-18 | Phase 15 | Performance budget for public pages | Core Web Vitals Good: LCP < 2.5s, INP < 200ms, CLS < 0.1 | Decided | Core Web Vitals Good: LCP < 2.5s, INP < 200ms, CLS < 0.1 on mobile profile | User decision | 2026-10-12 |
 | D-19 | Phase 15 | Database backup strategy and retention | Managed daily automated database snapshots with 30-day retention; no extra PHP package | Decided | Cloud-managed daily automated database snapshots with 30-day retention; no extra PHP package | User decision | 2026-10-12 |
 | D-20 | Phase 15 | Observability packages and dashboard access | Install laravel/pulse and laravel/horizon; access restricted to super-admin | Decided | Defer Horizon and Pulse; implement observability using Laravel daily logging, /health check, and standard metrics | User decision | 2026-10-12 |
+| D-21 | Coloring Hub | Coloring resource classification | First-class ResourceType::Coloring ('coloring') with label 'Coloring' | Decided | First-class ResourceType::Coloring ('coloring') for dedicated discovery and filtering | User decision | 2026-10-22 |
+| D-22 | Coloring Hub | Free vs Paid coloring packaging | Single sheets & starter sets 100% free with 1-click download; comprehensive master books sold in /shop and included in Membership | Decided | Single sheets free, 40+ page master books sold as products and included in weekly drops | User decision | 2026-10-22 |
+| D-23 | Coloring Hub | Digital Canvas vs PDF Printables | Focus on high-contrast vector printable PDFs for screen-free engagement; web canvas deferred to post-pilot | Decided | Printable PDF first; interactive canvas deferred | User decision | 2026-10-22 |
 
 ## Mockup against plan
 

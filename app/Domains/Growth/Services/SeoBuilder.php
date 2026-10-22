@@ -22,12 +22,13 @@ class SeoBuilder
     ): SeoData {
         $className = $resource->primaryMapping()?->schoolClass?->name ?? 'Primary';
         $subjectName = $resource->primaryMapping()?->skill?->topic?->subject?->name ?? 'Learning';
+        $siteName = (string) config('app.name', 'KiddoZen');
 
         $title = $resource->seo_title
-            ?: "{$resource->title} — {$className} {$subjectName} worksheet | BrightLearners";
+            ?: "{$resource->title} Worksheet ({$className}) | {$siteName}";
 
         $description = $resource->seo_description
-            ?: ($resource->summary ?: $resource->description);
+            ?: ($resource->summary ?: "Download free printable {$resource->title} worksheet for {$className} {$subjectName}. Includes concept exercises, answer keys, and parent guidance.");
 
         $jsonLd = $breadcrumbs ? StructuredData::breadcrumbList($breadcrumbs) : null;
 
@@ -50,8 +51,9 @@ class SeoBuilder
     public static function forProduct(Product $product, bool $noindex = false, ?array $breadcrumbs = null): SeoData
     {
         $className = $product->primaryClass?->name ?? 'All Classes';
+        $siteName = (string) config('app.name', 'KiddoZen');
         $title = $product->seo_title
-            ?: "{$product->name} — {$className} | BrightLearners";
+            ?: "{$product->name} — {$className} | {$siteName}";
 
         $description = $product->seo_description
             ?: ($product->short_description ?: strip_tags((string) $product->description));
@@ -79,7 +81,8 @@ class SeoBuilder
      */
     public static function forArticle(Article $article, bool $noindex = false, ?array $breadcrumbs = null): SeoData
     {
-        $title = $article->seo_title ?: "{$article->title} | BrightLearners Parent Hub";
+        $siteName = (string) config('app.name', 'KiddoZen');
+        $title = $article->seo_title ?: "{$article->title} | {$siteName} Parent Hub";
         $description = $article->seo_description ?: $article->excerpt;
 
         $articleLd = StructuredData::article($article);
@@ -105,8 +108,9 @@ class SeoBuilder
      */
     public static function forCategory(ArticleCategory $category, bool $noindex = false, ?array $breadcrumbs = null): SeoData
     {
-        $title = "{$category->name} Guides — Parent Hub | BrightLearners";
-        $description = $category->description;
+        $siteName = (string) config('app.name', 'KiddoZen');
+        $title = "{$category->name} Guides — Parent Hub | {$siteName}";
+        $description = $category->description ?: "Practical {$category->name} guides and home learning advice for parents of primary school children.";
 
         $jsonLd = $breadcrumbs ? StructuredData::breadcrumbList($breadcrumbs) : null;
 
@@ -126,8 +130,9 @@ class SeoBuilder
      */
     public static function forParentHub(bool $noindex = false): SeoData
     {
-        $title = 'Parent Hub — Practical Guides & Learning Advice | BrightLearners';
-        $description = 'Guidance for parents on primary school maths, english, reading routines and learning at home.';
+        $siteName = (string) config('app.name', 'KiddoZen');
+        $title = "Parent Hub: Primary Learning Guides | {$siteName}";
+        $description = 'Practical learning guides and home routines for parents of Class 1–3 children. Expert tips on teaching phonics, math concepts, and positive study habits.';
 
         return new SeoData(
             title: $title,

@@ -33,8 +33,8 @@ class FreeResourceController extends Controller
             'filters' => $filters,
             'filterOptions' => $query->filterOptions(),
             'seo' => new Seo(
-                title: 'Free Printable Worksheets & Activities for Primary School | BrightLearners',
-                description: 'Download high-quality, free printable worksheets and engaging activities for Class 1 to Class 3. Concept-building resources for maths and english.',
+                title: 'Free Printable Worksheets for Class 1-3 | '.config('app.name', 'KiddoZen'),
+                description: 'Download free printable PDF worksheets and engaging activities for Class 1 to Class 3. Concept-building practice for Maths, English, and EVS with answer keys.',
                 canonical: route('free.index'),
                 noindex: $hasActiveFilters,
             ),

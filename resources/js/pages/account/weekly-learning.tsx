@@ -71,7 +71,7 @@ export default function WeeklyLearningIndex({
 
     return (
         <AppLayout>
-            <Head title="Weekly Learning Programme — BrightLearners" />
+            <Head title="Weekly Learning Programme" />
 
             <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
                 <header className="space-y-1">

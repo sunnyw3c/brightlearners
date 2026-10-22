@@ -47,7 +47,7 @@ export default function AccountMembership({
 }: Props) {
     return (
         <AppLayout>
-            <Head title="Membership — BrightLearners" />
+            <Head title="Membership" />
 
             <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
                 <header className="space-y-1">

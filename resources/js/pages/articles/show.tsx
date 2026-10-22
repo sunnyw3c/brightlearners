@@ -109,7 +109,7 @@ export default function ArticleShow({
                             </div>
                         )}
                         <span className="text-muted-foreground/60">•</span>
-                        <span>BrightLearners Educator Guide</span>
+                        <span>KiddoZen Educator Guide</span>
                     </div>
                 </header>
 

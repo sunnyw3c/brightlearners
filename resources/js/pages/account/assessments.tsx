@@ -69,7 +69,7 @@ export default function AccountAssessments({
                 { title: 'Skill Checks', href: '/account/assessments' },
             ]}
         >
-            <Head title="Skill Checks & Assessments — BrightLearners" />
+            <Head title="Skill Checks & Assessments" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 {/* Header & Profiles */}

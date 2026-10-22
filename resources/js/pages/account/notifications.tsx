@@ -77,7 +77,7 @@ export default function Notifications({ notifications, unread_count }: Props) {
                 { title: 'Notifications', href: '/account/notifications' },
             ]}
         >
-            <Head title="Notifications — BrightLearners" />
+            <Head title="Notifications" />
 
             <div className="mx-auto max-w-4xl space-y-6 px-4 py-8">
                 <div className="flex flex-col gap-3 border-b pb-4 sm:flex-row sm:items-center sm:justify-between">

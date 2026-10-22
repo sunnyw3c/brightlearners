@@ -38,8 +38,8 @@ class SubjectController extends Controller
             'resources' => $resources,
             'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
-                title: "{$subjectModel->name} for {$schoolClass->name} | BrightLearners",
-                description: $intro ?? "Learn {$subjectModel->name} concepts, topics, and worksheets for {$schoolClass->name}.",
+                title: "{$schoolClass->name} {$subjectModel->name} Worksheets & Topics | ".config('app.name', 'KiddoZen'),
+                description: $intro ?? "Master {$schoolClass->name} {$subjectModel->name} with structured printable practice worksheets, topic guides, and foundational skill-builders with answers.",
                 canonical: route('learn.subject', ['class' => $schoolClass->slug, 'subject' => $subjectModel->slug]),
                 noindex: ! $hasContent,
                 jsonLd: StructuredData::breadcrumbList($breadcrumbs),

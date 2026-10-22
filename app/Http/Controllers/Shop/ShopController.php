@@ -35,8 +35,8 @@ class ShopController extends Controller
             'filters' => $filters,
             'filterOptions' => $query->filterOptions(),
             'seo' => new Seo(
-                title: 'Primary School Workbooks, Topic Packs & Bundles | BrightLearners',
-                description: 'Download printable workbooks, topic packs, e-books, and bundles for Class 1 to Class 3 to boost academic mastery.',
+                title: 'Primary School Workbooks & Topic Packs | '.config('app.name', 'KiddoZen'),
+                description: 'Curated printable workbooks and value learning bundles for Class 1, 2, and 3. In-depth revision exercises with step-by-step parent answer keys. Instant PDF access.',
                 canonical: route('shop.index'),
                 noindex: $hasActiveFilters,
             ),
@@ -75,8 +75,8 @@ class ShopController extends Controller
             'filters' => $filters,
             'filterOptions' => $query->filterOptions(),
             'seo' => new Seo(
-                title: "{$typeName} for Primary School | BrightLearners",
-                description: "Explore printable {$typeName} for Class 1 to Class 3. Comprehensive, curriculum-aligned learning materials.",
+                title: "{$typeName} for Primary School | ".config('app.name', 'KiddoZen'),
+                description: "Explore printable {$typeName} for Class 1 to Class 3. Comprehensive, curriculum-aligned learning materials with answer keys.",
                 canonical: route('shop.type', ['type' => $type]),
             ),
         ]);

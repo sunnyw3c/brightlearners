@@ -37,8 +37,8 @@ class MembershipController extends Controller
             ] : null,
             'is_active_member' => $isActiveMember,
             'seo' => new Seo(
-                title: 'Weekly Learning Programme (90 Days) — Structured Home Learning | BrightLearners',
-                description: 'A 90-day structured home learning programme for primary school children. Weekly printable packs, parent answer keys, and progressive mastery.',
+                title: '90-Day Weekly Learning Programme (Class 1-3) | '.config('app.name', 'KiddoZen'),
+                description: 'A structured 90-day home learning routine for Class 1 to 3. Get weekly printable packs with parent answer keys and progressive mastery checks. Join today.',
                 canonical: route('membership.index'),
             ),
         ]);
@@ -94,7 +94,7 @@ class MembershipController extends Controller
                 ],
             ],
             'seo' => new Seo(
-                title: 'Sample Learning Month: Class 2 Core Foundations | BrightLearners',
+                title: 'Sample Learning Month: Class 2 Core Foundations | '.config('app.name', 'KiddoZen'),
                 description: 'Explore a representative 4-week sample of our structured home learning routine with worksheet previews and parent guidance notes.',
                 canonical: route('membership.sample'),
             ),

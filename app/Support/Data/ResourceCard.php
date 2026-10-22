@@ -2,6 +2,7 @@
 
 namespace App\Support\Data;
 
+use App\Domains\Content\Enums\ResourceType;
 use App\Domains\Content\Models\LearningResource;
 
 /**
@@ -48,8 +49,12 @@ final class ResourceCard
             free: $resource->is_free,
             class_name: $resource->primaryMapping()?->schoolClass?->name,
             subject_name: $resource->primaryMapping()?->skill?->topic?->subject?->name,
-            url: ($resource->is_free && $classSlug !== null && $subjectSlug !== null)
-                ? route('free.show', ['class' => $classSlug, 'subject' => $subjectSlug, 'slug' => $resource->slug])
+            url: $resource->is_free
+                ? ($resource->type === ResourceType::Coloring
+                    ? route('coloring.show', ['slug' => $resource->slug])
+                    : (($classSlug !== null && $subjectSlug !== null)
+                        ? route('free.show', ['class' => $classSlug, 'subject' => $subjectSlug, 'slug' => $resource->slug])
+                        : null))
                 : null,
             preview_image_url: $preview?->url(),
             preview_width: $preview?->width,

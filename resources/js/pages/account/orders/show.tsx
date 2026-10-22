@@ -125,7 +125,7 @@ export default function OrderShow({ order }: Props) {
 
     return (
         <AppLayout>
-            <Head title={`Order ${order.order_number} — BrightLearners`} />
+            <Head title={`Order ${order.order_number}`} />
 
             <div className="mx-auto max-w-4xl space-y-6 px-4 py-8">
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">

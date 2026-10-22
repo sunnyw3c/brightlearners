@@ -289,7 +289,7 @@ export default function Home({ classes, featuredResources, seo }: Props) {
                             <div className="h-full w-full overflow-hidden rounded-[2.5rem] bg-amber-50/50 dark:bg-slate-900/50">
                                 <img
                                     src="/images/hero-girl.jpg"
-                                    alt="BrightLearners student learning happily"
+                                    alt="KiddoZen student learning happily"
                                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                                     loading="eager"
                                 />

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Analytics\ClientEventController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AssessmentController;
+use App\Http\Controllers\Coloring\ColoringController;
 use App\Http\Controllers\Commerce\CartController;
 use App\Http\Controllers\Commerce\CheckoutController;
 use App\Http\Controllers\Commerce\OrderResultController;
@@ -35,6 +36,9 @@ Route::get('/free', [FreeResourceController::class, 'index'])->name('free.index'
 Route::get('/free/{class}/{subject}/{slug}', [FreeResourceController::class, 'show'])
     ->where('class', 'class-[a-z0-9-]+')
     ->name('free.show');
+
+Route::get('/coloring', [ColoringController::class, 'index'])->name('coloring.index');
+Route::get('/coloring/{slug}', [ColoringController::class, 'show'])->name('coloring.show');
 
 Route::get('/search', SearchController::class)->middleware('throttle:search')->name('search');
 

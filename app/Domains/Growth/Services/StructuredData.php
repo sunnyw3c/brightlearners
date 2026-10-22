@@ -19,7 +19,7 @@ class StructuredData
         return [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'name' => 'BrightLearners',
+            'name' => config('app.name', 'KiddoZen'),
             'url' => url('/'),
             'logo' => url('/images/logo.png'),
         ];
@@ -69,6 +69,8 @@ class StructuredData
      */
     public static function article(Article $article): array
     {
+        $siteName = (string) config('app.name', 'KiddoZen');
+
         return [
             '@context' => 'https://schema.org',
             '@type' => 'Article',
@@ -79,11 +81,11 @@ class StructuredData
             'dateModified' => $article->updated_at?->toIso8601String(),
             'author' => [
                 '@type' => 'Person',
-                'name' => $article->author?->name ?? 'BrightLearners Editorial Team',
+                'name' => $article->author?->name ?? "{$siteName} Editorial Team",
             ],
             'publisher' => [
                 '@type' => 'Organization',
-                'name' => 'BrightLearners',
+                'name' => $siteName,
                 'logo' => [
                     '@type' => 'ImageObject',
                     'url' => url('/images/logo.png'),

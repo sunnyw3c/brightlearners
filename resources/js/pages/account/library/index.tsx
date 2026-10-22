@@ -50,7 +50,7 @@ export default function LibraryIndex({
         <AppLayout
             breadcrumbs={[{ title: 'Downloads', href: '/account/library' }]}
         >
-            <Head title="My Learning Library — BrightLearners" />
+            <Head title="My Learning Library" />
 
             <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
                 <header className="space-y-1">

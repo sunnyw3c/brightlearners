@@ -35,7 +35,7 @@ type Props = {
 export default function OrderIndex({ orders }: Props) {
     return (
         <AppLayout>
-            <Head title="Order History — BrightLearners" />
+            <Head title="Order History" />
 
             <div className="mx-auto max-w-5xl space-y-6 px-4 py-8">
                 <header className="space-y-1">

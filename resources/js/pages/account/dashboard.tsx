@@ -149,7 +149,7 @@ export default function Dashboard({
         <AppLayout
             breadcrumbs={[{ title: 'Dashboard', href: '/account/dashboard' }]}
         >
-            <Head title="Parent Dashboard — BrightLearners" />
+            <Head title="Parent Dashboard" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 {/* Header & Child Profile Switcher Chips matching mockup */}

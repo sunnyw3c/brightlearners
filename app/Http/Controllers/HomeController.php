@@ -24,8 +24,8 @@ class HomeController extends Controller
                 ->map(ResourceCard::fromLearningResource(...))
                 ->all(),
             'seo' => new Seo(
-                title: config('app.name').' — Make Learning Simple, Fun and Meaningful',
-                description: 'Free worksheets and activities for Class 1 to Class 3, plus workbooks and a weekly learning programme to go further.',
+                title: config('app.name', 'KiddoZen').' — Fun & Smart Learning for Class 1 to 3',
+                description: 'Free printable worksheets, skill-building activities, and structured learning programmes for Class 1 to 3. Designed for parents to support joyful home learning.',
                 canonical: route('home'),
                 jsonLd: StructuredData::organization(),
             ),

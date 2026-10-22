@@ -24,8 +24,11 @@ class ClassController extends Controller
         $hasContent = filled($schoolClass->intro) || $query->hasPublishedResource($schoolClass);
         $breadcrumbs = $query->breadcrumbs($schoolClass);
 
+        $siteName = (string) config('app.name', 'KiddoZen');
         $title = $schoolClass->seo_title
-            ?: "{$schoolClass->name} Learning Resources & Worksheets | BrightLearners";
+            ?: "{$schoolClass->name} Worksheets, Maths & English | {$siteName}";
+        $description = $schoolClass->seo_description
+            ?: ($schoolClass->intro ?: "Explore curriculum-aligned printable resources for {$schoolClass->name}. Free worksheets, core concept workbooks, and fun learning activities in Maths and English.");
 
         return Inertia::render('learn/class', [
             'schoolClass' => $schoolClass,
@@ -37,7 +40,7 @@ class ClassController extends Controller
             'breadcrumbs' => $breadcrumbs,
             'seo' => new Seo(
                 title: $title,
-                description: $schoolClass->seo_description ?? $schoolClass->intro,
+                description: $description,
                 canonical: route('learn.class', ['class' => $schoolClass->slug]),
                 noindex: ! $hasContent,
                 jsonLd: StructuredData::breadcrumbList($breadcrumbs),

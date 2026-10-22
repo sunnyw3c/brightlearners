@@ -96,7 +96,7 @@ export default function AccountRecommendations({
                 { title: 'Recommendations', href: '/account/recommendations' },
             ]}
         >
-            <Head title="Learning Recommendations — BrightLearners" />
+            <Head title="Learning Recommendations" />
 
             <div className="mx-auto max-w-6xl space-y-8 px-4 py-8">
                 {/* Header & Profiles */}
