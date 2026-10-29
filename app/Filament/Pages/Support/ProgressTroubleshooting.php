@@ -19,7 +19,7 @@ class ProgressTroubleshooting extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Support';
+    protected static string|UnitEnum|null $navigationGroup = 'Customers';
 
     protected static ?string $navigationLabel = 'Progress troubleshooting';
 

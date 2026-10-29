@@ -25,7 +25,7 @@ class ResourceCorrectionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedExclamationTriangle;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content';
+    protected static string|UnitEnum|null $navigationGroup = 'Content & Library';
 
     protected static ?string $navigationLabel = 'Published Corrections';
 

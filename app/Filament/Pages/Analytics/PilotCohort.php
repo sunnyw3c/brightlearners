@@ -25,7 +25,7 @@ class PilotCohort extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static string|UnitEnum|null $navigationGroup = 'System';
+    protected static string|UnitEnum|null $navigationGroup = 'Analytics';
 
     protected static ?string $navigationLabel = 'Pilot cohort';
 

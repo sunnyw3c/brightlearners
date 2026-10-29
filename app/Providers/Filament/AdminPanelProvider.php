@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\BusinessStatsOverviewWidget;
+use App\Filament\Widgets\OperationsOverviewWidget;
+use App\Filament\Widgets\QuickActionsWidget;
+use App\Filament\Widgets\RecentOrdersWidget;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -13,7 +17,6 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -38,13 +41,17 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->sidebarCollapsibleOnDesktop()
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->navigationGroups([
-                'Content',
+                'Curriculum',
+                'Content & Library',
                 'Commerce',
                 'Membership',
                 'Customers',
                 'Marketing',
-                'Support',
+                'Analytics',
+                'Support & Operations',
                 'System',
             ])
             ->renderHook(
@@ -68,7 +75,10 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                BusinessStatsOverviewWidget::class,
+                OperationsOverviewWidget::class,
+                QuickActionsWidget::class,
+                RecentOrdersWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -27,6 +27,13 @@ class CustomerResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static ?string $recordTitleAttribute = 'email';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'email'];
+    }
+
     public static function canViewAny(): bool
     {
         $user = auth()->user();

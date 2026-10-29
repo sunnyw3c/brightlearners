@@ -29,6 +29,11 @@ class OrderResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'order_number';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['order_number', 'user.email', 'coupon_code'];
+    }
+
     public static function canViewAny(): bool
     {
         return auth()->user()?->can('orders.view') ?? false;

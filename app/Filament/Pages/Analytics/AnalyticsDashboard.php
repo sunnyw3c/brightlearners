@@ -16,7 +16,7 @@ class AnalyticsDashboard extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBarSquare;
 
-    protected static string|UnitEnum|null $navigationGroup = 'System';
+    protected static string|UnitEnum|null $navigationGroup = 'Analytics';
 
     protected static ?string $navigationLabel = 'Analytics';
 

@@ -23,7 +23,7 @@ class FeedbackResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Operations';
+    protected static string|UnitEnum|null $navigationGroup = 'Customers';
 
     protected static ?string $navigationLabel = 'Parent Feedback';
 

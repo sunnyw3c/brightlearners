@@ -12,6 +12,8 @@ use App\Domains\Content\Enums\ReviewType;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Content\Models\ResourcePreview;
 use App\Domains\Content\Models\ResourceSkill;
+use App\Domains\Content\Models\ResourceVersion;
+use App\Domains\Content\Services\SamplePdfGenerator;
 use App\Domains\Curriculum\Models\SchoolClass;
 use App\Domains\Curriculum\Models\Skill;
 use App\Domains\Curriculum\Models\Subject;
@@ -176,4 +178,51 @@ test('admin can add material end-to-end: create resource, map taxonomy, upload P
     // Free download delivers signed URL access without paywall
     $downloadResponse = $this->get(route('downloads.show', ['resource' => $resource->slug]));
     $downloadResponse->assertRedirect();
+});
+
+test('admin can inspect uploaded files and open resource version pdf without errors', function () {
+    $resource = LearningResource::factory()->create([
+        'title' => 'Sample Phonics Test Book',
+        'slug' => 'sample-phonics-test-book',
+        'type' => ResourceType::Worksheet,
+        'status' => ResourceStatus::Published,
+        'is_free' => true,
+    ]);
+
+    $version = ResourceVersion::factory()->create([
+        'resource_id' => $resource->id,
+        'version' => '1.0',
+        'file_path' => 'test-materials/sample-phonics-test-book-v1.0.pdf',
+        'answer_file_path' => 'test-materials/sample-phonics-answer-key.pdf',
+        'is_current' => true,
+    ]);
+
+    // 1. Verify SamplePdfGenerator generates valid files if missing on storage
+    $generator = app(SamplePdfGenerator::class);
+    $generator->ensureVersionFiles($version);
+
+    expect(Storage::disk('resources')->exists($version->file_path))->toBeTrue();
+    expect(Storage::disk('resources')->exists($version->answer_file_path))->toBeTrue();
+
+    // 2. Verify temporary URL generated with Storage::disk('resources')->temporaryUrl can be opened
+    $temporaryUrl = Storage::disk('resources')->temporaryUrl($version->file_path, now()->addMinutes(15));
+    expect($temporaryUrl)->not->toBeEmpty()
+        ->toContain($version->file_path);
+
+    // 3. Verify modal inspection view renders cleanly with the version record
+    $view = view('filament.modals.inspect-version-files', [
+        'record' => $version,
+        'mainUrl' => $temporaryUrl,
+        'answerUrl' => Storage::disk('resources')->temporaryUrl($version->answer_file_path, now()->addMinutes(15)),
+        'lowInkUrl' => null,
+    ])->render();
+
+    expect($view)->toContain('Main Worksheet / Activity File')
+        ->toContain('Answer Key & Teacher Solutions')
+        ->toContain('Open PDF');
+
+    // 4. Verify admin edit screen renders with the new header actions
+    $this->actingAs($this->admin)
+        ->get("/admin/learning-resources/{$resource->id}/edit")
+        ->assertOk();
 });

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LearningResources\Tables;
 use App\Domains\Content\Actions\SubmitResourceForReview;
 use App\Domains\Content\Actions\UnarchiveResource;
 use App\Domains\Content\Enums\ResourceStatus;
+use App\Domains\Content\Enums\ResourceType;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Curriculum\Models\SchoolClass;
 use App\Domains\Curriculum\Models\Subject;
@@ -99,6 +100,27 @@ class LearningResourcesTable
                     ->visible(fn (LearningResource $record): bool => $record->status === ResourceStatus::Archived
                         && auth()->user()->can('publish', $record))
                     ->action(fn (LearningResource $record) => app(UnarchiveResource::class)->handle($record)),
+                Action::make('viewLive')
+                    ->label('View Live')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->color('gray')
+                    ->url(function (LearningResource $record): ?string {
+                        if ($record->type === ResourceType::Coloring) {
+                            return route('coloring.show', $record->slug);
+                        }
+                        $mapping = $record->skillMappings()->with(['schoolClass', 'skill.topic.subject'])->first();
+                        if ($mapping && $mapping->schoolClass && $mapping->skill?->topic?->subject) {
+                            return route('free.show', [
+                                'class' => $mapping->schoolClass->slug,
+                                'subject' => $mapping->skill->topic->subject->slug,
+                                'slug' => $record->slug,
+                            ]);
+                        }
+
+                        return url("/download/{$record->slug}");
+                    })
+                    ->openUrlInNewTab()
+                    ->visible(fn (LearningResource $record): bool => $record->status === ResourceStatus::Published),
             ])
             ->toolbarActions([
                 //

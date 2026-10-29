@@ -91,6 +91,13 @@ class ProductsTable
                     ->visible(fn (Product $record): bool => $record->status === ProductStatus::Active
                         && auth()->user()->can('update', $record))
                     ->action(fn (Product $record) => $record->update(['status' => ProductStatus::Archived])),
+                Action::make('view_in_shop')
+                    ->label('View in Store')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->color('gray')
+                    ->url(fn (Product $record): string => route('products.alias', $record->slug))
+                    ->openUrlInNewTab()
+                    ->visible(fn (Product $record): bool => $record->status === ProductStatus::Active),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

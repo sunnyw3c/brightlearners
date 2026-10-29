@@ -14,8 +14,10 @@ use App\Domains\Content\Enums\ReviewStatus;
 use App\Domains\Content\Enums\ReviewType;
 use App\Domains\Content\Models\LearningResource;
 use App\Domains\Content\Models\ResourceVersion;
+use App\Domains\Content\Services\SamplePdfGenerator;
 use Carbon\Carbon;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -27,8 +29,10 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
 
 /**
  * Upload, review and publish a resource's versions (step 4.3–4.9). Files
@@ -52,12 +56,32 @@ class VersionsRelationManager extends RelationManager
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                TextColumn::make('version'),
+                TextColumn::make('version')
+                    ->label('Version')
+                    ->weight('bold'),
+                TextColumn::make('file_size')
+                    ->label('File Size')
+                    ->getStateUsing(function (ResourceVersion $record): string {
+                        $disk = Storage::disk('resources');
+                        if (! empty($record->file_path) && $disk->exists($record->file_path)) {
+                            return Number::fileSize($disk->size($record->file_path));
+                        }
+
+                        return '—';
+                    }),
+                IconColumn::make('has_answer_key')
+                    ->label('Answer Key')
+                    ->getStateUsing(fn (ResourceVersion $record): bool => ! empty($record->answer_file_path))
+                    ->boolean(),
+                IconColumn::make('has_low_ink')
+                    ->label('Low-Ink')
+                    ->getStateUsing(fn (ResourceVersion $record): bool => ! empty($record->low_ink_path))
+                    ->boolean(),
                 TextColumn::make('preview_status')->badge(),
-                IconColumn::make('is_current')->boolean(),
+                IconColumn::make('is_current')->boolean()->label('Current'),
                 TextColumn::make('reviewedBy.name')->label('Last reviewed by')->placeholder('—'),
                 TextColumn::make('published_at')->dateTime()->placeholder('Not published'),
-                TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('created_at')->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->headerActions([
                 $this->uploadVersionAction(),
@@ -65,10 +89,15 @@ class VersionsRelationManager extends RelationManager
             ])
             ->recordActions([
                 $this->openFileAction(),
-                $this->replaceFilesAction(),
-                $this->recordReviewAction(),
-                $this->scheduleAction(),
-                $this->publishAction(),
+                $this->inspectFilesAction(),
+                $this->openAnswerKeyAction(),
+                $this->openLowInkAction(),
+                ActionGroup::make([
+                    $this->replaceFilesAction(),
+                    $this->recordReviewAction(),
+                    $this->scheduleAction(),
+                    $this->publishAction(),
+                ]),
             ]);
     }
 
@@ -195,14 +224,81 @@ class VersionsRelationManager extends RelationManager
     private function openFileAction(): Action
     {
         return Action::make('openFile')
-            ->label('Open file')
+            ->label('Open PDF')
             ->icon('heroicon-o-arrow-top-right-on-square')
+            ->color('primary')
             ->visible(fn (): bool => Auth::user()->can('resources.view'))
-            ->url(fn (ResourceVersion $record): string => URL::temporarySignedRoute(
-                'storage.resources',
-                now()->addMinutes(5),
-                ['path' => $record->file_path],
-            ))
+            ->url(function (ResourceVersion $record): string {
+                app(SamplePdfGenerator::class)->ensureVersionFiles($record);
+
+                return Storage::disk('resources')->temporaryUrl(
+                    $record->file_path,
+                    now()->addMinutes(15),
+                );
+            })
+            ->openUrlInNewTab();
+    }
+
+    private function inspectFilesAction(): Action
+    {
+        return Action::make('inspectFiles')
+            ->label('Inspect')
+            ->icon('heroicon-o-document-magnifying-glass')
+            ->color('info')
+            ->visible(fn (): bool => Auth::user()->can('resources.view'))
+            ->modalHeading(fn (ResourceVersion $record): string => "Uploaded Files: Version {$record->version}")
+            ->modalDescription('View storage paths, file sizes, checksums, and verify private storage files.')
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('Close')
+            ->modalContent(function (ResourceVersion $record): View {
+                app(SamplePdfGenerator::class)->ensureVersionFiles($record);
+
+                return view('filament.modals.inspect-version-files', [
+                    'record' => $record,
+                    'mainUrl' => Storage::disk('resources')->temporaryUrl($record->file_path, now()->addMinutes(15)),
+                    'answerUrl' => ! empty($record->answer_file_path)
+                        ? Storage::disk('resources')->temporaryUrl($record->answer_file_path, now()->addMinutes(15))
+                        : null,
+                    'lowInkUrl' => ! empty($record->low_ink_path)
+                        ? Storage::disk('resources')->temporaryUrl($record->low_ink_path, now()->addMinutes(15))
+                        : null,
+                ]);
+            });
+    }
+
+    private function openAnswerKeyAction(): Action
+    {
+        return Action::make('openAnswerKey')
+            ->label('Answer Key')
+            ->icon('heroicon-o-key')
+            ->color('gray')
+            ->visible(fn (ResourceVersion $record): bool => Auth::user()->can('resources.view') && ! empty($record->answer_file_path))
+            ->url(function (ResourceVersion $record): string {
+                app(SamplePdfGenerator::class)->ensureVersionFiles($record);
+
+                return Storage::disk('resources')->temporaryUrl(
+                    $record->answer_file_path,
+                    now()->addMinutes(15),
+                );
+            })
+            ->openUrlInNewTab();
+    }
+
+    private function openLowInkAction(): Action
+    {
+        return Action::make('openLowInk')
+            ->label('Low-Ink')
+            ->icon('heroicon-o-printer')
+            ->color('gray')
+            ->visible(fn (ResourceVersion $record): bool => Auth::user()->can('resources.view') && ! empty($record->low_ink_path))
+            ->url(function (ResourceVersion $record): string {
+                app(SamplePdfGenerator::class)->ensureVersionFiles($record);
+
+                return Storage::disk('resources')->temporaryUrl(
+                    $record->low_ink_path,
+                    now()->addMinutes(15),
+                );
+            })
             ->openUrlInNewTab();
     }
 

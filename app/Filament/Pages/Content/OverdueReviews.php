@@ -28,7 +28,7 @@ class OverdueReviews extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedExclamationTriangle;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content';
+    protected static string|UnitEnum|null $navigationGroup = 'Content & Library';
 
     protected static ?string $navigationLabel = 'Overdue reviews';
 

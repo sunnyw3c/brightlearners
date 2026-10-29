@@ -28,7 +28,7 @@ class ReviewQueue extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content';
+    protected static string|UnitEnum|null $navigationGroup = 'Content & Library';
 
     protected static ?string $navigationLabel = 'Content review';
 

@@ -35,6 +35,11 @@ class ProductResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'sku', 'slug', 'summary'];
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProductForm::configure($schema);

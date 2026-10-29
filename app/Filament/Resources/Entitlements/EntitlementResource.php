@@ -26,7 +26,7 @@ class EntitlementResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedKey;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Support';
+    protected static string|UnitEnum|null $navigationGroup = 'Support & Operations';
 
     protected static ?string $navigationLabel = 'Entitlements';
 

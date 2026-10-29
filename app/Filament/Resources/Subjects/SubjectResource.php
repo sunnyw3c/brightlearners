@@ -21,7 +21,7 @@ class SubjectResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content';
+    protected static string|UnitEnum|null $navigationGroup = 'Curriculum';
 
     protected static ?string $navigationLabel = 'Curriculum: subjects';
 
